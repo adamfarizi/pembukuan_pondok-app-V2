@@ -146,6 +146,8 @@
                                             <th>Jumlah Pengeluaran</th>
                                             <th>Deskripsi Pengeluaran</th>
                                             <th>Nama Pengeluar</th>
+                                            <th>Jenis</th>
+                                            <th>Bukti Pengeluaran</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -185,8 +187,22 @@
                                 value="" required>
                         </div>
                         <div class="form-group">
+                            <label for="jenis_pengeluaran">Jenis Pengeluaran <span class="text-danger">*</span></label>
+                            <select class="form-control" id="jenis_pengeluaran" name="jenis_pengeluaran" required>
+                                <option selected="" disabled="">Pilih Jenis Pengeluaran</option>
+                                <option value="Listrik">Listrik</option>
+                                <option value="BBM">BBM</option>
+                                <option value="Madrasah">Madrasah</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="deskripsi_pengeluaran">Deskripsi Pengeluaran</label>
                             <textarea class="form-control" id="deskripsi_pengeluaran" name="deskripsi_pengeluaran" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bukti_pengeluaran">Bukti Pengeluaran<span class="text-danger">*</span></label>
+                            <input type="file" class="form-control-file" id="bukti_pengeluaran" name="bukti_pengeluaran" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -205,7 +221,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Pengeluaran</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Edit Data Pengeluaran</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -223,6 +239,16 @@
                                 <label for="jumlah_pengeluaran">Jumlah Pengeluaran <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="jumlah_pengeluaran" name="jumlah_pengeluaran"
                                     value="{{ $pengeluaran->jumlah_pengeluaran }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="jenis_pengeluaran">Jenis Pengeluaran <span class="text-danger">*</span></label>
+                                <select class="form-control" id="jenis_pengeluaran" name="jenis_pengeluaran" required>
+                                    <option selected="" disabled="">Pilih Jenis Pengeluaran</option>
+                                    <option value="Listrik" {{ $pengeluaran->jenis_pengeluaran == 'Listrik' ? 'selected' : '' }}>Listrik</option>
+                                    <option value="BBM" {{ $pengeluaran->jenis_pengeluaran == 'BBM' ? 'selected' : '' }}>BBM</option>
+                                    <option value="Madrasah" {{ $pengeluaran->jenis_pengeluaran == 'Madrasah' ? 'selected' : '' }}>Madrasah</option>
+                                    <option value="Lainnya" {{ $pengeluaran->jenis_pengeluaran == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="deskripsi_pengeluaran">Deskripsi Pengeluaran</label>
@@ -260,6 +286,44 @@
                             <button type="submit" class="btn btn-danger">Hapus</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Modal Bukti -->
+    @foreach ($pengeluarans as $pengeluaran)
+        <div class="modal fade" id="infoModal{{ $pengeluaran->id_pengeluaran }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Bukti Pengeluaran</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="px-3 py-2">
+                            <div class="mt-2 text-center">
+                                @if ($pengeluaran->bukti_pengeluaran === null)
+                                    <div class="bg-light" style="width: 440px; height: 300px; border-radius: 20px;">
+                                        <p class="text-center text-secondary" style="padding-top: 100px;">Gambar tidak ada.
+                                        </p>
+                                    </div>
+                                @else
+                                    <img src="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
+                                        alt="Bukti Pengeluaran" class="img-fluid" style="max-width: 440px; border-radius: 20px;">
+                                    <p class="mt-2"><a
+                                            href="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
+                                            download>Download Bukti</a></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -316,10 +380,30 @@
                         data: 'deskripsi_pengeluaran',
                         name: 'deskripsi_pengeluaran',
                     },
-                    // Kolom status pembayaran
+                    // Kolom nama pengeluar
                     {
                         data: 'nama_pengeluar',
                         name: 'nama_pengeluar',
+                    },
+                    // Kolom status
+                    {
+                        data: 'jenis_pengeluaran',
+                        name: 'jenis_pengeluaran',
+                    },
+                    {
+                        data: 'id_pengeluaran',
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            return '<div class="d-flex align-items-center">' +
+                                '<a data-placement="top" title="Bukti" href="#"' +
+                                'data-target="#infoModal' + full.id_pengeluaran +
+                                '" data-toggle="modal" ' +
+                                'data-id="' + full.id_pengeluaran + '">' +
+                                '<i class="ri-information-line"></i> Bukti' +
+                                '</a>' +
+                                '</div>';
+                        }
                     },
                     {
                         data: 'id_pengeluaran',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminPengeluaranController extends Controller
@@ -32,8 +33,11 @@ class AdminPengeluaranController extends Controller
             'nama_pengeluar' => 'required|string|max:255',
             'jumlah_pengeluaran' => 'required|integer|min:0',
             'deskripsi_pengeluaran' => 'required|string',
+            'bukti_pengeluaran' => 'required|max:2048',
             'jenis_pengeluaran' => 'required|string',
         ]);
+        
+        $admin_id = Auth::id();
 
         // Menyimpan bukti_pengeluaran (jika ada)
         if ($request->hasFile('bukti_pengeluaran')) {
@@ -65,8 +69,9 @@ class AdminPengeluaranController extends Controller
             'tanggal_pengeluaran' => now(),
             'deskripsi_pengeluaran' => $request->deskripsi_pengeluaran,
             'nama_pengeluar' => $request->nama_pengeluar,
-            'jenis_pengeluar' => $request->jenis_pengeluar,
+            'jenis_pengeluaran' => $request->jenis_pengeluaran,
             'bukti_pengeluaran' => $request->bukti_pengeluaran,
+            'id_admin' => $admin_id,
         ]);
 
         return redirect()->route('pengeluaran')->with('success', 'Pengeluaran created successfully.');
