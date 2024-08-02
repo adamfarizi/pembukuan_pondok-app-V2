@@ -24,6 +24,8 @@ class PengeluaranFactory extends Factory
             'jumlah_pengeluaran' => $this->faker->numberBetween(10000, 1000000),
             'tanggal_pengeluaran' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'deskripsi_pengeluaran' => $this->faker->sentence(),
+            'jenis_pengeluaran' => $this->faker->randomElement(['Listrik', 'BBM', 'Madrasah', 'Lainnya']),
+            'bukti_pengeluaran' => 'transfer.png',
             'nama_pengeluar' => $this->faker->name(),
             'created_at' => now(),
             'updated_at' => now(),

@@ -20,6 +20,7 @@ class AdminPengeluaranController extends Controller
         }
 
         $pengeluarans = Pengeluaran::all();
+        dd($pengeluarans);
 
         return view('admin.pengeluaran.pengeluaran', [
             'pengeluarans' => $pengeluarans,
@@ -32,13 +33,41 @@ class AdminPengeluaranController extends Controller
             'nama_pengeluar' => 'required|string|max:255',
             'jumlah_pengeluaran' => 'required|integer|min:0',
             'deskripsi_pengeluaran' => 'required|string',
+            'jenis_pengeluaran' => 'required|string',
         ]);
+
+        // Menyimpan bukti_pengeluaran (jika ada)
+        if ($request->hasFile('bukti_pengeluaran')) {
+            $image = $request->file('bukti_pengeluaran');
+
+            // Validasi apakah file adalah gambar
+            if (!$image->isValid()) {
+                return redirect()->back()->withErrors(['error' => 'The bukti pengeluaran must be an image.']);
+            }
+
+            // Mengambil ekstensi file
+            $extension = $image->getClientOriginalExtension();
+
+            // Validasi tipe file
+            if (!in_array(strtolower($extension), ['jpeg', 'png', 'jpg', 'gif'])) {
+                return redirect()->back()->withErrors(['error' => 'The bukti pengeluaran must be a file of type: jpeg, png, jpg, gif.']);
+            }
+
+            // Generate nama file unik
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            $image->move(public_path('bukti_pengeluaran'), $imageName);
+        } else {
+            $imageName = null;
+        }
 
         Pengeluaran::create([
             'jumlah_pengeluaran' => $request->jumlah_pengeluaran,
             'tanggal_pengeluaran' => now(),
             'deskripsi_pengeluaran' => $request->deskripsi_pengeluaran,
             'nama_pengeluar' => $request->nama_pengeluar,
+            'jenis_pengeluar' => $request->jenis_pengeluar,
+            'bukti_pengeluaran' => $request->bukti_pengeluaran,
         ]);
 
         return redirect()->route('pengeluaran')->with('success', 'Pengeluaran created successfully.');
@@ -50,14 +79,24 @@ class AdminPengeluaranController extends Controller
             'nama_pengeluar' => 'required|string|max:255',
             'jumlah_pengeluaran' => 'required|integer|min:0',
             'deskripsi_pengeluaran' => 'required|string',
+            'jenis_pengeluaran' => 'required|string',
         ]);
 
         $pengeluaran = Pengeluaran::where('id_pengeluaran', $id_pengeluaran)->first();
+
+        // Perbarui gambar jika ada
+        if ($request->hasFile('bukti_pengeluaran')) {
+            $bukti_pengeluaran = $request->file('bukti_pengeluaran');
+            $bukti_pengeluaran_name = $pengeluaran . "_" . uniqid() . "_" . $bukti_pengeluaran->getClientOriginalName();
+            $bukti_pengeluaran->move(public_path('bukti_pengeluaran'), $bukti_pengeluaran_name);
+            $pengeluaran->bukti_pengeluaran = $request->input('bukti_pengeluaran');
+        }
 
         if ($pengeluaran) {
             $pengeluaran->nama_pengeluar = $request->input('nama_pengeluar');
             $pengeluaran->jumlah_pengeluaran = $request->input('jumlah_pengeluaran');
             $pengeluaran->deskripsi_pengeluaran = $request->input('deskripsi_pengeluaran');
+            $pengeluaran->jenis_pengeluaran = $request->input('jenis_pengeluaran');
             $pengeluaran->save();
 
             return redirect()->route('pengeluaran')->with('success', 'Data pengeluaran berhasil diubah.');

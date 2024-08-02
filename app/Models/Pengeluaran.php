@@ -16,6 +16,8 @@ class Pengeluaran extends Model
         'tanggal_pengeluaran',
         'deskripsi_pengeluaran',
         'nama_pengeluar',
+        'jenis_pengeluaran',
+        'bukti_pengeluaran',
         'id_admin',
     ];
 

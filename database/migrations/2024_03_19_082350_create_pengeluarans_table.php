@@ -20,6 +20,8 @@ return new class extends Migration
             $table->dateTime('tanggal_pengeluaran');
             $table->string('deskripsi_pengeluaran');
             $table->string('nama_pengeluar');
+            $table->enum('jenis_pengeluaran',['Listrik', 'BBM', 'Madrasah', 'Lainnya']);
+            $table->string('bukti_pengeluaran')->nullable();
             $table->timestamps();  
 
             $table->foreign('id_admin')->references('id_admin')->on('admins');
