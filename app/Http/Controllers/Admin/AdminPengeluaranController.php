@@ -20,7 +20,6 @@ class AdminPengeluaranController extends Controller
         }
 
         $pengeluarans = Pengeluaran::all();
-        dd($pengeluarans);
 
         return view('admin.pengeluaran.pengeluaran', [
             'pengeluarans' => $pengeluarans,
