@@ -173,7 +173,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ url('/admin/pengeluaran/create/action') }}" method="post">
+                <form action="{{ url('/admin/pengeluaran/create/action') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -198,7 +198,7 @@
                         </div>
                         <div class="form-group">
                             <label for="deskripsi_pengeluaran">Deskripsi Pengeluaran</label>
-                            <textarea class="form-control" id="deskripsi_pengeluaran" name="deskripsi_pengeluaran" rows="4" required></textarea>
+                            <textarea class="form-control" id="deskripsi_pengeluaran" name="deskripsi_pengeluaran" rows="2" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="bukti_pengeluaran">Bukti Pengeluaran<span class="text-danger">*</span></label>
@@ -226,7 +226,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ url('/admin/pengeluaran/edit/' . $pengeluaran->id_pengeluaran . '/action') }}" method="post">
+                    <form action="{{ url('/admin/pengeluaran/edit/' . $pengeluaran->id_pengeluaran . '/action') }}" method="post" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="modal-body">
@@ -253,6 +253,20 @@
                             <div class="form-group">
                                 <label for="deskripsi_pengeluaran">Deskripsi Pengeluaran</label>
                                 <textarea class="form-control" id="deskripsi_pengeluaran" name="deskripsi_pengeluaran" rows="4" required>{{ $pengeluaran->deskripsi_pengeluaran }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="bukti_pengeluaran">Bukti Pengeluaran <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control-file mb-3" id="bukti_pengeluaran"
+                                    name="bukti_pengeluaran">
+                                @if ($pengeluaran->bukti_pengeluaran !== null)
+                                    <img src="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
+                                        alt="Bukti Pengeluaran" style="max-width: 460px; border-radius: 20px;">
+                                @else
+                                    <div class="bg-light" style="width: 460px; border-radius:20px;">
+                                        <p class="text-center text-secondary"
+                                            style="padding-top: 100px; padding-bottom:100px;">Gambar tidak ada.</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -307,8 +321,8 @@
                         <div class="px-3 py-2">
                             <div class="mt-2 text-center">
                                 @if ($pengeluaran->bukti_pengeluaran === null)
-                                    <div class="bg-light" style="width: 440px; height: 300px; border-radius: 20px;">
-                                        <p class="text-center text-secondary" style="padding-top: 100px;">Gambar tidak ada.
+                                    <div class="bg-light" style="height: 300px; border-radius: 20px;">
+                                        <p class="text-center text-secondary" style="padding-top: 130px;">Gambar tidak ada.
                                         </p>
                                     </div>
                                 @else
