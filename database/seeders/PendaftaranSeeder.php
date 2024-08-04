@@ -18,20 +18,61 @@ class PendaftaranSeeder extends Seeder
     {
         Pendaftaran::create([
             'kode_pendaftaran' => strtoupper(Str::random(10)),
+            //Indentitas calon santri
             'nama_pendaftar' => 'Adam Farizi',
+            'no_identitas' => '3578511354923',
             'tempat_tanggal_lahir_pendaftar' => 'Madiun, 2000-01-01',
             'jenis_kelamin_pendaftar' => 'laki-laki',
-            'alamat_pendaftar' => 'Jl. Mawar No. 1, Jakarta',
-            'no_hp_pendaftar' => '081234567890',
+            'rt' => '01',
+            'rw' => '10',
+            'dusun' => 'Dusun',
+            'desa' => 'Desa',
+            'kecamatan' => 'Kecamatan',
+            'kab_kota' => 'Kabupaten',
+            'propinsi' => 'Jawa Timur',
+            'kode_pos' => '63557',
+            'no_hp_pendaftar' => '081234567892',
             'email_pendaftar' => 'adamfarizi@example.com',
+            'mulai_masuk_tanggal' => '01-08-2024',
+            'jumlah_saudara_kandung' => '2',
+            'anak_ke' => '1',
+
+            //Identitas orang tua calon santri
+            //Ayah
+            'nama_ayah_pendaftar' => 'Ayah',
+            'pendidikan_ayah' => 'Pendidikan',
+            'pekerjaan_ayah' => 'Guru',
+            'pendapatan_ayah_perbulan' => 'Rp 2.500.000',
+
+            //Ibu
+            'nama_ibu_pendaftar' => 'Ibu',
+            'pendidikan_ibu' => 'Pendidikan',
+            'pekerjaan_ibu' => 'Wiraswasta',
+            'pendapatan_ibu_perbulan' => 'Rp 2.000.000',
+
+            //Identitas wali calon santri
+            'nama_wali_pendaftar' => 'Nathan Joe Doe',
+            'no_identitas_wali' => '3578511354923',
+            'tempat_tanggal_lahir_wali' => 'Madiun, 1993-03-03',
+            'rt_wali' => '01',
+            'rw_wali' => '10',
+            'dusun_wali' => 'Dusun',
+            'desa_wali' => 'Desa',
+            'kecamatan_wali' => 'Kecamatan',
+            'kab_kota_wali' => 'Kabupaten',
+            'propinsi_wali' => 'Jawa Timur',
+            'kode_pos_wali' => '63557',
+            'status_wali' => 'Wali',
+            'no_hp_wali_pendaftar' => '081234567891',
+            'email_wali_pendaftar' => 'nathan.doe@example.com',
+            'pekerjaan_wali' => 'Guru',
+            'pendapatan_wali_perbulan' => 'Rp 2.500.000',
+
+            //Berkas-berkas
             'ktp_pendaftar' => 'ktp.png',
             'kk_pendaftar' => 'kk.png',
             'akta_pendaftar' => 'akta.png',
             'pas_foto_pendaftar' => 'pasfoto.png',
-            'nama_wali_pendaftar' => 'Nathan Joe Doe',
-            'no_hp_wali_pendaftar' => '081234567891',
-            'email_wali_pendaftar' => 'nathan.doe@example.com',
-            'alamat_wali_santri' => 'Jl. Mawar No. 1, Jakarta',
             'status' => 'belum_verifikasi',
             'created_at' => now(),
             'updated_at' => now(),

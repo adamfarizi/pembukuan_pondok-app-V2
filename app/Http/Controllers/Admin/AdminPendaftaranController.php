@@ -49,20 +49,60 @@ class AdminPendaftaranController extends Controller
     {
         // Validasi data input
         $validated = $request->validate([
+            //Indentitas calon santri
             'nama_pendaftar' => 'required|string|max:255',
+            'no_identitas' => 'required|string|max:255',
             'tempat_tanggal_lahir_pendaftar' => 'required|string|max:255',
             'jenis_kelamin_pendaftar' => 'required|in:laki-laki,perempuan',
-            'alamat_pendaftar' => 'required|string',
+            'rt' => 'required|string|max:15',
+            'rw' => 'required|string|max:15',
+            'dusun' => 'required|string|max:255',
+            'desa' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kab_kota' => 'required|string|max:255',
+            'propinsi' => 'required|string|max:225',
+            'kode_pos' => 'required|string|max:15',
             'no_hp_pendaftar' => 'required|string|max:15',
             'email_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_pendaftar,' . $id_pendaftar . ',id_pendaftar',
+            'mulai_masuk_tanggal' => 'required|string|max:225',
+            'jumlah_saudara_kandung' => 'required|string|max:15',
+            'anak_ke' => 'required|string|max:15',
+
+            //Identitas Ayah
+            'nama_ayah_pendaftar' => 'required|string|max:225',
+            'pendidikan_ayah' => 'required|string|max:225',
+            'pekerjaan_ayah' => 'required|string|max:225',
+            'pendapatan_ayah_perbulan' => 'required|string|max:225',
+
+            //Identitas Ibu
+            'nama_ibu_pendaftar' => 'required|string|max:225',
+            'pendidikan_ibu' => 'required|string|max:225',
+            'pekerjaan_ibu' => 'required|string|max:225',
+            'pendapatan_ibu_perbulan' => 'required|string|max:225',
+
+            //Identitas Wali
+            'nama_wali_pendaftar' => 'required|string|max:255',
+            'no_identitas_wali' => 'required|string|max:255',
+            'tempat_tanggal_lahir_wali' => 'required|string|max:255',
+            'rt_wali' => 'required|string|max:15',
+            'rw_wali' => 'required|string|max:15',
+            'dusun_wali' => 'required|string|max:255',
+            'desa_wali' => 'required|string|max:255',
+            'kecamatan_wali' => 'required|string|max:255',
+            'kab_kota_wali' => 'required|string|max:255',
+            'propinsi_wali' => 'required|string|max:225',
+            'kode_pos_wali' => 'required|string|max:15',
+            'status_wali' => 'required|string|max:225',
+            'no_hp_wali_pendaftar' => 'required|string|max:15',
+            'email_wali_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_wali_pendaftar,' . $id_pendaftar . ',id_pendaftar',
+            'pekerjaan_wali' => 'required|string|max:225',
+            'pendapatan_wali_perbulan' => 'required|string|max:225',
+
+            //Berkas-berkas
             'ktp_pendaftar' => 'nullable|file|mimes:jpg,jpeg,png',
             'kk_pendaftar' => 'nullable|file|mimes:jpg,jpeg,png',
             'akta_pendaftar' => 'nullable|file|mimes:jpg,jpeg,png',
             'pas_foto_pendaftar' => 'nullable|file|mimes:jpg,jpeg,png',
-            'nama_wali_pendaftar' => 'required|string|max:255',
-            'no_hp_wali_pendaftar' => 'required|string|max:15',
-            'email_wali_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_wali_pendaftar,' . $id_pendaftar . ',id_pendaftar',
-            'alamat_wali_pendaftar' => 'required|string',
         ]);
 
         // Temukan pendaftar
@@ -172,19 +212,56 @@ class AdminPendaftaranController extends Controller
         //* Update pendaftar data
         $pendaftar->update([
             'nama_pendaftar' => $request->input('nama_pendaftar'),
+            'no_identitas' => $request->input('no_identitas'),
             'tempat_tanggal_lahir_pendaftar' => $request->input('tempat_tanggal_lahir_pendaftar'),
             'jenis_kelamin_pendaftar' => $request->input('jenis_kelamin_pendaftar'),
-            'alamat_pendaftar' => $request->input('alamat_pendaftar'),
+            'rt' => $request->input('rt'),
+            'rw' => $request->input('rw'),
+            'dusun' => $request->input('dusun'),
+            'desa' => $request->input('desa'),
+            'kecamatan' => $request->input('kecamatan'),
+            'kab_kota' => $request->input('kab_kota'),
+            'propinsi' => $request->input('propinsi'),
+            'kode_pos' => $request->input('kode_pos'),
             'no_hp_pendaftar' => $request->input('no_hp_pendaftar'),
             'email_pendaftar' => $request->input('email_pendaftar'),
+            'mulai_masuk_tanggal' => $request->input('mulai_masuk_tanggal'),
+            'jumlah_saudara_kandung' => $request->input('jumlah_saudara_kandung'),
+            'anak_ke' => $request->input('anak_ke'),
+
+            //Identitas Ayah
+            'nama_ayah_pendaftar' => $request->input('nama_ayah_pendaftar'),
+            'pendidikan_ayah' => $request->input('pendidikan_ayah'),
+            'pekerjaan_ayah' => $request->input('pekerjaan_ayah'),
+            'pendapatan_ayah_perbulan' => $request->input('pendapatan_ayah_perbulan'),
+
+            //Identitas Ibu
+            'nama_ibu_pendaftar' => $request->input('nama_ibu_pendaftar'),
+            'pendidikan_ibu' => $request->input('pendidikan_ibu'),
+            'pekerjaan_ibu' => $request->input('pekerjaan_ibu'),
+            'pendapatan_ibu_perbulan' => $request->input('pendapatan_ibu_perbulan'),
+
+            //Identitas Wali
+            'nama_lengkap_wali_pendaftar' => $request->input('nama_lengkap_wali_pendaftar'),
+            'no_identitas_wali' => $request->input('no_identitas_wali'),
+            'tempat_tanggal_lahir_wali' => $request->input('tempat_tanggal_lahir_wali'),
+            'rt_wali' => $request->input('rt_wali'),
+            'rw_wali' => $request->input('rw_wali'),
+            'dusun_wali' => $request->input('rw_wali'),
+            'desa_wali' => $request->input('desa_wali'),
+            'kecamatan_wali' => $request->input('kecamatan_wali'),
+            'kab_kota_wali' => $request->input('kab_kota_wali'),
+            'propinsi_wali' => $request->input('propinsi_wali'),
+            'kode_pos_wali' => $request->input('kode_pos_wali'),
+            'status_wali' => $request->input('status_wali'),
+            'no_hp_wali_pendaftar' => $request->input('no_hp_wali_pendaftar'),
+            'email_wali_pendaftar' => $request->input('email_wali_pendaftar'),
+
+            //Berkas-berkas
             'ktp_pendaftar' => $ktpPendaftarName,
             'kk_pendaftar' => $kkPendaftarName,
             'akta_pendaftar' => $aktaPendaftarName,
             'pas_foto_pendaftar' => $pasfotoPendaftarName,
-            'nama_wali_pendaftar' => $request->input('nama_wali_pendaftar'),
-            'no_hp_wali_pendaftar' => $request->input('no_hp_wali_pendaftar'),
-            'email_wali_pendaftar' => $request->input('email_wali_pendaftar'),
-            'alamat_wali_santri' => $request->input('alamat_wali_pendaftar'),
             'status' => 'sudah_verifikasi',
         ]);
 
@@ -192,11 +269,18 @@ class AdminPendaftaranController extends Controller
         $santri = Santri::create([
             'nama_santri' => $request->input('nama_pendaftar'),
             'tempat_tanggal_lahir_santri' => $request->input('tempat_tanggal_lahir_pendaftar'),
-            'no_hp_santri' => $request->input('no_hp_pendaftar'),
-            'email_santri' => $request->input('email_pendaftar'),
             'jenis_kelamin_santri' => $request->input('jenis_kelamin_pendaftar'),
             'status_santri' => 'aktif',
-            'alamat_santri' => $request->input('alamat_pendaftar'),
+            'rt' => $request->input('rt'),
+            'rw' => $request->input('rw'),
+            'dusun' => $request->input('dusun'),
+            'desa' => $request->input('desa'),
+            'kecamatan' => $request->input('kecamatan'),
+            'kab_kota' => $request->input('kab_kota'),
+            'propinsi' => $request->input('propinsi'),
+            'kode_pos' => $request->input('kode_pos'),
+            'no_hp_santri' => $request->input('no_hp_pendaftar'),
+            'email_santri' => $request->input('email_pendaftar'),
             'ktp_santri' => $ktpPendaftarName,
             'kk_santri' => $kkPendaftarName,
             'akta_santri' => $aktaPendaftarName,
@@ -208,10 +292,17 @@ class AdminPendaftaranController extends Controller
         WaliSantri::create([
             'id_santri' => $santri->id_santri,
             'nama_wali_santri' => $request->input('nama_wali_pendaftar'),
+            'rt_wali' => $request->input('rt_wali'),
+            'rw_wali' => $request->input('rw_wali'),
+            'dusun_wali' => $request->input('rw_wali'),
+            'desa_wali' => $request->input('desa_wali'),
+            'kecamatan_wali' => $request->input('kecamatan_wali'),
+            'kab_kota_wali' => $request->input('kab_kota_wali'),
+            'propinsi_wali' => $request->input('propinsi_wali'),
+            'kode_pos_wali' => $request->input('kode_pos_wali'),
             'email' => $request->input('email_wali_pendaftar'),
             'password' => Hash::make($pendaftar->kode_pendaftaran),
             'no_hp' => $request->input('no_hp_wali_pendaftar'),
-            'alamat_wali_santri' => $request->input('alamat_wali_pendaftar'),
         ]);
 
         //* Pembayaran
