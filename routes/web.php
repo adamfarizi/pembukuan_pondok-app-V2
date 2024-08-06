@@ -16,6 +16,7 @@ use App\Http\Controllers\Wali\WaliCekHafalanController;
 use App\Http\Controllers\Admin\AdminPemasukanController;
 use App\Http\Controllers\Wali\WaliDataPribadiSantriController;
 use App\Http\Controllers\Admin\AdminDaftarUlangController;
+use App\Http\Controllers\Admin\AdminGuestMasterController;
 use App\Http\Controllers\Admin\AdminPendaftaranController;
 use App\Http\Controllers\Admin\AdminPengeluaranController;
 use App\Http\Controllers\Guest\GuestPendaftaranController;
@@ -95,6 +96,7 @@ Route::middleware(['auth:web'])->group(function () {
   Route::post('/admin/master_admin/create', [AdminMasterController::class, 'create']);
   Route::put('/admin/master_admin/edit/{id}', [AdminMasterController::class, 'edit']);
   Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete']);
+  Route::get('/admin/master_guest', [AdminGuestMasterController::class, 'index'])->name('master_guest');
 });
 
 Route::middleware(['auth:wali_santri'])->group(function () {

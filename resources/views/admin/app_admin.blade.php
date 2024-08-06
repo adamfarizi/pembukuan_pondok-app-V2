@@ -133,6 +133,11 @@
                                         class="ri-profile-line"></i><span>Master Admin</span>
                                 </a>
                             </li>
+                            <li class="@if (request()->routeIs('master_guest')) active @endif">
+                                <a href="{{ route('master_guest') }}" class="iq-waves-effect"><i
+                                        class="ri-profile-line"></i><span>Master Guest</span>
+                                </a>
+                            </li>
                         @endif
                     </ul>
                 </nav>
