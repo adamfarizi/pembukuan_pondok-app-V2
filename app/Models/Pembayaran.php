@@ -14,6 +14,7 @@ class Pembayaran extends Model
     protected $fillable = [
         'tanggal_pembayaran',
         'jumlah_pembayaran',
+        'jumlah_bayar',
         'jenis_pembayaran',
         'semester_ajaran',
         'tahun_ajaran',

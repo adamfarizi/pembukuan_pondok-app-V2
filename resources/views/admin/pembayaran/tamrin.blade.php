@@ -363,9 +363,9 @@
                         name: 'status_pembayaran',
                         render: function(data, type, full, meta) {
                             if (full.status_pembayaran == 'belum_lunas') {
-                                return '<span class="badge badge-pill badge-danger">Belum Dibayar</span>';
+                                return '<span class="badge badge-pill badge-danger p-2">Belum Dibayar</span>';
                             } else {
-                                return '<span class="badge badge-pill badge-primary">Lunas</span>';
+                                return '<div class="d-flex flex-column">' + '<span class="badge badge-pill badge-primary p-2">Lunas</span>' + '</div>';
                             }
                         }
                     },

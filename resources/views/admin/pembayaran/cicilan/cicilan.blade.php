@@ -12,12 +12,12 @@
             </div>
             {{-- Halaman --}}
             <div class="navbar-breadcrumb">
-                <h5 class="mb-0">Iuran Bulanan</h5>
+                <h5 class="mb-0">{{$title}}</h5>
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin-beranda') }}">Main</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Pembayaran</li>
-                        <li class="breadcrumb-item active" aria-current="page">Iuran Bulanan</li>
+                        <li class="breadcrumb-item active" aria-current="page">Cicilan Daftar Ulang</li>
                     </ul>
                 </nav>
             </div>
@@ -74,8 +74,8 @@
                                         <a href="#" class="iq-sub-card">
                                             <div class="media align-items-center">
                                                 <div class="">
-                                                    <img class="avatar-40 rounded" src="{{ asset('images/user/02.jpg') }}"
-                                                        alt="">
+                                                    <img class="avatar-40 rounded"
+                                                        src="{{ asset('images/user/02.jpg') }}" alt="">
                                                 </div>
                                                 <div class="media-body ml-3">
                                                     <h6 class="mb-0 ">New customer is join</h6>
@@ -102,14 +102,15 @@
                             </div>
                         </li>
                         {{-- FullScreen --}}
-                        <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect" id="btnFullscreen"><i
-                                    class="ri-fullscreen-line"></i></a></li>
+                        <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect"
+                                id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
                     </ul>
                 </div>
                 <ul class="navbar-list">
                     <li>
                         <a href="#" class="search-toggle iq-waves-effect bg-white text-white"><img
-                                src="{{ asset('images/local/user-1.png') }}" class="img-fluid rounded" alt="user"></a>
+                                src="{{ asset('images/local/user-1.png') }}" class="img-fluid rounded"
+                                alt="user"></a>
                         <div class="iq-sub-dropdown iq-user-dropdown">
                             <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
@@ -192,33 +193,53 @@
                     <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
-                                <h4 class="card-title mt-3">Pembayaran Iuran Bulanan</h4>
+                                <h4 class="card-title mt-3">Rincian Cicilan a.n {{$pembayarans->santri->nama_santri}}</h4>
                                 <p class="text-dark">Semester {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
                                     {{ $currentSemester['tahun'] }}</p>
+                                <h5 class="card-title mt-3">Biaya Daftar Ulang : Rp{{$pembayarans->jumlah_pembayaran}}</h5>
+                                <h5 class="card-title mt-1 mb-3">Total Cicilan Sementara : Rp{{$pembayarans->jumlah_bayar}}</h5>
                             </div>
                             <div class="text-right">
                                 <button type="button" class="btn btn-primary mt-1" data-toggle="modal"
                                     data-target="#exampleModalCenter">
-                                    Tambah Pembayaran
+                                    Tambah Cicilan
                                 </button>
                             </div>
                         </div>
                         <div class="iq-card-body">
-                            <div class="table-responsive mb-3">
-                                <table id="tableIuranBulanan" class="table" role="grid"
-                                    aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
+                            <div class="table-responsive">
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Tanggal Pembayaran</th>
-                                            <th>Nama Santri</th>
-                                            <th>Jumlah Pembayaran</th>
-                                            <th>Diterima Oleh</th>
-                                            <th>Status</th>
-                                            {{-- <th></th> --}}
+                                            <th scope="col">#</th>
+                                            <th class="text-center" scope="col">Tanggal Pembayaran</th>
+                                            <th class="text-center" scope="col">Nominal Bayar Cicilan</th>
+                                            <th class="text-center" scope="col">Diterima Oleh</th>
+                                            <th class="text-center" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @forelse ($data_cicilan as $group => $cicilanSantri)
+                                            <tr>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td class="text-center">{{ $cicilanSantri->tanggal_bayar }}</td>
+                                                <td class="text-center">Rp{{ $cicilanSantri->sub_bayar_cicilan }}</td>
+                                                <td class="text-center">{{ $cicilanSantri->user->nama_admin }}</td>
+                                                <td class="text-center">
+                                                    <div class="flex align-items-center list-user-action">
+                                                        <a data-toggle="modal"
+                                                            data-target="#deleteModal{{ $cicilanSantri->id_cicilan_pembayarans }}"
+                                                            data-original-title="Delete" href="#"><i
+                                                                class="ri-delete-bin-line" info="batalkan"></i></a>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        @empty
+                                            <tr class="text-center">
+                                                <td colspan="6">Tidak ada data</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -229,163 +250,62 @@
         </div>
     </div>
 
-    <!-- Modal Create -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Pembayaran</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="updateForm" method="post">
-                    @method('PUT')
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                            <select class="form-control" name="nama_santri" id="nama_santri">
-                                <option value="">Pilih Nama Santri</option>
-                                @foreach ($pembayarans as $pembayaran)
-                                    <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
+<!-- Modal Create -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Cicilan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form action="{{ url('/admin/pembayaran/cicilan/add') }}" id="updateForm" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group" id="jumlahBayarGroup">
+                        <label for="jumlah_bayar">Nominal Bayar Cicilan <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar" required>
+                    </div>
+                    <input type="number" name="id_pembayaran" value="{{ $pembayarans->id_pembayaran }}" required style="display: none">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <!-- Modal Delete -->
-    {{-- @foreach ($iuran_bulanans as $iuran_bulanan)
-        <div class="modal fade" id="deleteModal{{ $iuran_bulanan->id_pembayaran }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle{{ $iuran_bulanan->id_pembayaran }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    </div>
-                    <form action="{{ url('/pembayaran/iuran_bulanan/delete/' . $iuran_bulanan->id_pembayaran) }}"
-                        id="deleteForm" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal-body text-center">
-                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
-                            <h3 class="mt-4">Anda yakin ingin hapus data ini?</h3>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-danger">Hapus</button>
-                        </div>
+<!-- Modal Delete -->
+@foreach ($data_cicilan as $data)
+<div class="modal fade" id="deleteModal{{ $data->id_cicilan_pembayarans }}" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle{{ $data->id_cicilan_pembayarans }}" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            </div>
+            <form action="{{ url('/admin/pembayaran/cicilan/delete/'.$data->id_cicilan_pembayarans) }}" id="deleteForm"
+            method="post">
+            @csrf
+            @method('DELETE')
+            <div class="modal-body text-center">
+                <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                <h3 class="mt-4">Anda yakin ingin membatalkan cicilan ini?</h3>
+            </div>
+            <input type="number" name="id_pembayaran" value="{{ $pembayarans->id_pembayaran }}" required style="display: none">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="submit" class="btn btn-danger">Hapus</button>
+            </div>
                     </form>
                 </div>
             </div>
         </div>
-    @endforeach --}}
+    @endforeach
 @endsection
 @section('js')
-    {{-- Datatable --}}
-    <script>
-        $(document).ready(function() {
-            $('#tableIuranBulanan').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('iuran_bulanan') }}",
-                columns: [
-                    // Kolom nomor urut
-                    {
-                        data: null,
-                        searchable: false,
-                        orderable: false,
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    // Kolom tanggal pembayaran
-                    {
-                        data: 'tanggal_pembayaran',
-                        render: function(data, type, full, meta) {
-                            if (data === null) {
-                                return '<p class="text-muted" >Belum dibayar</p>';
-                            } else {
-                                var tanggal_pembayaran = data.split(' ');
-                                var tanggal = tanggal_pembayaran[0].split(
-                                '-'); // Memisahkan tanggal berdasarkan "-"
-                                var jam = tanggal_pembayaran[1];
-
-                                // Mengubah format tanggal dari Y-m-d ke d-m-Y
-                                var formattedDate = tanggal[2] + '-' + tanggal[1] + '-' + tanggal[
-                                0];
-
-                                return '<p class="mb-0">' +
-                                    formattedDate +
-                                    '</p>' +
-                                    '<p class="mb-0">Jam: ' +
-                                    jam +
-                                    '</p>';
-                            }
-                        }
-                    },
-                    // Kolom nama santri
-                    {
-                        data: 'santri.nama_santri',
-                        name: 'santri.nama_santri'
-                    },
-                    // Kolom jumlah pembayaran
-                    {
-                        data: 'jumlah_pembayaran',
-                        render: function(data, type, full, meta) {
-                            return 'Rp. ' + data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        }
-                    },
-                    // Kolom diterima oleh
-                    {
-                        data: 'user.nama_admin',
-                        name: 'user.nama_admin',
-                        render: function(data, type, full, meta) {
-                            if (data === null) {
-                                return '<p class="text-muted" >Belum dibayar</p>';
-                            } else {
-                                return data
-                            }
-                        }
-                    },
-                    // Kolom status pembayaran
-                    {
-                        data: 'status_pembayaran',
-                        name: 'status_pembayaran',
-                        render: function(data, type, full, meta) {
-                            if (full.status_pembayaran == 'belum_lunas') {
-                                return '<div class="d-flex flex-column">' + '<span class="badge badge-pill badge-danger p-2">Belum Dibayar</span>' + '</div>';
-                            } else {
-                                return '<div class="d-flex flex-column">' + '<span class="badge badge-pill badge-primary p-2">Lunas</span>' + '</div>';
-                            }
-                        }
-                    },
-                ],
-                lengthMenu: [
-                    [10, 25, 50, 100, -1], // Jumlah entries per halaman, -1 untuk Tampilkan Semua Data
-                    ['10', '25', '50', '100', 'Semua']
-                ]
-            });
-
-        });
-    </script>
-
-    {{-- Update --}}
-    <script>
-        // Mengatur URL aksi formulir berdasarkan id_santri yang dipilih
-        document.getElementById('nama_santri').addEventListener('change', function() {
-            var selectedId = this.value;
-            var form = document.getElementById('updateForm');
-            var actionUrl = "{{ url('/admin/iuran_bulanan/edit') }}/" + selectedId + "/action";
-            form.setAttribute('action', actionUrl);
-        });
-    </script>
 @endsection
+

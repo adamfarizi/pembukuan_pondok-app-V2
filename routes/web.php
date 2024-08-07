@@ -49,6 +49,9 @@ Route::middleware(['guest:web,wali_santri'])->group(function () {
 Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/beranda', [AdminBerandaController::class, 'index'])->name('admin-beranda');
   Route::get('/admin/daftar_ulang', [AdminDaftarUlangController::class, 'index'])->name('daftar_ulang');
+  Route::get('/admin/daftar_ulang/cicilan/{id}/bayar', [AdminDaftarUlangController::class, 'show'])->name('cicilan_detail');
+  Route::post('/admin/pembayaran/cicilan/add', [AdminDaftarUlangController::class, 'add_cicilan'])->name('add_cicilan');
+  Route::delete('/admin/pembayaran/cicilan/delete/{id}', [AdminDaftarUlangController::class, 'delete_cicilan'])->name('delete_cicilan');
   Route::put('/admin/daftar_ulang/edit/{id}/action', [AdminDaftarUlangController::class, 'edit']);
   Route::get('/admin/iuran_bulanan', [AdminIuranBulananController::class, 'index'])->name('iuran_bulanan');
   Route::put('/admin/iuran_bulanan/edit/{id}/action', [AdminIuranBulananController::class, 'edit']);

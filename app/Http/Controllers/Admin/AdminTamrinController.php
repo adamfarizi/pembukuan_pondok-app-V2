@@ -56,6 +56,7 @@ class AdminTamrinController extends Controller
         if ($pembayaran) {
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->id_admin = Auth::user()->id_admin;
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
             $pembayaran->status_pembayaran = 'lunas';
             $pembayaran->save();
 
