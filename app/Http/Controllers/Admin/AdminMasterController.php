@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
+use App\Models\MasterAdmin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class AdminMasterController extends Controller
@@ -18,17 +19,99 @@ class AdminMasterController extends Controller
         if ($request->ajax()) {
             $data = User::orderBy('created_at', 'desc')->get();
             return DataTables::of($data)
-            ->make(true);
+                ->make(true);
         }
-        
+
+        $daftar_ulang_baru = MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Baru')->first();
+        $daftar_ulang = MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Ulang')->first();
+        $semester = MasterAdmin::where('jenis_pembayaran', 'semester')->first();
+        $iurans = MasterAdmin::where('jenis_pembayaran', 'iuran')->get();
+
         $admins = User::orderBy('created_at', 'desc')->get();
 
         return view('admin.master.master_admin', [
-            'admins' => $admins
+            'admins' => $admins,
+            'daftar_ulang_baru' => $daftar_ulang_baru,
+            'daftar_ulang' => $daftar_ulang,
+            'semester' => $semester,
+            'iurans' => $iurans,
         ], $data);
     }
 
-    public function create(Request $request)
+    public function edit_pembayaran(Request $request)
+    {
+        $daftar_ulang_baru = $request->input('daftar_ulang_baru');
+        $daftar_ulang = $request->input('daftar_ulang');
+        $semester = $request->input('semester');
+        $jenis_iuran = $request->input('jenis_iuran');
+        $jumlah_iuran = $request->input('jumlah_iuran');
+
+        try {
+            if ($daftar_ulang !== null) {
+                MasterAdmin::where('jenis_pembayaran', 'pendaftaran_ulang')->first()->update([
+                    'jumlah_pembayaran' => $daftar_ulang,
+                ]);
+            }
+
+            if ($daftar_ulang_baru !== null) {
+                MasterAdmin::where('jenis_pembayaran', 'pendaftaran_baru')->first()->update([
+                    'jumlah_pembayaran' => $daftar_ulang_baru,
+                ]);
+            }
+
+            if ($semester !== null) {
+                MasterAdmin::where('jenis_pembayaran', 'semester')->first()->update([
+                    'jumlah_pembayaran' => $semester,
+                ]);
+            }
+
+            if ($jumlah_iuran !== null) {
+                MasterAdmin::where('jenis_pembayaran', 'iuran')
+                    ->where('keterangan_pembayaran', $jenis_iuran)
+                    ->first()->update([
+                    'jumlah_pembayaran' => $jumlah_iuran,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil diubah.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+    public function create_iuran(Request $request)
+    {
+        try {
+            // Validasi input
+            $this->validate($request, [
+                'jenis_iuran' => 'required',
+                'pembayaran_jenis_iuran' => 'required',
+            ]);
+
+            $jenis_iuran = MasterAdmin::create([
+                'jenis_pembayaran' => 'iuran',
+                'keterangan_pembayaran' => $request->input('jenis_iuran'),
+                'jumlah_pembayaran' => $request->input('pembayaran_jenis_iuran'),
+            ]);
+
+            return redirect()->back()->with('success', 'Jenis Iuran berhasil ditambahkan.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+    public function delete_iuran(Request $request)
+    {   
+        $jenis_iuran = $request->input('jenis_iuran');
+        $master_admin = MasterAdmin::where('jenis_pembayaran', 'iuran')->where( 'keterangan_pembayaran',$jenis_iuran)->first();
+        $master_admin->delete();
+
+        return redirect()->back()->with('success', 'Iuran berhasil dihapus.');
+    }
+
+    public function create_admin(Request $request)
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
@@ -58,7 +141,7 @@ class AdminMasterController extends Controller
         return redirect()->back()->with('success', 'Admin berhasil ditambahkan.');
     }
 
-    public function edit(Request $request, $id_admin)
+    public function edit_admin(Request $request, $id_admin)
     {
         $admin = User::findOrFail($id_admin);
 
@@ -98,8 +181,8 @@ class AdminMasterController extends Controller
         // Redirect dengan pesan sukses
         return redirect()->back()->with('success', 'Admin berhasil diperbarui.');
     }
-    
-    public function delete($id_admin)
+
+    public function delete_admin($id_admin)
     {
         $admin = User::findOrFail($id_admin);
         $admin->delete();

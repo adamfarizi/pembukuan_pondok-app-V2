@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             NilaiSantriSeeder::class,
             HafalanSeeder::class,
             PengajarSeeder::class,
+            MasterAdminSeeder::class,
         ]);
     }
 }

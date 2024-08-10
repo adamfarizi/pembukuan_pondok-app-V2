@@ -93,9 +93,12 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/pendaftaran/{id}', [AdminPendaftaranController::class, 'index_info']);
   Route::post('/admin/pendaftaran/verifikasi/{id}', [AdminPendaftaranController::class, 'create']);
   Route::get('/admin/master_admin', [AdminMasterController::class, 'index'])->name('master_admin');
-  Route::post('/admin/master_admin/create', [AdminMasterController::class, 'create']);
-  Route::put('/admin/master_admin/edit/{id}', [AdminMasterController::class, 'edit']);
-  Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete']);
+  Route::put('/admin/master_admin/edit_pembayaran', [AdminMasterController::class, 'edit_pembayaran']);
+  Route::post('/admin/master_admin/create_iuran', [AdminMasterController::class, 'create_iuran']);
+  Route::delete('/admin/master_admin/delete_iuran', [AdminMasterController::class, 'delete_iuran']);
+  Route::post('/admin/master_admin/create', [AdminMasterController::class, 'create_admin']);
+  Route::put('/admin/master_admin/edit/{id}', [AdminMasterController::class, 'edit_admin']);
+  Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete_admin`']);
   Route::get('/admin/master_guest', [AdminGuestMasterController::class, 'index'])->name('master_guest');
 });
 
