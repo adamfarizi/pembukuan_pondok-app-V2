@@ -26,6 +26,8 @@ use App\Http\Controllers\Admin\AdminMataPelajaranController;
 use App\Http\Controllers\Admin\AdminLaporanKeuanganController;
 use App\Http\Controllers\Wali\WaliDaftarMataPelajaranController;
 use App\Http\Controllers\Admin\AdminPointPelanggaranController;
+use App\Http\Controllers\Admin\AdminWaliMasterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -100,6 +102,7 @@ Route::middleware(['auth:web'])->group(function () {
   Route::put('/admin/master_admin/edit/{id}', [AdminMasterController::class, 'edit_admin']);
   Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete_admin`']);
   Route::get('/admin/master_guest', [AdminGuestMasterController::class, 'index'])->name('master_guest');
+  Route::get('/admin/master_wali', [AdminWaliMasterController::class, 'index'])->name('master_wali');
 });
 
 Route::middleware(['auth:wali_santri'])->group(function () {

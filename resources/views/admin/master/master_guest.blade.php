@@ -155,19 +155,23 @@
                                             <tr>
                                                 <td>Foto</td>
                                                 <td>
-                                                    <input type="file" class="form-control-file" name="foto[]" multiple>
+                                                    <div class="upload__box">
+                                                        <input type="file" class="upload__inputfile" name="foto[]" multiple data-max_length="20">
+                                                        <div class="upload__img-wrap"></div>
+                                                    </div>
+                                                    {{-- <input type="file" class="form-control-file" name="foto[]" multiple>
                                                     <div class="mt-3">
                                                         <img src="" alt="Foto Pondok" style="max-width: 200px; margin-top: 10px;">
-                                                        {{-- @foreach($pondok->foto as $foto)
+                                                        @foreach($pondok->foto as $foto)
                                                             <img src="{{ asset('storage/' . $foto) }}" alt="Foto Pondok" style="max-width: 200px; margin-top: 10px;">
-                                                        @endforeach --}}
-                                                    </div>
+                                                        @endforeach
+                                                    </div> --}}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Lokasi</td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="lokasi" value="lakasi">
+                                                    <input type="text" class="form-control" name="lokasi" value="lokasi">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -210,7 +214,7 @@
                                     </table>
                                 </div>
                                 <div class="text-right">
-                                    <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+                                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
                                 </div>
                             </form>
                         </div>
@@ -291,4 +295,107 @@
 
         });
     </script>
+    <script>
+        jQuery(document).ready(function () {
+        ImgUpload();
+        });
+
+        function ImgUpload() {
+        var imgWrap = "";
+        var imgArray = [];
+
+        $('.upload__inputfile').each(function () {
+            $(this).on('change', function (e) {
+            imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+            var maxLength = $(this).attr('data-max_length');
+
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+            var iterator = 0;
+            filesArr.forEach(function (f, index) {
+
+                if (!f.type.match('image.*')) {
+                return;
+                }
+
+                if (imgArray.length > maxLength) {
+                return false
+                } else {
+                var len = 0;
+                for (var i = 0; i < imgArray.length; i++) {
+                    if (imgArray[i] !== undefined) {
+                    len++;
+                    }
+                }
+                if (len > maxLength) {
+                    return false;
+                } else {
+                    imgArray.push(f);
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                    var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+                    imgWrap.append(html);
+                    iterator++;
+                    }
+                    reader.readAsDataURL(f);
+                }
+                }
+            });
+            });
+        });
+
+        $('body').on('click', ".upload__img-close", function (e) {
+            var file = $(this).parent().data("file");
+            for (var i = 0; i < imgArray.length; i++) {
+            if (imgArray[i].name === file) {
+                imgArray.splice(i, 1);
+                break;
+            }
+            }
+            $(this).parent().parent().remove();
+        });
+        }
+    </script>
+    <style>
+        .upload__img-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+        }
+
+        .upload__img-box {
+        width: 200px;
+        padding: 0 10px;
+        margin-bottom: 12px;
+        }
+
+        .upload__img-close {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        text-align: center;
+        line-height: 24px;
+        z-index: 1;
+        cursor: pointer;
+        }
+
+        .upload__img-close:after {
+        content: "\2716";
+        font-size: 14px;
+        color: white;
+        }
+
+        .img-bg {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        padding-bottom: 100%;
+        }
+    </style>
 @endsection
