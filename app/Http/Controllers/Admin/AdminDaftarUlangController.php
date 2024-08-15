@@ -34,6 +34,7 @@ class AdminDaftarUlangController extends Controller
             ->where('tahun_ajaran', $currentSemester['tahun'])
             ->where('jenis_pembayaran', 'daftar_ulang')
             ->where('status_pembayaran', 'belum_lunas')
+            ->where('jumlah_bayar', 0)
             ->with(['santri', 'user'])
             ->get();
 
@@ -56,6 +57,7 @@ class AdminDaftarUlangController extends Controller
         if ($pembayaran) {
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->id_admin = Auth::user()->id_admin;
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
             $pembayaran->status_pembayaran = 'lunas';
             $pembayaran->save();
 
@@ -64,4 +66,5 @@ class AdminDaftarUlangController extends Controller
             return redirect()->back()->withErrors(['error' => 'Error: Data tidak ditemukan']);
         }
     }
+
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_admin')->nullable();
             $table->dateTime('tanggal_pembayaran')->nullable();
             $table->integer('jumlah_pembayaran');
+            $table->integer('jumlah_bayar');
             $table->enum('jenis_pembayaran', ['daftar_ulang', 'iuran_bulanan', 'tamrin']);
             $table->enum('semester_ajaran', ['ganjil', 'genap']);
             $table->year('tahun_ajaran');

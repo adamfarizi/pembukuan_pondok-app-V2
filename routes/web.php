@@ -56,6 +56,9 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/iuran_bulanan', [AdminIuranBulananController::class, 'index'])->name('iuran_bulanan');
   Route::put('/admin/iuran_bulanan/edit/{id}/action', [AdminIuranBulananController::class, 'edit']);
   Route::get('/admin/tamrin', [AdminTamrinController::class, 'index'])->name('tamrin');
+  Route::get('/admin/tamrin/cicilan/{id}/bayar', [AdminTamrinController::class, 'show'])->name('cicilan_detail');
+  Route::post('/admin/pembayaran/cicilan/add', [AdminTamrinController::class, 'add_cicilan'])->name('add_cicilan');
+  Route::delete('/admin/pembayaran/cicilan/delete/{id}', [AdminTamrinController::class, 'delete_cicilan'])->name('delete_cicilan');
   Route::put('/admin/tamrin/edit/{id}/action', [AdminTamrinController::class, 'edit']);
   Route::get('/admin/pemasukan', [AdminPemasukanController::class, 'index'])->name('pemasukan');
   Route::post('/admin/pemasukan/create/action', [AdminPemasukanController::class, 'create']);

@@ -57,6 +57,7 @@ class AdminIuranBulananController extends Controller
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->id_admin = Auth::user()->id_admin;
             $pembayaran->status_pembayaran = 'lunas';
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
             $pembayaran->save();
 
             return redirect()->route('iuran_bulanan')->with('success', 'Data pembayaran berhasil ditambahkan.');

@@ -52,6 +52,7 @@ class Kernel extends ConsoleKernel
                     'id_santri' => $santriId,
                     'jenis_pembayaran' => $jenis,
                     'jumlah_pembayaran' => $jumlah,
+                    'jumlah_bayar'=> 0,
                     'tahun_ajaran' => $currentSemester['tahun'],
                     'semester_ajaran' => $currentSemester['semester'],
                 ]);
