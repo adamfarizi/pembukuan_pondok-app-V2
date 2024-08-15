@@ -154,7 +154,7 @@
                                 </div>
                                 <div class="text-right">
                                     <a type="button" class="btn btn-primary mt-1" href="" data-toggle="modal"
-                                        data-target="#createModal">
+                                        data-target="#createPengumumanModal">
                                         Tambah Pengumuman
                                     </a>
                                 </div>
@@ -181,98 +181,160 @@
                     </div>
                 </div>
             </div>
-            
 
-            <!-- Modal Create -->
-            <div class="modal fade" id="createModal" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Pengumuman</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Daftar Pengajar Pondok Pesantren Al Huda</h4>
+                                </div>
+                                <div class="text-right">
+                                    <a type="button" class="btn btn-primary mt-1" href="" data-toggle="modal"
+                                        data-target="#createPengajarModal">
+                                        Tambah Pengajar
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div class="table-responsive pb-3 pt-3 px-3">
+                                    <table id="tablePengajar" class="table" role="grid"
+                                        aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nama Pengajar</th>
+                                                <th>Nomor Hp Pengajar</th>
+                                                <th>Mata Pelajaran</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <form action="" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="nama_pengumuman">Nama Pengumuman <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama_pengumuman" name="nama_pengumuman"
-                                    value="" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="deskripsi_pengumuman">Deskripsi Pengumuman <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="deskripsi_pengumuman" name="deskripsi_pengumuman" rows="2" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="gambar_pengumuman">Tambah Gambar <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control-file" id="gambar_pengumuman" name="gambar_pengumuman" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
                 </div>
             </div>
+            
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Daftar Mata Pelajaran</h4>
+                                </div>
+                                <div class="text-right">
+                                    <a type="button" class="btn btn-primary mt-1" href="" data-toggle="modal"
+                                        data-target="#createMapelModal">
+                                        Tambah Mata Pelajaran
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div class="table-responsive pb-3 pt-3 px-3">
+                                    <table id="tableMapel" class="table" role="grid"
+                                        aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
+                                        <thead>
+                                            <tr>                                                
+                                                <th>#</th>
+                                                <th>Mata Pelajaran</th>
+                                                <th>Keterangan</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {{-- <!-- Modal Edit -->
-            @foreach ($pengeluarans as $pengeluaran)
-                <div class="modal fade" id="editModal{{ $pengeluaran->id_pengeluaran }}" tabindex="-1" role="dialog"
+
+            
+            <!-- PENGUMUMAN -->
+            <!-- Modal Create -->
+            <div class="modal fade" id="createPengumumanModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Pengumuman</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nama_pengumuman">Nama Pengumuman <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nama_pengumuman" name="nama_pengumuman"
+                                        value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deskripsi_pengumuman">Deskripsi Pengumuman <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="deskripsi_pengumuman" name="deskripsi_pengumuman" rows="2" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gambar_pengumuman">Gambar <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control-file" id="gambar_pengumuman" name="gambar_pengumuman" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Edit -->
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="editPengumumanModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Data Pengeluaran</h5>
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Pengumuman</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ url('/admin/pengeluaran/edit/' . $pengeluaran->id_pengeluaran . '/action') }}" method="post" enctype="multipart/form-data">
-                                @method('PUT')
-                                @csrf
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {{-- @method('PUT')
+                                @csrf --}}
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="nama_pengeluar">Nama Pengeluar <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="nama_pengeluar" name="nama_pengeluar"
-                                            value="{{ $pengeluaran->nama_pengeluar }}" required>
+                                        <label for="nama_pengumuman">Nama Pengumuman <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nama_pengumuman" name="nama_pengumuman"
+                                            value="" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="jumlah_pengeluaran">Jumlah Pengeluaran <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="jumlah_pengeluaran" name="jumlah_pengeluaran"
-                                            value="{{ $pengeluaran->jumlah_pengeluaran }}" required>
-                                    </div>
+                                        <label for="deskripsi_pengumuman">Deskripsi Pengumuman</label>
+                                        <textarea class="form-control" id="deskripsi_pengumuman" name="deskripsi_pengumuman" rows="2" required></textarea>
+                                    </div>                                    
                                     <div class="form-group">
-                                        <label for="jenis_pengeluaran">Jenis Pengeluaran <span class="text-danger">*</span></label>
-                                        <select class="form-control" id="jenis_pengeluaran" name="jenis_pengeluaran" required>
-                                            <option selected="" disabled="">Pilih Jenis Pengeluaran</option>
-                                            <option value="Listrik" {{ $pengeluaran->jenis_pengeluaran == 'Listrik' ? 'selected' : '' }}>Listrik</option>
-                                            <option value="BBM" {{ $pengeluaran->jenis_pengeluaran == 'BBM' ? 'selected' : '' }}>BBM</option>
-                                            <option value="Madrasah" {{ $pengeluaran->jenis_pengeluaran == 'Madrasah' ? 'selected' : '' }}>Madrasah</option>
-                                            <option value="Lainnya" {{ $pengeluaran->jenis_pengeluaran == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="deskripsi_pengeluaran">Deskripsi Pengeluaran</label>
-                                        <textarea class="form-control" id="deskripsi_pengeluaran" name="deskripsi_pengeluaran" rows="4" required>{{ $pengeluaran->deskripsi_pengeluaran }}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="bukti_pengeluaran">Bukti Pengeluaran <span class="text-danger">*</span></label>
-                                        <input type="file" class="form-control-file mb-3" id="bukti_pengeluaran"
+                                        <label for="gambar_pengumuman">Gambar Pengumuman <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control-file mb-3" id="gambar_pengumuman"
                                             name="bukti_pengeluaran">
-                                        @if ($pengeluaran->bukti_pengeluaran !== null)
+                                        {{-- @if ($pengeluaran->bukti_pengeluaran !== null)
                                             <img src="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
-                                                alt="Bukti Pengeluaran" style="max-width: 460px; border-radius: 20px;">
+                                                alt="Gambar Pengumuman" style="max-width: 460px; border-radius: 20px;">
                                         @else
                                             <div class="bg-light" style="width: 460px; border-radius:20px;">
                                                 <p class="text-center text-secondary"
                                                     style="padding-top: 100px; padding-bottom:100px;">Gambar tidak ada.</p>
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -283,24 +345,24 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            {{-- @endforeach --}}
 
             <!-- Modal Delete -->
-            @foreach ($pengeluarans as $pengeluaran)
-                <div class="modal fade" id="deleteModal{{ $pengeluaran->id_pengeluaran }}" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle{{ $pengeluaran->id_pengeluaran }}" aria-hidden="true">
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="deletePengumumanModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                             </div>
                             <form id="deleteForm" method="post"
-                                action="{{ url('/admin/pengeluaran/delete/' . $pengeluaran->id_pengeluaran) }}">
+                                {{-- action="{{ url('/admin/pengeluaran/delete/' . $pengeluaran->id_pengeluaran) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal-body text-center">
                                     <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
-                                    <h3 class="mt-4">Anda yakin ingin hapus pengeluaran dari {{ $pengeluaran->nama_pengeluar }}?</h3>
-                                </div>
+                                    <h3 class="mt-4">Anda yakin ingin hapus pengumuman dari {{ $pengeluaran->nama_pengeluar }}?</h3>
+                                </div> --}}
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -309,16 +371,16 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            {{-- @endforeach --}}
 
             <!-- Modal Info -->
-            @foreach ($pengeluarans as $pengeluaran)
-                <div class="modal fade" id="infoModal{{ $pengeluaran->id_pengeluaran }}" tabindex="-1" role="dialog"
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="infoPengumumanModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Bukti Pengeluaran</h5>
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Gambar Pengumuman</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -326,18 +388,18 @@
                             <div class="modal-body">
                                 <div class="px-3 py-2">
                                     <div class="mt-2 text-center">
-                                        @if ($pengeluaran->bukti_pengeluaran === null)
+                                        {{-- @if ($pengeluaran->bukti_pengeluaran === null) --}}
                                             <div class="bg-light" style="height: 300px; border-radius: 20px;">
                                                 <p class="text-center text-secondary" style="padding-top: 130px;">Gambar tidak ada.
                                                 </p>
                                             </div>
-                                        @else
+                                        {{-- @else
                                             <img src="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
-                                                alt="Bukti Pengeluaran" class="img-fluid" style="max-width: 440px; border-radius: 20px;">
+                                                alt="Gambar Pengumuman" class="img-fluid" style="max-width: 440px; border-radius: 20px;">
                                             <p class="mt-2"><a
                                                     href="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
-                                                    download>Download Bukti</a></p>
-                                        @endif
+                                                    download>Download gambar</a></p>
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
@@ -347,11 +409,221 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            {{-- @endforeach --}}
+
+
+
+            <!-- DATA PENGAJAR -->
+            <!-- Modal Create -->
+            <div class="modal fade" id="createPengajarModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Pengajar</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nama_pengajar">Nama Pengajar <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nama_pengajar" name="nama_pengajar"
+                                        value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_hp_pengajar">No Hp Pengajar <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="no_hp_pengajar" name="no_hp_pengajar"
+                                        value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapel_pengajar">Mata Pelajaran <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="mapel_pengajar" name="mapel_pengajar"
+                                        value="" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Edit -->
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="editPengajarModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Pengajar</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {{-- @method('PUT')
+                                @csrf --}}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="nama_pengajar">Nama Pengajar <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nama_pengajar" name="nama_pengajar"
+                                            value="" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="no_hp_pengajar">No Hp Pengajar <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="no_hp_pengajar" name="no_hp_pengajar"
+                                            value="" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mapel_pengajar">Mata Pelajaran <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="mapel_pengajar" name="mapel_pengajar"
+                                            value="" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{-- @endforeach --}}
+
+            <!-- Modal Delete -->
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="deletePengajarModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            </div>
+                            <form id="deleteForm" method="post"
+                                {{-- action="{{ url('/admin/pengeluaran/delete/' . $pengeluaran->id_pengeluaran) }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="modal-body text-center">
+                                    <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                                    <h3 class="mt-4">Anda yakin ingin hapus pengajar  dari {{ $pengeluaran->nama_pengeluar }}?</h3>
+                                </div> --}}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{-- @endforeach --}}            
+
+
+
+            <!-- DAFTAR MATA PELAJARAN -->
+            <!-- Modal Create -->
+            <div class="modal fade" id="createMapelModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Pengajar</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="mata_pelajaran">Mata Pelajaran <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="mata_pelajaran" name="mata_pelajaran"
+                                        value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="keterangan_mapel">Keterangan <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="keterangan_mapel" name="keterangan_mapel" rows="4" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Edit -->
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="editMapelModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Pengajar</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {{-- @method('PUT')
+                                @csrf --}}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="mata_pelajaran">Mata Pelajaran <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="mata_pelajaran" name="mata_pelajaran"
+                                            value="" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="keterangan_mapel">Keterangan <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="keterangan_mapel" name="keterangan_mapel" rows="4" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{-- @endforeach --}}
+
+            <!-- Modal Delete -->
+            {{-- @foreach ($pengeluarans as $pengeluaran) --}}
+                <div class="modal fade" id="deleteMapelModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            </div>
+                            <form id="deleteForm" method="post"
+                                {{-- action="{{ url('/admin/pengeluaran/delete/' . $pengeluaran->id_pengeluaran) }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="modal-body text-center">
+                                    <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                                    <h3 class="mt-4">Anda yakin ingin hapus mata pelajaran dari {{ $pengeluaran->nama_pengeluar }}?</h3>
+                                </div> --}}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{-- @endforeach --}}        
     </div>
 
 @endsection
 @section('js')
+
+    <!-- Pengumuman -->
     <script>
         $(document).ready(function() {
             $('#tableAdmin').DataTable({
@@ -382,11 +654,11 @@
                         orderable: false,
                         render: function(data, type, full, meta) {
                             return '<div class="d-flex align-items-center">' +
-                                '<a data-placement="top" title="Bukti" href="#"' +
-                                'data-target="#infoModal' + full.id_pengeluaran +
+                                '<a data-placement="top" title="Gambar" href="#"' +
+                                'data-target="#infoPengumumanModal' + full.id_pengeluaran +
                                 '" data-toggle="modal" ' +
                                 'data-id="' + full.id_pengeluaran + '">' +
-                                '<i class="ri-information-line"></i> Bukti' +
+                                '<i class="ri-information-line"></i> Gambar' +
                                 '</a>' +
                                 '</div>';
                         }
@@ -399,12 +671,139 @@
                         render: function(data, type, full, meta) {
                             return '<td class="text-center">' +
                                 '<div class="d-flex align-items-center list-user-action">' +
-                                '<a data-placement="top" title="Edit" href="#" data-target="#editModal' +
+                                '<a data-placement="top" title="Edit" href="#" data-target="#editPengumumanModal' +
                                 full.id_admin + '" data-toggle="modal" data-id="' + full
                                 .id_admin + '">' +
                                 '<i class="ri-pencil-line"></i>' +
                                 '</a>' +
-                                '<a data-placement="top" title="Delete" href="#" data-target="#deleteModal' +
+                                '<a data-placement="top" title="Delete" href="#" data-target="#deletePengumumanModal' +
+                                full.id_admin + '" data-toggle="modal" data-id="' + full
+                                .id_admin + '">' +
+                                '<i class="ri-delete-bin-line"></i>' +
+                                '</a>' +
+                                '</div>' +
+                                '</td>';
+                        }
+                    }
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1], // Jumlah entries per halaman, -1 untuk Tampilkan Semua Data
+                    ['10', '25', '50', '100', 'Semua']
+                ]
+            });
+
+        });
+    </script>
+
+    <!-- Pengajar -->
+    <script>
+        $(document).ready(function() {
+            $('#tablePengajar').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('master_admin') }}",
+                columns: [
+                    // Kolom nomor urut
+                    {
+                        data: null,
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'nama_admin', //digantii
+                        name: 'nama_admin'
+                    },
+                    {
+                        data: 'email', //digantii
+                        name: 'email'
+                    },
+                    {
+                        data: 'role',
+                        name: 'role',
+                        render: function(data, type, full, meta) {
+                            if (data === 'super_admin') {
+                                return '<span class="badge badge-pill badge-primary">Super Admin</span>';
+                            } else if (data === 'admin_pembayaran') {
+                                return '<span class="badge badge-pill badge-warning">Admin Pembayaran</span>';
+                            } else {
+                                return '<span class="badge badge-pill badge-success">Admin Penilaian</span>';
+                            }
+                        }
+                    },
+                    // Kolom aksi (tombol Info, Edit, Delete)
+                    {
+                        data: null,
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            return '<td class="text-center">' +
+                                '<div class="d-flex align-items-center list-user-action">' +
+                                '<a data-placement="top" title="Edit" href="#" data-target="#editPengajarModal' +
+                                full.id_admin + '" data-toggle="modal" data-id="' + full
+                                .id_admin + '">' +
+                                '<i class="ri-pencil-line"></i>' +
+                                '</a>' +
+                                '<a data-placement="top" title="Delete" href="#" data-target="#deletePengajarModal' +
+                                full.id_admin + '" data-toggle="modal" data-id="' + full
+                                .id_admin + '">' +
+                                '<i class="ri-delete-bin-line"></i>' +
+                                '</a>' +
+                                '</div>' +
+                                '</td>';
+                        }
+                    }
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1], // Jumlah entries per halaman, -1 untuk Tampilkan Semua Data
+                    ['10', '25', '50', '100', 'Semua']
+                ]
+            });
+
+        });
+    </script>
+
+    <!-- Mata Pelajaran -->
+    <script>
+        $(document).ready(function() {
+            $('#tableMapel').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('master_admin') }}",
+                columns: [
+                    // Kolom nomor urut
+                    {
+                        data: null,
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'nama_admin', //digantii
+                        name: 'nama_admin'
+                    },
+                    {
+                        data: 'email', //digantii
+                        name: 'email'
+                    },
+                    // Kolom aksi (tombol Info, Edit, Delete)
+                    {
+                        data: null,
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            return '<td class="text-center">' +
+                                '<div class="d-flex align-items-center list-user-action">' +
+                                '<a data-placement="top" title="Edit" href="#" data-target="#editPengajarModal' +
+                                full.id_admin + '" data-toggle="modal" data-id="' + full
+                                .id_admin + '">' +
+                                '<i class="ri-pencil-line"></i>' +
+                                '</a>' +
+                                '<a data-placement="top" title="Delete" href="#" data-target="#deletePengajarModal' +
                                 full.id_admin + '" data-toggle="modal" data-id="' + full
                                 .id_admin + '">' +
                                 '<i class="ri-delete-bin-line"></i>' +
