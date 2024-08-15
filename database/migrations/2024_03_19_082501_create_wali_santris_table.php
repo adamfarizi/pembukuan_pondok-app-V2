@@ -16,13 +16,23 @@ return new class extends Migration
         Schema::create('wali_santris', function (Blueprint $table) {
             $table->id('id_wali_santri');
             $table->unsignedBigInteger('id_santri')->nullable();
-            $table->string('nama_wali_santri');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('remember_token')->nullable();
-            $table->string('role')->default('wali');
-            $table->string('no_hp');
-            $table->string('alamat_wali_santri');
+            $table->string('nama_wali');
+            $table->string('no_identitas_wali');
+            $table->string('tempat_tanggal_lahir_wali');
+            $table->string('rt_wali');  
+            $table->string('rw_wali');  
+            $table->string('dusun_wali');  
+            $table->string('desa_wali');  
+            $table->string('kecamatan_wali');  
+            $table->string('kab_kota_wali');  
+            $table->string('provinsi_wali');  
+            $table->string('kode_pos_wali');
+            $table->string('status_wali');
+            $table->string('no_hp_wali');
+            $table->string('email_wali')->unique();
+            $table->string('pendidikan_wali');
+            $table->string('pekerjaan_wali');
+            $table->string('pendapatan_wali_perbulan');
             $table->timestamps();
 
             $table->foreign('id_santri')->references('id_santri')->on('santris');
