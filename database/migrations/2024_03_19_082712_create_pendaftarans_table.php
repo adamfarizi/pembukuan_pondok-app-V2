@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('desa');  
             $table->string('kecamatan');  
             $table->string('kab_kota');  
-            $table->string('propinsi');  
+            $table->string('provinsi');  
             $table->string('kode_pos');
             $table->string('no_hp_pendaftar');
             $table->string('email_pendaftar')->unique();
@@ -59,7 +59,7 @@ return new class extends Migration
             $table->string('desa_wali');  
             $table->string('kecamatan_wali');  
             $table->string('kab_kota_wali');  
-            $table->string('propinsi_wali');  
+            $table->string('provinsi_wali');  
             $table->string('kode_pos_wali');
             $table->string('status_wali');
             $table->string('no_hp_wali_pendaftar');
