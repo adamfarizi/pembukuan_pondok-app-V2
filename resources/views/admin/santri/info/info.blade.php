@@ -177,7 +177,7 @@
                             <div class="iq-card iq-card-block iq-card-stretch">
                                 <div class="iq-card-header d-flex justify-content-between">
                                     <div class="iq-header-title">
-                                        <h4 class="card-title">Informasi Pribadi</h4>
+                                        <h4 class="card-title">Informasi Santri</h4>
                                     </div>
                                 </div>
                                 <div class="iq-card-body">
@@ -189,12 +189,16 @@
                                             <div class="col-4">No Telepon</div>
                                             <div class="col-8"><a href="tel:{{ $santri->no_hp_santri }}">: <span
                                                         class="text-primary">{{ $santri->no_hp_santri }}</span></a></div>
+                                            <div class="col-4">No Identitas (KTP/SIM)</div>
+                                            <div class="col-8">: </div>
                                             <div class="col-4">Tahun Masuk</div>
                                             <div class="col-8">: {{ $santri->tahun_masuk }}</div>
                                             <div class="col-4">Jenis Kelamin</div>
                                             <div class="col-8">: {{ ucfirst($santri->jenis_kelamin_santri) }}</div>
                                             <div class="col-4">TTL</div>
                                             <div class="col-8">: {{ $santri->tempat_tanggal_lahir_santri }}</div>
+                                            <div class="col-4">Anak ke</div>
+                                            <div class="col-8">: </div>
                                             <div class="col-4">Alamat</div>
                                             <div class="col-8">: {{ $wali->alamat_wali_santri }}</div>
                                             <div class="col-4 mt-2">Berkas Santri</div>
@@ -227,31 +231,38 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- Card About Wali Santri --}}
+                            {{-- Card About Orang Tua --}}
                             <div class="iq-card iq-card-block iq-card-stretch">
                                 <div class="iq-card-header d-flex justify-content-between">
                                     <div class="iq-header-title">
-                                        <h4 class="card-title">Informasi Wali Santri</h4>
+                                        <h4 class="card-title">Informasi Orang Tua Santri</h4>
                                     </div>
                                 </div>
                                 <div class="iq-card-body">
                                     <div class="about-info m-0 p-0">
                                         <div class="row">
-                                            <div class="col-4">Nama</div>
+                                            <div class="col-4">Nama Ayah</div>
                                             <div class="col-8">: {{ $wali->nama_wali_santri }}</div>
-                                            <div class="col-4">Email</div>
-                                            <div class="col-8"><a href="mailto:{{ $wali->email }}">: <span
-                                                        class="text-primary">{{ $wali->email }}</span></a></div>
-                                            <div class="col-4">No Telepon</div>
-                                            <div class="col-8"><a href="tel:{{ $wali->no_hp }}">: <span
-                                                        class="text-primary">{{ $wali->no_hp }}</span></a></div>
-                                            <div class="col-4">Alamat</div>
-                                            <div class="col-8">: {{ $wali->alamat_wali_santri }}</div>
+                                            <div class="col-4">Nama Ibu</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pendidikan Ayah</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pendidikan Ibu</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pekerjaan Ayah</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pekerjaan Ibu</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pendapatan Perbulan Ayah</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pendapatan Perbulan Ibu</div>
+                                            <div class="col-8">: </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+    
                         {{-- Kolom Kanan --}}
                         <div class="col-lg-7 profile-right">
                             {{-- Tagihan --}}
@@ -344,6 +355,42 @@
                                             <p class="text-center">Tidak ada tagihan</p>
                                         @endif
                                     </ul>
+                                </div>
+                            </div>
+                            {{-- Card About Wali Santri --}}
+                            <div class="iq-card iq-card-block iq-card-stretch">
+                                <div class="iq-card-header d-flex justify-content-between">
+                                    <div class="iq-header-title">
+                                        <h4 class="card-title">Informasi Wali Santri</h4>
+                                    </div>
+                                </div>
+                                <div class="iq-card-body">
+                                    <div class="about-info m-0 p-0">
+                                        <div class="row">
+                                            <div class="col-4">Nama</div>
+                                            <div class="col-8">: {{ $wali->nama_wali_santri }}</div>
+                                            <div class="col-4">No Identitas (KTP/SIM)</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">TTL</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Email</div>
+                                            <div class="col-8"><a href="mailto:{{ $wali->email }}">: <span
+                                                        class="text-primary">{{ $wali->email }}</span></a></div>
+                                            <div class="col-4">No Telepon</div>
+                                            <div class="col-8"><a href="tel:{{ $wali->no_hp }}">: <span
+                                                        class="text-primary">{{ $wali->no_hp }}</span></a></div>
+                                            <div class="col-4">Alamat</div>
+                                            <div class="col-8">: {{ $wali->alamat_wali_santri }}</div>
+                                            <div class="col-4">Status</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pendidikan</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pekerjaan</div>
+                                            <div class="col-8">: </div>
+                                            <div class="col-4">Pendapatan Perbulan</div>
+                                            <div class="col-8">: </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -42,31 +42,11 @@ class Santri extends Model
         'pekerjaan_ibu',
         'pendapatan_ibu_perbulan',
 
-        //Identitas wali
-        'nama_wali',
-        'no_identitas_wali',
-        'tempat_tanggal_lahir_wali',
-        'rt_wali',
-        'rw_wali',
-        'dusun_wali',
-        'desa_wali',
-        'kecamatan_wali',
-        'kab_kota_wali',
-        'provinsi_wali',
-        'kode_pos_wali',
-        'status_wali',
-        'no_hp_wali',
-        'email_wali',
-        'pendidikan_wali',
-        'pekerjaan_wali',
-        'pendapatan_wali_perbulan',
-
         //Berkas-berkas
         'ktp_santri',
         'kk_santri',
         'akta_santri',
         'pas_foto_santri',
-        'status_santri',
     ];
 
 

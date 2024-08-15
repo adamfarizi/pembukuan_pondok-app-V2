@@ -51,31 +51,11 @@ class SantriFactory extends Factory
             'pekerjaan_ibu' => $this->faker->jobTitle,
             'pendapatan_ibu_perbulan' => $this->faker->randomElement(['< 1 juta', '1-3 juta', '3-5 juta', '5-10 juta', '> 10 juta']),
         
-            // Identitas Wali
-            'nama_wali' => $this->faker->name,
-            'no_identitas_wali' => $this->faker->numerify('###############'), // 15 digit random numeric
-            'tempat_tanggal_lahir_wali' => $this->faker->city . ', ' . $this->faker->date('d-m-Y'),
-            'rt_wali' => $this->faker->numerify('###'), // contoh format RT, bisa disesuaikan
-            'rw_wali' => $this->faker->numerify('###'), // contoh format RW, bisa disesuaikan
-            'dusun_wali' => $this->faker->word,
-            'desa_wali' => $this->faker->citySuffix,
-            'kecamatan_wali' => $this->faker->city,
-            'kab_kota_wali' => $this->faker->city,
-            'provinsi_wali' => $this->faker->state,
-            'kode_pos_wali' => $this->faker->postcode,
-            'status_wali' => $this->faker->randomElement(['Keluarga', 'Orang Lain']),
-            'no_hp_wali' => $this->faker->numerify('###########'), // 13 digit random numeric
-            'email_wali' => $this->faker->unique()->safeEmail,
-            'pendidikan_wali' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'S1', 'S2', 'S3']),
-            'pekerjaan_wali' => $this->faker->jobTitle,
-            'pendapatan_wali_perbulan' => $this->faker->randomElement(['< 1 juta', '1-3 juta', '3-5 juta', '5-10 juta', '> 10 juta']),
-        
             // Berkas-berkas
             'ktp_santri' => 'ktp.png',
             'kk_santri' => 'kk.png',
             'akta_santri' => 'akta.png',
             'pas_foto_santri' => 'pasfoto.png',
-            'status_santri' => $this->faker->randomElement(['sudah_verifikasi', 'belum_verifikasi']),
         
             // Timestamp
             'created_at' => now(),
