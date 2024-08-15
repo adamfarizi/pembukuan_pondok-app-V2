@@ -13,20 +13,58 @@ class Pendaftaran extends Model
     protected $fillable = [
         'kode_pendaftaran',
         'nama_pendaftar',
+        'no_identitas',
         'tempat_tanggal_lahir_pendaftar',
         'jenis_kelamin_pendaftar',
-        'alamat_pendaftar',
+        'rt',
+        'rw',
+        'dusun',
+        'desa',
+        'kecamatan',
+        'kab_kota',
+        'provinsi',
+        'kode_pos',
         'no_hp_pendaftar',
         'email_pendaftar',
+        'mulai_masuk_tanggal',
+        'jumlah_saudara_kandung',
+        'anak_ke',
+
+         //Identitas Ayah
+        'nama_ayah_pendaftar',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'pendapatan_ayah_perbulan',
+
+         //Identitas Ibu
+        'nama_ibu_pendaftar',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'pendapatan_ibu_perbulan',
+
+        //Identitas Wali
+        'nama_wali_pendaftar',
+        'no_identitas_wali',
+        'tempat_tanggal_lahir_wali',
+        'rt_wali',
+        'rw_wali',
+        'dusun_wali',
+        'desa_wali',
+        'kecamatan_wali',
+        'kab_kota_wali',
+        'provinsi_wali',
+        'kode_pos_wali',
+        'status_wali',
+        'pekerjaan_wali',
+        'pendapatan_wali_perbulan',
+        'no_hp_wali_pendaftar',
+        'email_wali_pendaftar',
+
+        //Berkas-berkas
         'ktp_pendaftar',
         'kk_pendaftar',
         'akta_pendaftar',
         'pas_foto_pendaftar',
-        'nama_wali_pendaftar',
-        'no_hp_wali_pendaftar',
-        'email_wali_pendaftar',
-        'alamat_wali_santri',
-        'status',
     ];
     
 }

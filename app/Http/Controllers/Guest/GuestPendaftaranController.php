@@ -21,56 +21,57 @@ class GuestPendaftaranController extends Controller
     public function create(Request $request)
     {
         // Validasi request
-        $request->validate([
-            //Indentitas calon santri
-            'nama_pendaftar' => 'required|string|max:255',
-            'no_identitas' => 'required|string|max:255',
-            'tempat_tanggal_lahir_pendaftar' => 'required|string|max:255',
-            'jenis_kelamin_pendaftar' => 'required|in:laki-laki,perempuan',
-            'rt' => 'required|string|max:15',
-            'rw' => 'required|string|max:15',
-            'dusun' => 'required|string|max:255',
-            'desa' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
-            'kab_kota' => 'required|string|max:255',
-            'propinsi' => 'required|string|max:225',
-            'kode_pos' => 'required|string|max:15',
-            'no_hp_pendaftar' => 'required|string|max:15',
-            'email_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_pendaftar,id_pendaftar',
-            'mulai_masuk_tanggal' => 'required|string|max:225',
-            'jumlah_saudara_kandung' => 'required|string|max:15',
-            'anak_ke' => 'required|string|max:15',
+        // $request->validate([
+        //     //Indentitas calon santri
+        //     'nama_pendaftar' => 'required|string|max:255',
+        //     'no_identitas' => 'required|string|max:255',
+        //     'tempat_tanggal_lahir_pendaftar' => 'required|string|max:255',
+        //     'jenis_kelamin_pendaftar' => 'required|in:laki-laki,perempuan',
+        //     'rt' => 'required|string|max:15',
+        //     'rw' => 'required|string|max:15',
+        //     'dusun' => 'required|string|max:255',
+        //     'desa' => 'required|string|max:255',
+        //     'kecamatan' => 'required|string|max:255',
+        //     'kab_kota' => 'required|string|max:255',
+        //     'provinsi' => 'required|string|max:225',
+        //     'kode_pos' => 'required|string|max:15',
+        //     'no_hp_pendaftar' => 'required|string|max:15',
+        //     'email_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_pendaftar',
+        //     'mulai_masuk_tanggal' => 'required|string|max:225',
+        //     'jumlah_saudara_kandung' => 'required|string|max:15',
+        //     'anak_ke' => 'required|string|max:15',
 
-            //Identitas Ayah
-            'nama_ayah_pendaftar' => 'required|string|max:225',
-            'pendidikan_ayah' => 'required|string|max:225',
-            'pekerjaan_ayah' => 'required|string|max:225',
-            'pendapatan_ayah_perbulan' => 'required|string|max:225',
+        //     //Identitas Ayah
+        //     'nama_ayah_pendaftar' => 'required|string|max:225',
+        //     'pendidikan_ayah' => 'required|string|max:225',
+        //     'pekerjaan_ayah' => 'required|string|max:225',
+        //     'pendapatan_ayah_perbulan' => 'required|string|max:225',
 
-            //Identitas Ibu
-            'nama_ibu_pendaftar' => 'required|string|max:225',
-            'pendidikan_ibu' => 'required|string|max:225',
-            'pekerjaan_ibu' => 'required|string|max:225',
-            'pendapatan_ibu_perbulan' => 'required|string|max:225',
+        //     //Identitas Ibu
+        //     'nama_ibu_pendaftar' => 'required|string|max:225',
+        //     'pendidikan_ibu' => 'required|string|max:225',
+        //     'pekerjaan_ibu' => 'required|string|max:225',
+        //     'pendapatan_ibu_perbulan' => 'required|string|max:225',
 
-            //Identitas Wali
-            'nama_wali_pendaftar' => 'required|string|max:255',
-            'no_identitas_wali' => 'required|string|max:255',
-            'tempat_tanggal_lahir_wali' => 'required|string|max:255',
-            'rt_wali' => 'required|string|max:15',
-            'rw_wali' => 'required|string|max:15',
-            'dusun_wali' => 'required|string|max:255',
-            'desa_wali' => 'required|string|max:255',
-            'kecamatan_wali' => 'required|string|max:255',
-            'kab_kota_wali' => 'required|string|max:255',
-            'propinsi_wali' => 'required|string|max:225',
-            'kode_pos_wali' => 'required|string|max:15',
-            'status_wali' => 'required|string|max:225',
-            'no_hp_wali_pendaftar' => 'required|string|max:15',
-            'email_wali_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_wali_pendaftar,id_pendaftar',
-            'pekerjaan_wali' => 'required|string|max:225',
-            'pendapatan_wali_perbulan' => 'required|string|max:225',
-        ]);
+        //     //Identitas Wali
+        //     'nama_wali_pendaftar' => 'required|string|max:255',
+        //     'no_identitas_wali' => 'required|string|max:255',
+        //     'tempat_tanggal_lahir_wali' => 'required|string|max:255',
+        //     'rt_wali' => 'required|string|max:15',
+        //     'rw_wali' => 'required|string|max:15',
+        //     'dusun_wali' => 'required|string|max:255',
+        //     'desa_wali' => 'required|string|max:255',
+        //     'kecamatan_wali' => 'required|string|max:255',
+        //     'kab_kota_wali' => 'required|string|max:255',
+        //     'provinsi_wali' => 'required|string|max:225',
+        //     'kode_pos_wali' => 'required|string|max:15',
+        //     'status_wali' => 'required|string|max:225',
+        //     'no_hp_wali_pendaftar' => 'required|string|max:15',
+        //     'email_wali_pendaftar' => 'required|email|max:255|unique:pendaftarans,email_wali_pendaftar,id_pendaftar',
+        //     'pendidikan_wali' => 'required|string|max:225',
+        //     'pekerjaan_wali' => 'required|string|max:225',
+        //     'pendapatan_wali_perbulan' => 'required|string|max:225',
+        // ]);
 
         // Upload berkas
         $ktpPendaftar = $request->file('ktp_pendaftar');
@@ -115,7 +116,7 @@ class GuestPendaftaranController extends Controller
             'desa' => $request->desa,
             'kecamatan' => $request->kecamatan,
             'kab_kota' => $request->kab_kota,
-            'propinsi' => $request->propinsi,
+            'provinsi' => $request->provinsi,
             'kode_pos' => $request->kode_pos,
             'no_hp_pendaftar' => $request->no_hp_pendaftar,
             'email_pendaftar' => $request->email_pendaftar,
@@ -136,7 +137,7 @@ class GuestPendaftaranController extends Controller
             'pendapatan_ibu_perbulan' => $request->pendapatan_ibu_perbulan,
 
             //Identitas Wali
-            'nama_lengkap_wali_pendaftar' => $request->nama_lengkap_wali_pendaftar,
+            'nama_wali_pendaftar' => $request->nama_wali_pendaftar,
             'no_identitas_wali' => $request->no_identitas_wali,
             'tempat_tanggal_lahir_wali' => $request->tempat_tanggal_lahir_wali,
             'rt_wali' => $request->rt_wali,
@@ -145,9 +146,11 @@ class GuestPendaftaranController extends Controller
             'desa_wali' => $request->desa_wali,
             'kecamatan_wali' => $request->kecamatan_wali,
             'kab_kota_wali' => $request->kab_kota_wali,
-            'propinsi_wali' => $request->propinsi_wali,
+            'provinsi_wali' => $request->provinsi_wali,
             'kode_pos_wali' => $request->kode_pos_wali,
             'status_wali' => $request->status_wali,
+            'pekerjaan_wali' => $request->pekerjaan_wali,
+            'pendapatan_wali_perbulan' => $request->pendapatan_wali_perbulan,
             'no_hp_wali_pendaftar' => $request->no_hp_wali_pendaftar,
             'email_wali_pendaftar' => $request->email_wali_pendaftar,
 

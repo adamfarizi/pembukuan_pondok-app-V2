@@ -42,7 +42,8 @@
             font-size: 1rem;
             line-height: 1.5;
             color: #495057;
-            background-color: transparent; /* Ubah background color menjadi transparan */
+            background-color: transparent;
+            /* Ubah background color menjadi transparan */
             border: 1px solid #ced4da;
             border-radius: 0.25rem;
             box-sizing: border-box;
@@ -60,14 +61,17 @@
             margin-right: 1rem;
             border: 1px solid #ced4da;
             border-radius: 0.25rem;
-            background-color: #e9edf4; /* Ganti warna background sesuai keinginan */
-            color: #495057; /* Warna teks putih */
+            background-color: #e9edf4;
+            /* Ganti warna background sesuai keinginan */
+            color: #495057;
+            /* Warna teks putih */
             cursor: pointer;
             box-sizing: border-box;
         }
 
         .custom-file-input::file-selector-button:hover {
-            background-color: #0056b3; /* Ganti warna hover sesuai keinginan */
+            background-color: #0056b3;
+            /* Ganti warna hover sesuai keinginan */
         }
 
         .form-control-file {
@@ -102,16 +106,15 @@
                                     <p class="mb-0">Berikut adalah beberapa informasi yang akan dimasukkan saat proses
                                         pendaftaran :</p>
                                     <ol>
-                                        <li>Nama Santri lengkap.</li>
-                                        <li>Tempat dan Tanggal Lahir Santri.</li>
-                                        <li>Jenis Kelamin Santri.</li>
+                                        <li>Nama lengkap calon santri.</li>
+                                        <li>No Identitas .</li>
+                                        <li>Tempat dan Tanggal Lahir Calon Santri.</li>
+                                        <li>Jenis Kelamin Calon Santri.</li>
+                                        <li>Alamat Lengkap Calon Santri.</li>
                                         <li>Nomor HP Santri yang aktif.</li>
                                         <li>Email Santri yang aktif.</li>
-                                        <li>Alamat lengkap Santri.</li>
-                                        <li>Nama Wali Santri lengkap.</li>
-                                        <li>Nomor HP Wali yang aktif.</li>
-                                        <li>Email Wali yang aktif.</li>
-                                        <li>Alamat lengkap Wali.</li>
+                                        <li>Identitas Lengkap Orangtua Calon Santri.</li>
+                                        <li>Identitas Lengkap Wali Calon Santri.</li>
                                     </ol>
                                     <p class="fw-bold">Pastikan semua informasi yang diberikan adalah benar dan sesuai
                                         dengan dokumen asli.</p>
@@ -127,18 +130,24 @@
                             </div>
                         </div>
 
-                        <form action="{{ url('/pendaftaran-santri-baru') }}" method="POST" enctype="multipart/form-data" id="multiStepForm">
+                        <form action="{{ url('/pendaftaran-santri-baru') }}" method="POST" enctype="multipart/form-data"
+                            id="multiStepForm">
                             @csrf
-                            <!-- Step 2: Data Santri -->
+                            <!-- Step 2: Data Calon Santri -->
                             <div class="form-step p-4" id="step-2" style="display:none;">
                                 <p class="text-primary" style="display: flex; align-items: center;">
                                     <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
-                                    Lengkapi data santri dibawah dengan benar !
+                                    Lengkapi identitas calon santri dengan benar !
                                 </p>
                                 <div class="mb-3">
-                                    <label for="nama_pendaftar">Nama <span class="text-danger">*</span></label>
+                                    <label for="nama_pendaftar">Nama Lengkap<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nama_pendaftar" name="nama_pendaftar"
-                                        placeholder="Masukkan Nama">
+                                        placeholder="Masukkan Nama" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="no_identitas">No Identitas (KTP/SIM) </label>
+                                    <input type="text" class="form-control" id="no_identitas"
+                                        name="no_identitas" placeholder="Masukkan No Identitas">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -146,7 +155,7 @@
                                             Lahir <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="tempat_tanggal_lahir_pendaftar"
                                             name="tempat_tanggal_lahir_pendaftar"
-                                            placeholder="contoh. Madiun, 20 Oktober 2001">
+                                            placeholder="contoh. Surabaya, 20 Oktober 2001" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="jenis_kelamin_pendaftar">Jenis Kelamin <span
@@ -159,99 +168,284 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="rt">RT <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="rt"
+                                            name="rt" placeholder="RT" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="rw">RW <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="rw"
+                                            name="rw" placeholder="RW" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="dusun">Dusun <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="dusun"
+                                            name="dusun" placeholder="Dusun" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="desa">Desa <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="desa"
+                                            name="desa" placeholder="Desa" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="kecamatan">Kecamatan <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="kecamatan"
+                                            name="kecamatan" placeholder="Kecamatan" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="kab_kota">Kabupaten/Kota <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="kab_kota"
+                                            name="kab_kota" placeholder="Kabupaten/Kota" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="provinsi">Provinsi <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="provinsi"
+                                            name="provinsi" placeholder="Provinsi" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3"">
+                                        <label for="kode_pos">Kode Pos <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="kode_pos"
+                                            name="kode_pos" placeholder="Kode Pos" required>
+                                    </div>
+                                </div>                                                                          
+                                <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="no_hp_pendaftar">No Hp <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="no_hp_pendaftar"
-                                            name="no_hp_pendaftar" placeholder="Masukkan No Hp">
+                                            name="no_hp_pendaftar" placeholder="Masukkan No Hp" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="email_pendaftar">Email <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email_pendaftar"
-                                            name="email_pendaftar" placeholder="Masukkan Email">
+                                            name="email_pendaftar" placeholder="Masukkan Email" required>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="alamat_pendaftar">Alamat <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="alamat_pendaftar" name="alamat_pendaftar" rows="2" required
-                                        placeholder="Masukkan Alamat">{{ old('alamat_pendaftar') }}</textarea>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="mulai_masuk_tanggal">Mulai Masuk Tanggal <span
+                                                class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="mulai_masuk_tanggal"
+                                            name="mulai_masuk_tanggal" placeholder="Mulai Masuk Tanggal" required>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung </label>
+                                        <input type="number" class="form-control" id="jumlah_saudara_kandung"
+                                            name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung" >
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="anak_ke">Anak ke </label>
+                                        <input type="number" class="form-control" id="anak_ke"
+                                            name="anak_ke" placeholder="Anak ke">
+                                    </div>
+                                </div>                                    
                                 <hr>
-                                
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Kembali</button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">Selanjutnya</button>
+                                <div class="">
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="prevStep(1)">Kembali</button>
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="nextStep(3)">Selanjutnya</button>
+                                </div>
                             </div>
 
-                            <!-- Step 2: Data Wali -->
-                            <div class="form-step p-4" id="step-3" style="display:none;">
-                                <p class="text-primary" style="display: flex; align-items: center;">
-                                    <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
-                                    Lengkapi data wali santri dibawah dengan benar !
-                                </p>
-                                <div class="mb-3">
-                                    <label for="nama_wali_pendaftar">Nama Wali <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="nama_wali_pendaftar"
-                                        name="nama_wali_pendaftar" placeholder="Masukkan Nama Wali">
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="no_hp_wali">No Hp Wali <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="no_hp_wali"
-                                            name="no_hp_wali_pendaftar" placeholder="Masukkan No Hp Wali">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="email_wali_pendaftar">Email Wali <span
+                                <!-- Step 3: Data Orang Tua -->
+                                <div class="form-step p-4" id="step-3" style="display:none;">
+                                    <p class="text-primary" style="display: flex; align-items: center;">
+                                        <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
+                                        Lengkapi data orang tua calon santri dibawah dengan benar!
+                                    </p>
+                                    <div class="mb-3">
+                                        <label for="nama_ayah_pendaftar">Nama Ayah <span
                                                 class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="email_wali_pendaftar"
-                                            name="email_wali_pendaftar" placeholder="Masukkan Email Wali">
+                                        <input type="text" class="form-control" id="nama_ayah_pendaftar"
+                                            name="nama_ayah_pendaftar" placeholder="Masukkan Nama Ayah" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="nama_ibu_pendaftar">Nama Ibu <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nama_ibu_pendaftar"
+                                            name="nama_ibu_pendaftar" placeholder="Masukkan Nama Ibu" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendidikan_ayah">Pendidikan Ayah <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendidikan_ayah"
+                                                name="pendidikan_ayah" placeholder="Masukkan Pendidikan Ayah" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendidikan_ibu">Pendidikan Ibu <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendidikan_ibu"
+                                                name="pendidikan_ibu" placeholder="Masukkan Pendidikan Ibu" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan_ayah">Pekerjaan Ayah <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pekerjaan_ayah"
+                                                name="pekerjaan_ayah" placeholder="Masukkan Pekerjaan Ayah" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan_ibu">Pekerjaan Ibu <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pekerjaan_ibu"
+                                                name="pekerjaan_ibu" placeholder="Masukkan Pekerjaan Ibu" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendapatan_ayah_perbulan"
+                                                name="pendapatan_ayah_perbulan" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendapatan_ibu_perbulan"
+                                                name="pendapatan_ibu_perbulan" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="prevStep(2)">Kembali</button>
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="nextStep(4)">Selanjutnya</button>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="alamat_wali_pendaftar">Alamat Wali <span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="alamat_wali_pendaftar" name="alamat_wali_pendaftar" rows="2" required
-                                        placeholder="Masukkan Alamat Wali">{{ old('alamat_wali_pendaftar') }}</textarea>
-                                </div>
-                                <hr>
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Kembali</button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(4)">Selanjutnya</button>
-                            </div>
 
-                            <!-- Step 3: Berkas Santri -->
-                            <div class="form-step p-4" id="step-4" style="display:none;">
-                                <p class="text-primary" style="display: flex; align-items: center;">
-                                    <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
-                                    Lengkapi berkas santri dibawah dengan benar !
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="ktp_pendaftar">KTP <span class="text-danger">*</span></label>
-                                        <input type="file" class="form-control custom-file-input" id="ktp_pendaftar"
-                                            name="ktp_pendaftar" required>
+                                <!-- Step 4: Data Wali -->
+                                <div class="form-step p-4" id="step-4" style="display:none;">
+                                    <p class="text-primary" style="display: flex; align-items: center;">
+                                        <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
+                                        Lengkapi data wali calon santri dibawah dengan benar!
+                                    </p>
+                                    <div class="mb-3">
+                                        <label for="nama_wali_pendaftar">Nama Lengkap <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nama_wali_pendaftar" name="nama_wali_pendaftar" placeholder="Masukkan Nama Lengkap Wali" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="kk_pendaftar">Kartu Keluarga <span
-                                                class="text-danger">*</span></label>
-                                        <input type="file" class="form-control custom-file-input" id="kk_pendaftar" name="kk_pendaftar"
-                                            required>
+                                    <div class="mb-3">
+                                        <label for="no_identitas_wali">No. Identitas (KTP/SIM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="no_identitas_wali" name="no_identitas_wali" placeholder="Masukkan No Identitas" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="tempat_tanggal_lahir_wali">Tempat & Tanggal Lahir <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="tempat_tanggal_lahir_wali" name="tempat_tanggal_lahir_wali" placeholder="contoh. Madiun, 20 Oktober 2001" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="rt_wali">RT <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="rw_wali">RW <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="desa_wali">Desa <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kecamatan_wali">Kecamatan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kab_kota_wali">Kabupaten/Kota <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="provinsi_wali">Provinsi <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kode_pos_wali">Kode Pos <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos" required>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="no_hp_wali_pendaftar">No Hp <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="no_hp_wali_pendaftar" name="no_hp_wali_pendaftar" placeholder="Masukkan No Hp" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email_wali_pendaftar">Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" id="email_wali_pendaftar" name="email_wali_pendaftar" placeholder="Masukkan Email" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="status_wali" name="status_wali" placeholder="Ayah Kandung/Ibu Kandung/Paman/Bibi/Lainnya" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendidikan_wali">Pendidikan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" placeholder="Pendidikan" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan_wali">Pekerjaan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Pekerjaan" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pendapatan_wali_perbulan">Pendapatan Perbulan <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan" required>
+                                    </div>
+                                    <hr>
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="prevStep(3)">Kembali</button>
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="nextStep(5)">Selanjutnya</button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="akta_kelahiran_pendaftar">Akta Kelahiran <span
-                                                class="text-danger">*</span></label>
-                                        <input type="file" class="form-control custom-file-input" id="akta_kelahiran_pendaftar"
-                                            name="akta_kelahiran_pendaftar" required>
+
+                                <!-- Step 5: Berkas Calon Santri -->
+                                <div class="form-step p-4" id="step-5" style="display:none;">
+                                    <p class="text-primary" style="display: flex; align-items: center;">
+                                        <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
+                                        Lengkapi berkas santri dibawah dengan benar !
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ktp_pendaftar">KTP <span class="text-danger">*</span></label>
+                                            <input type="file" class="form-control custom-file-input"
+                                                id="ktp_pendaftar" name="ktp_pendaftar" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="kk_pendaftar">Kartu Keluarga <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="file" class="form-control custom-file-input"
+                                                id="kk_pendaftar" name="kk_pendaftar" required>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="pasfoto_pendaftar">Pas Foto <span class="text-danger">*</span></label>
-                                        <input type="file" class="form-control custom-file-input" id="pasfoto_pendaftar"
-                                            name="pasfoto_pendaftar" required>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="akta_kelahiran_pendaftar">Akta Kelahiran <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="file" class="form-control custom-file-input"
+                                                id="akta_kelahiran_pendaftar" name="akta_kelahiran_pendaftar" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pasfoto_pendaftar">Pas Foto <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="file" class="form-control custom-file-input"
+                                                id="pasfoto_pendaftar" name="pasfoto_pendaftar" required>
+                                        </div>
                                     </div>
+                                    <hr>
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="prevStep(4)">Kembali</button>
+                                    <button class="btn btn-primary" type="submit">Daftarkan Santri</button>
                                 </div>
-                                <hr>
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Kembali</button>
-                                <button class="btn btn-primary" type="submit">Daftarkan Santri</button>
-                            </div>
                         </form>
                     </div>
                 </div>
