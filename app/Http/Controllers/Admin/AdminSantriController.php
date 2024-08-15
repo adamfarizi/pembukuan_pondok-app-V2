@@ -92,6 +92,7 @@ class AdminSantriController extends Controller
                 'status_wali' => 'required',
                 'no_hp_wali_pendaftar' => 'required',
                 'email_wali_pendaftar' => 'required|email',
+                'pendidikan_wali' => 'required',
                 'pekerjaan_wali' => 'required',
                 'pendapatan_wali_perbulan' => 'required',
 
@@ -140,6 +141,7 @@ class AdminSantriController extends Controller
                 'no_hp_wali_santri.required' => 'Masukkan nomor HP wali santri terlebih dahulu!',
                 'email_wali_santri.required' => 'Masukkan email wali santri terlebih dahulu!',
                 'email_wali_santri.email' => 'Format email wali santri tidak valid!',
+                'pendidikan_wali' => 'Masukkan pendidikan wali santri!',
                 'pekerjaan_wali' => 'Masukkan pekerjaan wali santri!',
                 'pendapatan_wali_perbulan' => 'Masukkan pendapatan wali perbulan!',
                 'password_wali_santri.required' => 'Masukkan password wali santri terlebih dahulu!',
@@ -229,6 +231,9 @@ class AdminSantriController extends Controller
                 'status_wali' => $request->input('status_wali'),
                 'no_hp_wali' => $request->input('no_hp_wali'),
                 'email_wali' => $request->input('email_wali'),
+                'pendidikan_wali' => $request->input('pendidikan_wali'),
+                'pekerjaan_wali' => $request->input('pekerjaan_wali'),
+                'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
 
                 //Berkas-berkas
                 'ktp_santri' => $ktpSantriName,
@@ -431,6 +436,7 @@ class AdminSantriController extends Controller
                 'status_wali' => 'required',
                 'no_hp_wali_pendaftar' => 'required',
                 'email_wali_pendaftar' => 'required|email',
+                'pendidikan_wali' => 'required',
                 'pekerjaan_wali' => 'required',
                 'pendapatan_wali_perbulan' => 'required',
 
@@ -479,6 +485,7 @@ class AdminSantriController extends Controller
                 'no_hp_wali_santri.required' => 'Masukkan nomor HP wali santri terlebih dahulu!',
                 'email_wali_santri.required' => 'Masukkan email wali santri terlebih dahulu!',
                 'email_wali_santri.email' => 'Format email wali santri tidak valid!',
+                'pendidikan_wali' => 'Masukkan pendidikan wali santri!',
                 'pekerjaan_wali' => 'Masukkan pekerjaan wali santri!',
                 'pendapatan_wali_perbulan' => 'Masukkan pendapatan wali perbulan!',
                 'password_wali_santri.required' => 'Masukkan password wali santri terlebih dahulu!',
@@ -586,6 +593,9 @@ class AdminSantriController extends Controller
                 'status_wali' => $request->input('status_wali'),
                 'no_hp_wali' => $request->input('no_hp_wali'),
                 'email_wali' => $request->input('email_wali'),
+                'pendidikan_wali' => $request->input('pendidikan_wali'),
+                'pekerjaan_wali' => $request->input('pekerjaan_wali'),
+                'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
 
                 //Berkas-berkas
                 'ktp_santri' => $ktpSantriName,
