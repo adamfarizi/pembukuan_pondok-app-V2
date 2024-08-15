@@ -28,8 +28,10 @@ return new class extends Migration
             $table->string('provinsi_wali');  
             $table->string('kode_pos_wali');
             $table->string('status_wali');
-            $table->string('no_hp_wali');
-            $table->string('email_wali')->unique();
+            $table->string('no_hp');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('role');
             $table->string('pendidikan_wali');
             $table->string('pekerjaan_wali');
             $table->string('pendapatan_wali_perbulan');
