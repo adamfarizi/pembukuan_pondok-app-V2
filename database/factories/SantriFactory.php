@@ -75,7 +75,6 @@ class SantriFactory extends Factory
             'kk_santri' => 'kk.png',
             'akta_santri' => 'akta.png',
             'pas_foto_santri' => 'pasfoto.png',
-            'status_santri' => $this->faker->randomElement(['sudah_verifikasi', 'belum_verifikasi']),
         
             // Timestamp
             'created_at' => now(),

@@ -66,7 +66,6 @@ class Santri extends Model
         'kk_santri',
         'akta_santri',
         'pas_foto_santri',
-        'status_santri',
     ];
 
 

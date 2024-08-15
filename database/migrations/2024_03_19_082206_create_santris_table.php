@@ -71,7 +71,6 @@ return new class extends Migration
             $table->string('kk_santri');
             $table->string('akta_santri');
             $table->string('pas_foto_santri');
-            $table->enum('status_santri',['sudah_verifikasi', 'belum_verifikasi'])->default('belum_verifikasi');
             $table->timestamps();
 
         });

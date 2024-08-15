@@ -101,7 +101,6 @@ class AdminSantriController extends Controller
                 'kk_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'akta_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'pas_foto_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'status_santri' => 'required',
             ], [
                 'nama_santri.required' => 'Masukkan nama santri terlebih dahulu!',
                 'no_identitas.required' => 'Masukkan no identitas santri terlebih dahulu!',
@@ -240,7 +239,6 @@ class AdminSantriController extends Controller
                 'kk_santri' => $kkSantriName,
                 'akta_santri' => $aktaSantriName,
                 'pas_foto_santri' => $pasfotoSantriName,
-                'status' => 'sudah_verifikasi',
             ]);
 
             // Tambah wali santri
@@ -260,6 +258,9 @@ class AdminSantriController extends Controller
                 'status_wali' => $request->input('status_wali'),
                 'no_hp_wali' => $request->input('no_hp_wali'),
                 'email_wali' => $request->input('email_wali'),
+                'pendidikan_wali' => $request->input('pendidikan_wali'),
+                'pekerjaan_wali' => $request->input('pekerjaan_wali'),
+                'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
             ]);
 
             //* Pembayaran
@@ -445,7 +446,6 @@ class AdminSantriController extends Controller
                 'kk_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'akta_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'pas_foto_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'status_santri' => 'required',
             ], [
                 'nama_santri.required' => 'Masukkan nama santri terlebih dahulu!',
                 'no_identitas.required' => 'Masukkan no identitas santri terlebih dahulu!',
@@ -622,6 +622,9 @@ class AdminSantriController extends Controller
                 'status_wali' => $request->input('status_wali'),
                 'no_hp_wali' => $request->input('no_hp_wali'),
                 'email_wali' => $request->input('email_wali'),
+                'pendidikan_wali' => $request->input('pendidikan_wali'),
+                'pekerjaan_wali' => $request->input('pekerjaan_wali'),
+                'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
             ]);
 
             return redirect()->route('santri')->with('success', 'Data santri berhasil diubah.');
