@@ -11,18 +11,61 @@ class Santri extends Model
     protected $table = 'santris';
     protected $primaryKey = 'id_santri';
     protected $fillable = [
-        'nama_santri', 
-        'tempat_tanggal_lahir_santri', 
-        'jenis_kelamin_santri', 
-        'alamat_santri', 
-        'no_hp_santri', 
-        'email_santri', 
-        'ktp_santri', 
+        //Santri
+        'nama_santri',
+        'no_identitas',
+        'tempat_tanggal_lahir_santri',
+        'jenis_kelamin_santri',
+        'rt',
+        'rw',
+        'dusun',
+        'desa',
+        'kecamatan',
+        'kab_kota',
+        'provinsi',
+        'kode_pos',
+        'no_hp_santri',
+        'email_santri',
+        'mulai_masuk_tanggal',
+        'jumlah_saudara_kandung',
+        'anak_ke',
+
+        //Identitas Ayah
+        'nama_ayah',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'pendapatan_ayah_perbulan',
+
+        //Identitas Ibu
+        'nama_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'pendapatan_ibu_perbulan',
+
+        //Identitas wali
+        'nama_wali',
+        'no_identitas_wali',
+        'tempat_tanggal_lahir_wali',
+        'rt_wali',
+        'rw_wali',
+        'dusun_wali',
+        'desa_wali',
+        'kecamatan_wali',
+        'kab_kota_wali',
+        'provinsi_wali',
+        'kode_pos_wali',
+        'status_wali',
+        'no_hp_wali',
+        'email_wali',
+        'pekerjaan_wali',
+        'pendapatan_wali_perbulan',
+
+        //Berkas-berkas
+        'ktp_santri',
         'kk_santri',
         'akta_santri',
-        'pas_foto_santri', 
-        'status_santri', 
-        'tahun_masuk', 
+        'pas_foto_santri',
+        'status_santri',
     ];
 
 
