@@ -136,32 +136,23 @@
                             <div class="form-group">
                                 <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nama_santri" name="nama_santri"
-                                    value="{{ old('nama_santri') }}" required>
+                                    value="{{ old('nama_santri') }}" placeholder="Masukkan Nama Lengkap" required>
                             </div>
                             <div class="form-group">
-                                <label for="tempat_tanggal_lahir_santri">Tempat, Tanggal Lahir <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="tempat_tanggal_lahir_santri"
-                                    name="tempat_tanggal_lahir_santri" value="{{ old('tempat_tanggal_lahir_santri') }}"
-                                    placeholder="contoh. Madiun, 3 Juni 2001" required>
+                                <label for="no_identitas">No Identitas (KTP/SIM) <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="no_identitas" name="no_identitas"
+                                    value="{{ old('no_identitas') }}" placeholder="Masukkan No Identitas" required>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="no_hp_santri">No Hp Santri <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="no_hp_santri" name="no_hp_santri"
-                                            value="{{ old('no_hp_santri') }}" required>
-                                    </div>
+                                        <label for="tempat_tanggal_lahir_santri">Tempat, Tanggal Lahir <span
+                                            class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="tempat_tanggal_lahir_santri"
+                                            name="tempat_tanggal_lahir_santri" value="{{ old('tempat_tanggal_lahir_santri') }}"
+                                            placeholder="contoh. Madiun, 3 Juni 2001" required>
+                                    </div>                              
                                 </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="email_santri">Email Santri <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="email_santri" name="email_santri"
-                                            value="{{ old('email_santri') }}" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="jenis_kelamin_santri">Jenis Kelamin Santri <span
@@ -175,50 +166,234 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="rt">RT <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="rt"
+                                        name="rt" placeholder="RT">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="rw">RW <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="rw"
+                                        name="rw" placeholder="RW">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="dusun">Dusun <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="dusun"
+                                        name="dusun" placeholder="Dusun">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="desa">Desa <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="desa"
+                                        name="desa" placeholder="Desa">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="kecamatan">Kecamatan <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="kecamatan"
+                                        name="kecamatan" placeholder="Kecamatan">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="kab_kota">Kabupaten/Kota <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="kab_kota"
+                                        name="kab_kota" placeholder="Kabupaten/Kota">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="provinsi">Provinsi <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="provinsi"
+                                        name="provinsi" placeholder="Provinsi">
+                                </div>
+                                <div class="col-md-3 mb-3"">
+                                    <label for="kode_pos">Kode Pos <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="kode_pos"
+                                        name="kode_pos" placeholder="Kode Pos">
+                                </div>
+                            </div>   
+                            <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="status_santri">Status Santri <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control" name="status_santri" id="status_santri" required>
-                                            <option value="menetap" @if (old('status_santri') == 'menetap') selected @endif>
-                                                Menetap</option>
-                                            <option value="pulang" @if (old('status_santri') == 'pulang') selected @endif>Pulang
-                                                Pergi</option>
-                                        </select>
+                                        <label for="no_hp_santri">No Hp Santri <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="no_hp_santri" name="no_hp_santri"
+                                            value="{{ old('no_hp_santri') }}" placeholder="Masukkan No HP" required>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="email_santri">Email Santri <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="email_santri" name="email_santri"
+                                            value="{{ old('email_santri') }}" placeholder="Masukkan Email" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="alamat_santri">Alamat Santri <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="alamat_santri" name="alamat_santri" rows="2" required>{{ old('alamat_santri') }}</textarea>
+                                <label for="mulai_masuk_tanggal">Mulai Masuk Tanggal <span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="mulai_masuk_tanggal"
+                                        name="mulai_masuk_tanggal" placeholder="Mulai Masuk Tanggal">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="jumlah_saudara_kandung"
+                                        name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="anak_ke">Anak ke <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="anak_ke"
+                                        name="anak_ke" placeholder="Anak ke">
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label for="nama_ayah">Nama Ayah <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nama_ayah" name="nama_ayah"
+                                    value="{{ old('nama_ayah') }}" placeholder="Masukkan Nama Ayah" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nama_ibu">Nama Ibu <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nama_ibu" name="nama_ibu"
+                                    value="{{ old('nama_ibu') }}" placeholder="Masukkan Nama Ibu" required>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="nama_wali_santri">Nama Wali Santri<span
+                                        <label for="pendidikan_ayah">Pendidikan Ayah<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="nama_wali_santri"
-                                            name="nama_wali_santri" value="{{ old('nama_wali_santri') }}" required>
+                                        <input type="text" class="form-control" id="pendidikan_ayah"
+                                            name="pendidikan_ayah" value="{{ old('pendidikan_ayah') }}" placeholder="Masukkan Pendidikan Ayah" required>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="no_hp_wali_santri">No Hp Wali Santri<span
+                                        <label for="pendidikan_ibu">Pendidikan Ibu<span
                                                 class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="no_hp_wali_santri"
-                                            name="no_hp_wali_santri" value="{{ old('no_hp_wali_santri') }}" required>
+                                        <input type="text" class="form-control" id="pendidikan_ibu"
+                                            name="pendidikan_ibu" value="{{ old('pendidikan_ibu') }}" placeholder="Masukkan Pendidikan Ibu" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="email_wali_santri">Email Wali Santri<span
+                                        <label for="pekerjaan_ayah">Pekerjaan Ayah<span
                                                 class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="email_wali_santri"
-                                            name="email_wali_santri" value="{{ old('email_wali_santri') }}" required>
+                                        <input type="text" class="form-control" id="pekerjaan_ayah"
+                                            name="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="Masukkan Pekerjaan Ayah" required>
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="pekerjaan_ibu">Pekerjaan Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="pekerjaan_ibu"
+                                            name="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Masukkan Pekerjaan Ibu" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="pendapatan_ayah_perbulan"
+                                            name="pendapatan_ayah_perbulan" value="{{ old('pendapatan_ayah_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="pendapatan_ibu_perbulan"
+                                            name="pendapatan_ibu_perbulan" value="{{ old('pendapatan_ibu_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <label for="nama_wali">Nama Wali Santri <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nama_wali" name="nama_wali" placeholder="Masukkan Nama Wali Santri">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="no_identitas_wali">No. Identitas Wali Santri (KTP/SIM) <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="no_identitas_wali" name="no_identitas_wali" placeholder="Masukkan No Identitas Wali Santri">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tempat_tanggal_lahir_wali">Tempat & Tanggal Lahir Wali Santri <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="tempat_tanggal_lahir_wali" name="tempat_tanggal_lahir_wali" placeholder="contoh. Madiun, 20 Oktober 2001">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 mb-3">
+                                                <label for="rt_wali">RT <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="rw_wali">RW <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="desa_wali">Desa <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="kecamatan_wali">Kecamatan <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="kab_kota_wali">Kabupaten/Kota <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="provinsi_wali">Provinsi <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="kode_pos_wali">Kode Pos <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos">
+                                            </div>                                        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="no_hp_wali_pendaftar">No Hp Wali Santri <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="no_hp_wali_pendaftar" name="no_hp_wali_pendaftar" placeholder="Masukkan No Hp Wali Santri">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="email_wali_pendaftar">Email Wali Santri<span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="email_wali_pendaftar" name="email_wali_pendaftar" placeholder="Masukkan Email Wali Santri">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="status_wali" name="status_wali" placeholder="Ayah Kandung/Ibu Kandung/Paman/Bibi/Lainnya">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="pendidikan_wali">Pendidikan Wali <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" placeholder="Pendidikan">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="pekerjaan_wali">Pekerjaan Wali <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Pekerjaan">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pendapatan_wali_perbulan">Pendapatan Perbulan Wali<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col">
                                     <div class="form-group">
                                         @php
@@ -239,11 +414,6 @@
                                             name="password_wali_santri" value="{{ generatePassword() }}" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="alamat_wali_santri">Alamat Wali Santri<span
-                                        class="text-danger">*</span></label>
-                                <textarea class="form-control" id="alamat_wali_santri" name="alamat_wali_santri" rows="2" required>{{ old('alamat_wali_santri') }}</textarea>
                             </div>
                             <div class="row">
                                 <div class="col">
