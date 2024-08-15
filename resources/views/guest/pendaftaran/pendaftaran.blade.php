@@ -206,7 +206,7 @@
                                         <input type="text" class="form-control" id="provinsi"
                                             name="provinsi" placeholder="Provinsi" required>
                                     </div>
-                                    <div class="col-md-3 mb-3"">
+                                    <div class="col-md-3 mb-3">
                                         <label for="kode_pos">Kode Pos <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="kode_pos"
@@ -304,13 +304,13 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah <span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="pendapatan_ayah_perbulan"
+                                            <input type="number" class="form-control" id="pendapatan_ayah_perbulan"
                                                 name="pendapatan_ayah_perbulan" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu <span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="pendapatan_ibu_perbulan"
+                                            <input type="number" class="form-control" id="pendapatan_ibu_perbulan"
                                                 name="pendapatan_ibu_perbulan" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
                                         </div>
                                     </div>
@@ -342,11 +342,11 @@
                                     <div class="row">
                                         <div class="col-md-3 mb-3">
                                             <label for="rt_wali">RT <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT" required>
+                                            <input type="number" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT" required>
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="rw_wali">RW <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW" required>
+                                            <input type="number" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW" required>
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
@@ -385,7 +385,14 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="status_wali" name="status_wali" placeholder="Ayah Kandung/Ibu Kandung/Paman/Bibi/Lainnya" required>
+                                        <select class="form-control" name="status_wali"
+                                            id="status_wali" required>
+                                            <option value="Ayah Kandung">Ayah Kandung</option>
+                                            <option value="Ibu Kandung">Ibu Kandung</option>
+                                            <option value="Paman">Paman</option>
+                                            <option value="Bibi">Bibi</option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -399,7 +406,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="pendapatan_wali_perbulan">Pendapatan Perbulan <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan" required>
+                                        <input type="number" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan" required>
                                     </div>
                                     <hr>
                                     <button type="button" class="btn btn-secondary"

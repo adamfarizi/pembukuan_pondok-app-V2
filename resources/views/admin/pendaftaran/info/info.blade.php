@@ -117,26 +117,79 @@
                                             value="{{ $pendaftar->nama_pendaftar }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tempat_tanggal_lahir_pendaftar">Tempat, Tanggal Lahir <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="tempat_tanggal_lahir_pendaftar"
-                                            name="tempat_tanggal_lahir_pendaftar"
-                                            value="{{ $pendaftar->tempat_tanggal_lahir_pendaftar }}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="jenis_kelamin_pendaftar">Jenis Kelamin pendaftar <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control" name="jenis_kelamin_pendaftar"
-                                            id="jenis_kelamin_pendaftar" required>
-                                            <option value="laki-laki" @if ($pendaftar->jenis_kelamin_pendaftar == 'laki-laki') selected @endif>
-                                                Laki Laki</option>
-                                            <option value="perempuan" @if ($pendaftar->jenis_kelamin_pendaftar == 'perempuan') selected @endif>
-                                                Perempuan</option>
-                                        </select>
+                                        <label for="no_identitas">No Identitas (KTP/SIM) </label>
+                                        <input type="text" class="form-control" id="no_identitas"
+                                            name="no_identitas" placeholder="Masukkan No Identitas" value="{{ $pendaftar->no_identitas }}">
                                     </div>
                                     <div class="row">
+                                        <div class="col form-group">
+                                            <label for="tempat_tanggal_lahir_pendaftar">Tempat, Tanggal Lahir <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="tempat_tanggal_lahir_pendaftar"
+                                                name="tempat_tanggal_lahir_pendaftar"
+                                                value="{{ $pendaftar->tempat_tanggal_lahir_pendaftar }}" required>
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="jenis_kelamin_pendaftar">Jenis Kelamin pendaftar <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-control" name="jenis_kelamin_pendaftar"
+                                                id="jenis_kelamin_pendaftar" required>
+                                                <option value="laki-laki" @if ($pendaftar->jenis_kelamin_pendaftar == 'laki-laki') selected @endif>
+                                                    Laki Laki</option>
+                                                <option value="perempuan" @if ($pendaftar->jenis_kelamin_pendaftar == 'perempuan') selected @endif>
+                                                    Perempuan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="rt">RT <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="rt"
+                                                name="rt" placeholder="RT" value="{{ $pendaftar->rt }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="rw">RW <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="rw"
+                                                name="rw" placeholder="RW" value="{{ $pendaftar->rw }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="dusun">Dusun <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="dusun"
+                                                name="dusun" placeholder="Dusun" value="{{ $pendaftar->dusun }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="desa">Desa <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="desa"
+                                                name="desa" placeholder="Desa" value="{{ $pendaftar->desa }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kecamatan">Kecamatan <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kecamatan"
+                                                name="kecamatan" placeholder="Kecamatan" value="{{ $pendaftar->kecamatan }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kab_kota">Kabupaten/Kota <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kab_kota"
+                                                name="kab_kota" placeholder="Kabupaten/Kota" value="{{ $pendaftar->kab_kota }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="provinsi">Provinsi <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="provinsi"
+                                                name="provinsi" placeholder="Provinsi" value="{{ $pendaftar->provinsi }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kode_pos">Kode Pos <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kode_pos"
+                                                name="kode_pos" placeholder="Kode Pos" value="{{ $pendaftar->kode_pos }}" required>
+                                        </div>
+                                    </div>  
+                                    <div class="row">
                                         <div class="col">
-                                            <div class="form-group">
+                                            <div class="form-group mb-3">
                                                 <label for="no_hp_pendaftar">No Hp pendaftar <span
                                                         class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="no_hp_pendaftar"
@@ -145,7 +198,7 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="form-group">
+                                            <div class="form-group mb-3">
                                                 <label for="email_pendaftar">Email pendaftar <span
                                                         class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" id="email_pendaftar"
@@ -155,10 +208,23 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="alamat_pendaftar">Alamat pendaftar <span
+                                        <label for="mulai_masuk_tanggal">Mulai Masuk Tanggal <span
                                                 class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="alamat_pendaftar" name="alamat_pendaftar" rows="2" required>{{ $pendaftar->alamat_pendaftar }}</textarea>
+                                        <input type="date" class="form-control" id="mulai_masuk_tanggal"
+                                            name="mulai_masuk_tanggal" placeholder="Mulai Masuk Tanggal" value="{{ $pendaftar->mulai_masuk_tanggal }}" required>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung </label>
+                                            <input type="number" class="form-control" id="jumlah_saudara_kandung"
+                                                name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung" value="{{ $pendaftar->jumlah_saudara_kandung }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="anak_ke">Anak ke </label>
+                                            <input type="number" class="form-control" id="anak_ke"
+                                                name="anak_ke" placeholder="Anak ke" value="{{ $pendaftar->anak_ke }}">
+                                        </div>
+                                    </div> 
                                     <hr>
                                     <div class="mt-3">
                                         <button type="button" id="next-button-1"
@@ -168,46 +234,64 @@
                                     </div>
                                 </div>
 
-                                <!-- Step 2: Data Wali -->
+                                <!-- Step 2: Data Orang Tua -->
                                 <div id="step-2" class="step d-none">
                                     <p class="text-danger"><span><i class="ri-information-line"></i></span> Verifikasi
-                                        data wali dari calon santri dibawah dan ubah jika ada perbedaan dengan data asli!
+                                        data orang tua dari calon santri dibawah dan ubah jika ada perbedaan dengan data asli!
                                     </p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="nama_wali_pendaftar">Nama Wali pendaftar <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="nama_wali_pendaftar"
-                                                    name="nama_wali_pendaftar"
-                                                    value="{{ $pendaftar->nama_wali_pendaftar }}" required>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="no_hp_wali_pendaftar">No Hp Wali pendaftar <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="no_hp_wali_pendaftar"
-                                                    name="no_hp_wali_pendaftar"
-                                                    value="{{ $pendaftar->no_hp_wali_pendaftar }}" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="email_wali_pendaftar">Email Wali pendaftar <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" id="email_wali_pendaftar"
-                                                    name="email_wali_pendaftar"
-                                                    value="{{ $pendaftar->email_wali_pendaftar }}" required>
-                                            </div>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="nama_ayah_pendaftar">Nama Ayah <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nama_ayah_pendaftar"
+                                            name="nama_ayah_pendaftar" placeholder="Masukkan Nama Ayah" value="{{ $pendaftar->nama_ayah_pendaftar }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="alamat_wali_pendaftar">Alamat Wali pendaftar <span
+                                        <label for="nama_ibu_pendaftar">Nama Ibu <span
                                                 class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="alamat_wali_pendaftar" name="alamat_wali_pendaftar" rows="2" required>{{ $pendaftar->alamat_wali_santri }}</textarea>
+                                        <input type="text" class="form-control" id="nama_ibu_pendaftar"
+                                            name="nama_ibu_pendaftar" placeholder="Masukkan Nama Ibu" value="{{ $pendaftar->nama_ibu_pendaftar }}" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendidikan_ayah">Pendidikan Ayah <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendidikan_ayah"
+                                                name="pendidikan_ayah" placeholder="Masukkan Pendidikan Ayah" value="{{ $pendaftar->pendidikan_ayah }}" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendidikan_ibu">Pendidikan Ibu <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendidikan_ibu"
+                                                name="pendidikan_ibu" placeholder="Masukkan Pendidikan Ibu" value="{{ $pendaftar->pendidikan_ibu }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan_ayah">Pekerjaan Ayah <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pekerjaan_ayah"
+                                                name="pekerjaan_ayah" placeholder="Masukkan Pekerjaan Ayah" value="{{ $pendaftar->pekerjaan_ayah }}" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan_ibu">Pekerjaan Ibu <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pekerjaan_ibu"
+                                                name="pekerjaan_ibu" placeholder="Masukkan Pekerjaan Ibu" value="{{ $pendaftar->pekerjaan_ibu }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="pendapatan_ayah_perbulan"
+                                                name="pendapatan_ayah_perbulan" placeholder="Masukkan Pendapatan Perbulan Ayah" value="{{ $pendaftar->pendapatan_ayah_perbulan }}" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="pendapatan_ibu_perbulan"
+                                                name="pendapatan_ibu_perbulan" placeholder="Masukkan Pendapatan Perbulan Ibu" value="{{ $pendaftar->pendapatan_ibu_perbulan }}" required>
+                                        </div>
                                     </div>
                                     <hr>
                                     <div class="mt-3">
@@ -218,8 +302,116 @@
                                     </div>
                                 </div>
 
-                                <!-- Step 3: Berkas -->
+                                <!-- Step 3: Data Wali -->
                                 <div id="step-3" class="step d-none">
+                                    <p class="text-danger"><span><i class="ri-information-line"></i></span> Verifikasi
+                                        data wali dari calon santri dibawah dan ubah jika ada perbedaan dengan data asli!
+                                    </p>
+                                    <div class="form-group">
+                                        <label for="nama_wali_pendaftar">Nama Wali Pendaftar <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nama_wali_pendaftar"
+                                            name="nama_wali_pendaftar"
+                                            value="{{ $pendaftar->nama_wali_pendaftar }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="no_identitas_wali">No. Identitas (KTP/SIM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="no_identitas_wali" name="no_identitas_wali" value="{{ $pendaftar->no_identitas_wali }}" placeholder="Masukkan No Identitas" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tempat_tanggal_lahir_wali">Tempat & Tanggal Lahir <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="tempat_tanggal_lahir_wali" name="tempat_tanggal_lahir_wali" value="{{ $pendaftar->tempat_tanggal_lahir_wali }}" placeholder="contoh. Madiun, 20 Oktober 2001" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="rt_wali">RT <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT" value="{{ $pendaftar->rt_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="rw_wali">RW <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW" value="{{ $pendaftar->rw_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun" value="{{ $pendaftar->dusun_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="desa_wali">Desa <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa" value="{{ $pendaftar->desa_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kecamatan_wali">Kecamatan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan" value="{{ $pendaftar->kecamatan_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kab_kota_wali">Kabupaten/Kota <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota" value="{{ $pendaftar->kab_kota_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="provinsi_wali">Provinsi <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi" value="{{ $pendaftar->provinsi_wali }}" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="kode_pos_wali">Kode Pos <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos" value="{{ $pendaftar->kode_pos_wali }}" required>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="no_hp_wali_pendaftar">No Hp Wali pendaftar <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="no_hp_wali_pendaftar"
+                                                    name="no_hp_wali_pendaftar"
+                                                    value="{{ $pendaftar->no_hp_wali_pendaftar }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="email_wali_pendaftar">Email Wali pendaftar <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="email_wali_pendaftar"
+                                                    name="email_wali_pendaftar"
+                                                    value="{{ $pendaftar->email_wali_pendaftar }}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="status_wali"
+                                            id="status_wali" required>
+                                            <option value="Ayah Kandung" @if ($pendaftar->status_wali == 'Ayah Kandung') selected @endif>Ayah Kandung</option>
+                                            <option value="Ibu Kandung" @if ($pendaftar->status_wali == 'Ibu Kandung') selected @endif>Ibu Kandung</option>
+                                            <option value="Paman" @if ($pendaftar->status_wali == 'Paman') selected @endif>Paman</option>
+                                            <option value="Bibi" @if ($pendaftar->status_wali == 'Bibi') selected @endif>Bibi</option>
+                                            <option value="Lainnya" @if ($pendaftar->status_wali == 'Lainnya') selected @endif>Lainnya</option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pendidikan_wali">Pendidikan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" value="{{ $pendaftar->pendidikan_wali }}" placeholder="Pendidikan" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan_wali">Pekerjaan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" value="{{ $pendaftar->pekerjaan_wali }}" placeholder="Pekerjaan" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pendapatan_wali_perbulan">Pendapatan Perbulan <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" value="{{ $pendaftar->pendapatan_wali_perbulan }}" placeholder="Pendapatan Perbulan" required>
+                                    </div>
+                                    <hr>
+                                    <div class="mt-3">
+                                        <button type="button" id="next-button-3"
+                                            class="btn btn-primary">Selanjutnya</button>
+                                        <button type="button" id="back-button-2"
+                                            class="btn iq-bg-secondary">Kembali</button>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Berkas -->
+                                <div id="step-4" class="step d-none">
                                     <p class="text-danger"><span><i class="ri-information-line"></i></span> Verifikasi
                                         berkas calon santri dibawah dan ubah jika ada perbedaan dengan data asli!</p>
                                     <div class="row">
@@ -303,15 +495,15 @@
                                     </div>
                                     <hr>
                                     <div class="mt-3">
-                                        <button type="button" id="next-button-3"
+                                        <button type="button" id="next-button-4"
                                             class="btn btn-primary">Selanjutnya</button>
-                                        <button type="button" id="back-button-2"
+                                        <button type="button" id="back-button-3"
                                             class="btn iq-bg-secondary">Kembali</button>
                                     </div>
                                 </div>
 
-                                <!-- Step 4: Verifikasi -->
-                                <div id="step-4" class="step d-none">
+                                <!-- Step 5: Verifikasi -->
+                                <div id="step-5" class="step d-none">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="verify-checkbox">
                                         <label class="form-check-label" for="verify-checkbox">Saya yakin bahwa data yang saya masukkan di atas sudah diverifikasi dan benar. Saya
@@ -321,7 +513,7 @@
                                     <div class="mt-3">
                                         <button type="submit" id="submit-button" class="btn btn-primary"
                                             disabled>Submit</button>
-                                        <button type="button" id="back-button-3"
+                                        <button type="button" id="back-button-4"
                                             class="btn iq-bg-secondary">Kembali</button>
                                     </div>
                                 </div>
@@ -340,9 +532,11 @@
             const nextButton1 = document.getElementById('next-button-1');
             const nextButton2 = document.getElementById('next-button-2');
             const nextButton3 = document.getElementById('next-button-3');
+            const nextButton4 = document.getElementById('next-button-4');
             const backButton1 = document.getElementById('back-button-1');
             const backButton2 = document.getElementById('back-button-2');
             const backButton3 = document.getElementById('back-button-3');
+            const backButton4 = document.getElementById('back-button-4');
             const verifyCheckbox = document.getElementById('verify-checkbox');
             const submitButton = document.getElementById('submit-button');
 
@@ -350,6 +544,7 @@
             const step2 = document.getElementById('step-2');
             const step3 = document.getElementById('step-3');
             const step4 = document.getElementById('step-4');
+            const step5 = document.getElementById('step-5');
 
             nextButton1.addEventListener('click', function() {
                 step1.classList.add('d-none');
@@ -366,6 +561,11 @@
                 step4.classList.remove('d-none');
             });
 
+            nextButton4.addEventListener('click', function() {
+                step4.classList.add('d-none');
+                step5.classList.remove('d-none');
+            });
+
             backButton1.addEventListener('click', function() {
                 step2.classList.add('d-none');
                 step1.classList.remove('d-none');
@@ -379,6 +579,11 @@
             backButton3.addEventListener('click', function() {
                 step4.classList.add('d-none');
                 step3.classList.remove('d-none');
+            });
+
+            backButton4.addEventListener('click', function() {
+                step5.classList.add('d-none');
+                step4.classList.remove('d-none');
             });
 
             verifyCheckbox.addEventListener('change', function() {

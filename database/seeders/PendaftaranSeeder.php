@@ -33,7 +33,7 @@ class PendaftaranSeeder extends Seeder
             'kode_pos' => '63557',
             'no_hp_pendaftar' => '081234567892',
             'email_pendaftar' => 'adamfarizi@example.com',
-            'mulai_masuk_tanggal' => '01-08-2024',
+            'mulai_masuk_tanggal' => now(),
             'jumlah_saudara_kandung' => '2',
             'anak_ke' => '1',
 
@@ -42,13 +42,13 @@ class PendaftaranSeeder extends Seeder
             'nama_ayah_pendaftar' => 'Ayah',
             'pendidikan_ayah' => 'Pendidikan',
             'pekerjaan_ayah' => 'Guru',
-            'pendapatan_ayah_perbulan' => 'Rp 2.500.000',
+            'pendapatan_ayah_perbulan' => '2500000',
 
             //Ibu
             'nama_ibu_pendaftar' => 'Ibu',
             'pendidikan_ibu' => 'Pendidikan',
             'pekerjaan_ibu' => 'Wiraswasta',
-            'pendapatan_ibu_perbulan' => 'Rp 2.000.000',
+            'pendapatan_ibu_perbulan' => '2000000',
 
             //Identitas wali calon santri
             'nama_wali_pendaftar' => 'Nathan Joe Doe',
@@ -67,7 +67,7 @@ class PendaftaranSeeder extends Seeder
             'email_wali_pendaftar' => 'nathan.doe@example.com',
             'pendidikan_wali' => 'SMA',
             'pekerjaan_wali' => 'Guru',
-            'pendapatan_wali_perbulan' => 'Rp 2.500.000',
+            'pendapatan_wali_perbulan' => '2500000',
 
             //Berkas-berkas
             'ktp_pendaftar' => 'ktp.png',

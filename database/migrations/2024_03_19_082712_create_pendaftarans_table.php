@@ -19,12 +19,12 @@ return new class extends Migration
             
             //Identitas calon santri
             $table->string('nama_pendaftar');
-            $table->string('no_identitas');
+            $table->string('no_identitas')->nullabel();
             $table->string('tempat_tanggal_lahir_pendaftar');
             $table->enum('jenis_kelamin_pendaftar', ['laki-laki', 'perempuan']); 
             $table->string('rt');  
             $table->string('rw');  
-            $table->string('dusun');  
+            $table->string('dusun')->nullable();  
             $table->string('desa');  
             $table->string('kecamatan');  
             $table->string('kab_kota');  
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('kode_pos');
             $table->string('no_hp_pendaftar');
             $table->string('email_pendaftar')->unique();
-            $table->string('mulai_masuk_tanggal');
+            $table->date('mulai_masuk_tanggal');
             $table->string('jumlah_saudara_kandung');
             $table->string('anak_ke');
 
@@ -41,13 +41,13 @@ return new class extends Migration
             $table->string('nama_ayah_pendaftar');
             $table->string('pendidikan_ayah');
             $table->string('pekerjaan_ayah');
-            $table->string('pendapatan_ayah_perbulan');
+            $table->integer('pendapatan_ayah_perbulan');
 
             //Ibu
             $table->string('nama_ibu_pendaftar');
             $table->string('pendidikan_ibu');
             $table->string('pekerjaan_ibu');
-            $table->string('pendapatan_ibu_perbulan');
+            $table->integer('pendapatan_ibu_perbulan');
 
             //Identitas wali calon santri
             $table->string('nama_wali_pendaftar');
@@ -55,8 +55,8 @@ return new class extends Migration
             $table->string('tempat_tanggal_lahir_wali');
             $table->string('rt_wali');  
             $table->string('rw_wali');  
-            $table->string('dusun_wali');  
-            $table->string('desa_wali');  
+            $table->string('dusun_wali')->nullable();  
+            $table->string('desa_wali')->nullable();  
             $table->string('kecamatan_wali');  
             $table->string('kab_kota_wali');  
             $table->string('provinsi_wali');  
@@ -66,10 +66,10 @@ return new class extends Migration
             $table->string('email_wali_pendaftar')->unique();
             $table->string('pendidikan_wali');
             $table->string('pekerjaan_wali');
-            $table->string('pendapatan_wali_perbulan');
+            $table->integer('pendapatan_wali_perbulan');
 
             //Berkas-berkas
-            $table->string('ktp_pendaftar');
+            $table->string('ktp_pendaftar')->nullable();
             $table->string('kk_pendaftar');
             $table->string('akta_pendaftar');
             $table->string('pas_foto_pendaftar');
