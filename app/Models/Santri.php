@@ -57,6 +57,7 @@ class Santri extends Model
         'status_wali',
         'no_hp_wali',
         'email_wali',
+        'pendidikan_wali',
         'pekerjaan_wali',
         'pendapatan_wali_perbulan',
 

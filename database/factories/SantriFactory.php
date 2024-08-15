@@ -64,8 +64,9 @@ class SantriFactory extends Factory
             'provinsi_wali' => $this->faker->state,
             'kode_pos_wali' => $this->faker->postcode,
             'status_wali' => $this->faker->randomElement(['Keluarga', 'Orang Lain']),
-            'no_hp_wali_pendaftar' => $this->faker->numerify('###########'), // 13 digit random numeric
-            'email_wali_pendaftar' => $this->faker->unique()->safeEmail,
+            'no_hp_wali' => $this->faker->numerify('###########'), // 13 digit random numeric
+            'email_wali' => $this->faker->unique()->safeEmail,
+            'pendidikan_wali' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'S1', 'S2', 'S3']),
             'pekerjaan_wali' => $this->faker->jobTitle,
             'pendapatan_wali_perbulan' => $this->faker->randomElement(['< 1 juta', '1-3 juta', '3-5 juta', '5-10 juta', '> 10 juta']),
         
@@ -74,7 +75,7 @@ class SantriFactory extends Factory
             'kk_santri' => 'kk.png',
             'akta_santri' => 'akta.png',
             'pas_foto_santri' => 'pasfoto.png',
-            'status_santri' => $this->faker->randomElement(['menetap', 'pulang']),
+            'status_santri' => $this->faker->randomElement(['sudah_verifikasi', 'belum_verifikasi']),
         
             // Timestamp
             'created_at' => now(),

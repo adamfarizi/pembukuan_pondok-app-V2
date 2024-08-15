@@ -64,6 +64,7 @@ return new class extends Migration
             $table->string('status_wali');
             $table->string('no_hp_wali_pendaftar');
             $table->string('email_wali_pendaftar')->unique();
+            $table->string('pendidikan_wali');
             $table->string('pekerjaan_wali');
             $table->string('pendapatan_wali_perbulan');
 

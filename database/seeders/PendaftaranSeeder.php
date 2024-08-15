@@ -65,6 +65,7 @@ class PendaftaranSeeder extends Seeder
             'status_wali' => 'Wali',
             'no_hp_wali_pendaftar' => '081234567891',
             'email_wali_pendaftar' => 'nathan.doe@example.com',
+            'pendidikan_wali' => 'SMA',
             'pekerjaan_wali' => 'Guru',
             'pendapatan_wali_perbulan' => 'Rp 2.500.000',
 
