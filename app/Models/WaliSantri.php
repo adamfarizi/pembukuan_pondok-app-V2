@@ -29,7 +29,7 @@ class WaliSantri extends Authenticatable
         'provinsi_wali',
         'kode_pos_wali',
         'status_wali',
-        'no_hp_wali',
+        'no_hp',
         'email',
         'password',
         'role',
@@ -45,5 +45,10 @@ class WaliSantri extends Authenticatable
     public function santri()
     {
         return $this->belongsTo(Santri::class, 'id_santri');
+    }
+
+    public function getAlamatWaliAttribute()
+    {
+        return "RT.{$this->rt_wali}/RW.{$this->rw_wali}, {$this->dusun_wali}, {$this->desa_wali}, {$this->kecamatan_wali}, {$this->kab_kota_wali}, {$this->provinsi_wali}, {$this->kode_pos_wali}";
     }
 }

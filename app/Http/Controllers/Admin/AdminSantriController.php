@@ -7,6 +7,8 @@ use App\Models\Santri;
 use App\Models\Hafalan;
 use App\Models\Pembayaran;
 use App\Models\WaliSantri;
+use App\Models\NilaiSantri;
+use App\Models\PointSantri;
 use Illuminate\Http\Request;
 use App\Helpers\SemesterHelper;
 use App\Http\Controllers\Controller;
@@ -25,8 +27,11 @@ class AdminSantriController extends Controller
         if ($request->ajax()) {
             $data = Santri::orderBy('created_at', 'desc')->get();
             return DataTables::of($data)
+                ->addColumn('alamat_santri', function ($row) {
+                    return $row->alamat_santri; // Menggunakan accessor dari model
+                })
                 ->make(true);
-        }
+        }        
 
         $wali_santris = WaliSantri::get();
 
@@ -61,7 +66,6 @@ class AdminSantriController extends Controller
                 'kode_pos' => 'required',
                 'no_hp_santri' => 'required',
                 'email_santri' => 'required|email',
-                'mulai_masuk_tanggal' => 'required',
                 'jumlah_saudara_kandung' => 'required',
                 'anak_ke' => 'required',
 
@@ -161,7 +165,7 @@ class AdminSantriController extends Controller
                 'kode_pos' => $request->input('kode_pos'),
                 'no_hp_santri' => $request->input('no_hp_santri'),
                 'email_santri' => $request->input('email_santri'),
-                'mulai_masuk_tanggal' => $request->input('mulai_masuk_tanggal'),
+                'tahun_masuk' => now()->year,
                 'jumlah_saudara_kandung' => $request->input('jumlah_saudara_kandung'),
                 'anak_ke' => $request->input('anak_ke'),
 
@@ -187,20 +191,21 @@ class AdminSantriController extends Controller
             // Tambah wali santri
             $wali_santri = WaliSantri::create([
                 'id_santri' => $santri->id_santri,
-                'nama_lengkap_wali' => $request->input('nama_lengkap_wali_pendaftar'),
+                'nama_wali' => $request->input('nama_wali'),
                 'no_identitas_wali' => $request->input('no_identitas_wali'),
                 'tempat_tanggal_lahir_wali' => $request->input('tempat_tanggal_lahir_wali'),
                 'rt_wali' => $request->input('rt_wali'),
                 'rw_wali' => $request->input('rw_wali'),
-                'dusun_wali' => $request->input('rw_wali'),
+                'dusun_wali' => $request->input('dusun_wali'),
                 'desa_wali' => $request->input('desa_wali'),
                 'kecamatan_wali' => $request->input('kecamatan_wali'),
                 'kab_kota_wali' => $request->input('kab_kota_wali'),
                 'provinsi_wali' => $request->input('provinsi_wali'),
                 'kode_pos_wali' => $request->input('kode_pos_wali'),
                 'status_wali' => $request->input('status_wali'),
-                'no_hp_wali' => $request->input('no_hp_wali'),
-                'email_wali' => $request->input('email_wali'),
+                'no_hp' => $request->input('no_hp_wali'),
+                'email' => $request->input('email_wali'),
+                'password' => Hash::make($request->input('password_wali_santri')),
                 'pendidikan_wali' => $request->input('pendidikan_wali'),
                 'pekerjaan_wali' => $request->input('pekerjaan_wali'),
                 'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
@@ -208,45 +213,45 @@ class AdminSantriController extends Controller
 
             //* Pembayaran
             $currentSemester = SemesterHelper::getCurrentSemester();
-            // Daftar Ulang
-            $pembayaranDaftarUlang = Pembayaran::create([
-                'id_santri' => $santri->id_santri,
-                'id_admin' => null,
-                'tanggal_pembayaran' => null,
-                'jumlah_pembayaran' => 300000,
-                'jenis_pembayaran' => 'daftar_ulang',
-                'status_pembayaran' => 'belum_lunas',
-                'tahun_ajaran' => $currentSemester['tahun'],
-                'semester_ajaran' => $currentSemester['semester'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            // Iuran Bulanan
-            $pembayaranIuranBulanan = Pembayaran::create([
-                'id_santri' => $santri->id_santri,
-                'id_admin' => null,
-                'tanggal_pembayaran' => null,
-                'jumlah_pembayaran' => 100000,
-                'jenis_pembayaran' => 'iuran_bulanan',
-                'status_pembayaran' => 'belum_lunas',
-                'tahun_ajaran' => $currentSemester['tahun'],
-                'semester_ajaran' => $currentSemester['semester'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            // Tamrin
-            $pembayaranTamrin = Pembayaran::create([
-                'id_santri' => $santri->id_santri,
-                'id_admin' => null,
-                'tanggal_pembayaran' => null,
-                'jumlah_pembayaran' => 50000,
-                'jenis_pembayaran' => 'tamrin',
-                'status_pembayaran' => 'belum_lunas',
-                'tahun_ajaran' => $currentSemester['tahun'],
-                'semester_ajaran' => $currentSemester['semester'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            // // Daftar Ulang
+            // $pembayaranDaftarUlang = Pembayaran::create([
+            //     'id_santri' => $santri->id_santri,
+            //     'id_admin' => null,
+            //     'tanggal_pembayaran' => null,
+            //     'jumlah_pembayaran' => 300000,
+            //     'jenis_pembayaran' => 'daftar_ulang',
+            //     'status_pembayaran' => 'belum_lunas',
+            //     'tahun_ajaran' => $currentSemester['tahun'],
+            //     'semester_ajaran' => $currentSemester['semester'],
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ]);
+            // // Iuran Bulanan
+            // $pembayaranIuranBulanan = Pembayaran::create([
+            //     'id_santri' => $santri->id_santri,
+            //     'id_admin' => null,
+            //     'tanggal_pembayaran' => null,
+            //     'jumlah_pembayaran' => 100000,
+            //     'jenis_pembayaran' => 'iuran_bulanan',
+            //     'status_pembayaran' => 'belum_lunas',
+            //     'tahun_ajaran' => $currentSemester['tahun'],
+            //     'semester_ajaran' => $currentSemester['semester'],
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ]);
+            // // Tamrin
+            // $pembayaranTamrin = Pembayaran::create([
+            //     'id_santri' => $santri->id_santri,
+            //     'id_admin' => null,
+            //     'tanggal_pembayaran' => null,
+            //     'jumlah_pembayaran' => 50000,
+            //     'jenis_pembayaran' => 'tamrin',
+            //     'status_pembayaran' => 'belum_lunas',
+            //     'tahun_ajaran' => $currentSemester['tahun'],
+            //     'semester_ajaran' => $currentSemester['semester'],
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ]);
 
             $surahs = Surah::getValues();
 
@@ -263,9 +268,9 @@ class AdminSantriController extends Controller
 
             return redirect()->route('santri')->with('success', 'Data santri berhasil ditambahkan.');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors());
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
         }
 
     }
@@ -326,7 +331,7 @@ class AdminSantriController extends Controller
 
         return view('admin.santri.edit.edit', [
             'santri' => $santri,
-            'wali_santri' => $wali_santri,
+            'wali' => $wali_santri,
         ], $data);
     }
 
@@ -349,7 +354,6 @@ class AdminSantriController extends Controller
                 'kode_pos' => 'required',
                 'no_hp_santri' => 'required',
                 'email_santri' => 'required|email',
-                'mulai_masuk_tanggal' => 'required',
                 'jumlah_saudara_kandung' => 'required',
                 'anak_ke' => 'required',
 
@@ -365,11 +369,6 @@ class AdminSantriController extends Controller
                 'pekerjaan_ibu' => 'required',
                 'pendapatan_ibu_perbulan' => 'required',
 
-                //Berkas-berkas
-                'ktp_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'kk_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'akta_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'pas_foto_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ], [
                 'nama_santri.required' => 'Masukkan nama santri terlebih dahulu!',
                 'no_identitas.required' => 'Masukkan no identitas santri terlebih dahulu!',
@@ -394,28 +393,18 @@ class AdminSantriController extends Controller
                 'pendidikan_ibu.required' => 'Masukkan pendidikan terakhir ayah santri',
                 'pekerjaan_ibu.required' => 'Masukkan perkerjaan ibu santri',
                 'pendapatan_ibu_perbulan.required' => 'Masukkan pendapatan perbulan ibu santri',
-                'ktp_santri.required' => 'Upload file KTP santri terlebih dahulu!',
-                'ktp_santri.image' => 'File harus berupa gambar!',
-                'ktp_santri.mimes' => 'Format file KTP harus jpeg, png, jpg, atau gif!',
-                'ktp_santri.max' => 'Ukuran file KTP maksimal 2 MB!',
-                'kk_santri.required' => 'Upload file KK santri terlebih dahulu!',
-                'kk_santri.image' => 'File harus berupa gambar!',
-                'kk_santri.mimes' => 'Format file KK harus jpeg, png, jpg, atau gif!',
-                'kk_santri.max' => 'Ukuran file KK maksimal 2 MB!',
-                'akta_santri.required' => 'Upload file Akta santri terlebih dahulu!',
-                'akta_santri.image' => 'File harus berupa gambar!',
-                'akta_santri.mimes' => 'Format file Akta harus jpeg, png, jpg, atau gif!',
-                'akta_santri.max' => 'Ukuran file Akta maksimal 2 MB!',
-                'pas_foto_santri.required' => 'Upload file Pas Foto santri terlebih dahulu!',
-                'pas_foto_santri.image' => 'File harus berupa gambar!',
-                'pas_foto_santri.mimes' => 'Format file Pas Foto harus jpeg, png, jpg, atau gif!',
-                'pas_foto_santri.max' => 'Ukuran file Pas Foto maksimal 2 MB!',
             ]);
 
             $nama_santri = $request->input('nama_santri');
 
+            $santri = Santri::where('id_santri', $id_santri)->first();
+
             // Perbarui gambar jika ada
             if ($request->hasFile('ktp_santri')) {
+                if ($santri->ktp_santri) {
+                    unlink(public_path('berkas_santri/ktp_santri/' . $santri->ktp_santri));
+                }
+
                 $ktpSantri = $request->file('ktp_santri');
                 $ktpSantriName = $nama_santri . "_" . uniqid() . "_" . $ktpSantri->getClientOriginalName();
                 $ktpSantri->move(public_path('berkas_santri/ktp_santri'), $ktpSantriName);
@@ -425,6 +414,10 @@ class AdminSantriController extends Controller
             }
 
             if ($request->hasFile('kk_santri')) {
+                if ($santri->kk_santri) {
+                    unlink(public_path('berkas_santri/kk_santri/' . $santri->kk_santri));
+                }
+
                 $kkSantri = $request->file('kk_santri');
                 $kkSantriName = $nama_santri . "_" . uniqid() . "_" . $kkSantri->getClientOriginalName();
                 $kkSantri->move(public_path('berkas_santri/kk_santri'), $kkSantriName);
@@ -434,6 +427,10 @@ class AdminSantriController extends Controller
             }
 
             if ($request->hasFile('akta_santri')) {
+                if ($santri->akta_santri) {
+                    unlink(public_path('berkas_santri/akta_santri/' . $santri->akta_santri));
+                }
+
                 $aktaSantri = $request->file('akta_santri');
                 $aktaSantriName = $nama_santri . "_" . uniqid() . "_" . $aktaSantri->getClientOriginalName();
                 $aktaSantri->move(public_path('berkas_santri/akta_santri'), $aktaSantriName);
@@ -443,6 +440,10 @@ class AdminSantriController extends Controller
             }
 
             if ($request->hasFile('pas_foto_santri')) {
+                if ($santri->pas_foto_santri) {
+                    unlink(public_path('berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri));
+                }
+
                 $pasfotoSantri = $request->file('pas_foto_santri');
                 $pasfotoSantriName = $nama_santri . "_" . uniqid() . "_" . $pasfotoSantri->getClientOriginalName();
                 $pasfotoSantri->move(public_path('berkas_santri/pas_foto_santri'), $pasfotoSantriName);
@@ -467,7 +468,7 @@ class AdminSantriController extends Controller
                 'kode_pos' => $request->input('kode_pos'),
                 'no_hp_santri' => $request->input('no_hp_santri'),
                 'email_santri' => $request->input('email_santri'),
-                'mulai_masuk_tanggal' => $request->input('mulai_masuk_tanggal'),
+                // 'tahun_masuk' => $request->input('mulai_masuk_tanggal'),
                 'jumlah_saudara_kandung' => $request->input('jumlah_saudara_kandung'),
                 'anak_ke' => $request->input('anak_ke'),
 
@@ -483,31 +484,25 @@ class AdminSantriController extends Controller
                 'pekerjaan_ibu' => $request->input('pekerjaan_ibu'),
                 'pendapatan_ibu_perbulan' => $request->input('pendapatan_ibu_perbulan'),
 
-                //Berkas-berkas
-                'ktp_santri' => $ktpSantriName,
-                'kk_santri' => $kkSantriName,
-                'akta_santri' => $aktaSantriName,
-                'pas_foto_santri' => $pasfotoSantriName,
-                'status' => 'sudah_verifikasi',
             ]);
 
             // Tambah wali santri
             $wali_santri = WaliSantri::where('id_santri', $id_santri)->update([
                 'id_santri' => $id_santri,
-                'nama_lengkap_wali' => $request->input('nama_lengkap_wali'),
+                'nama_wali' => $request->input('nama_wali'),
                 'no_identitas_wali' => $request->input('no_identitas_wali'),
                 'tempat_tanggal_lahir_wali' => $request->input('tempat_tanggal_lahir_wali'),
                 'rt_wali' => $request->input('rt_wali'),
                 'rw_wali' => $request->input('rw_wali'),
-                'dusun_wali' => $request->input('rw_wali'),
+                'dusun_wali' => $request->input('dusun_wali'),
                 'desa_wali' => $request->input('desa_wali'),
                 'kecamatan_wali' => $request->input('kecamatan_wali'),
                 'kab_kota_wali' => $request->input('kab_kota_wali'),
                 'provinsi_wali' => $request->input('provinsi_wali'),
                 'kode_pos_wali' => $request->input('kode_pos_wali'),
                 'status_wali' => $request->input('status_wali'),
-                'no_hp_wali' => $request->input('no_hp_wali'),
-                'email_wali' => $request->input('email_wali'),
+                'no_hp' => $request->input('no_hp_wali'),
+                'email' => $request->input('email_wali'),
                 'pendidikan_wali' => $request->input('pendidikan_wali'),
                 'pekerjaan_wali' => $request->input('pekerjaan_wali'),
                 'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
@@ -525,6 +520,30 @@ class AdminSantriController extends Controller
     public function delete($id_santri)
     {
         try {
+            $pembayaran = Pembayaran::where('id_santri', $id_santri);
+            if (!$pembayaran) {
+                throw new \Exception('Pembayaran tidak ditemukan.');
+            }
+            $pembayaran->delete();
+
+            $nilai_santri = NilaiSantri::where('id_santri', $id_santri);
+            if (!$nilai_santri) {
+                throw new \Exception('Nilai tidak ditemukan.');
+            }
+            $nilai_santri->delete();
+
+            $point_santri = PointSantri::where('id_santri', $id_santri);
+            if (!$point_santri) {
+                throw new \Exception('Point tidak ditemukan.');
+            }
+            $point_santri->delete();
+
+            $hafalan = Hafalan::where('id_santri', $id_santri);
+            if (!$hafalan) {
+                throw new \Exception('Hafalan tidak ditemukan.');
+            }
+            $hafalan->delete();
+
             // Hapus wali santri
             $wali_santri = WaliSantri::where('id_santri', $id_santri);
             if (!$wali_santri) {
@@ -533,10 +552,26 @@ class AdminSantriController extends Controller
             $wali_santri->delete();
 
             // Hapus santri
-            $santri = Santri::where('id_santri', $id_santri);
+            $santri = Santri::where('id_santri', $id_santri)->first();
             if (!$santri) {
                 throw new \Exception('Santri tidak ditemukan.');
             }
+            // // Hapus gambar
+            // if ($santri->ktp_santri) {
+            //     unlink(public_path('berkas_santri/ktp_santri/' . $santri->ktp_santri));
+            // }
+
+            // if ($santri->kk_santri) {
+            //     unlink(public_path('berkas_santri/kk_santri/' . $santri->kk_santri));
+            // }
+
+            // if ($santri->akta_santri) {
+            //     unlink(public_path('berkas_santri/akta_santri/' . $santri->akta_santri));
+            // }
+
+            // if ($santri->pas_foto_santri) {
+            //     unlink(public_path('berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri));
+            // }
             $santri->delete();
 
             return redirect()->back()->with('success', 'Santri berhasil dihapus.');

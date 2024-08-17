@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('kode_pos');
             $table->string('no_hp_santri');
             $table->string('email_santri')->unique();
-            $table->string('mulai_masuk_tanggal');
+            $table->string('tahun_masuk');
             $table->string('jumlah_saudara_kandung');
             $table->string('anak_ke');
 

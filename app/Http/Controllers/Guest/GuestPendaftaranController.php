@@ -108,6 +108,7 @@ class GuestPendaftaranController extends Controller
             'kode_pos_wali' => $request->kode_pos_wali,
             'status_wali' => $request->status_wali,
             'pekerjaan_wali' => $request->pekerjaan_wali,
+            'pendidikan_wali' => $request->pendidikan_wali,
             'pendapatan_wali_perbulan' => $request->pendapatan_wali_perbulan,
             'no_hp_wali_pendaftar' => $request->no_hp_wali_pendaftar,
             'email_wali_pendaftar' => $request->email_wali_pendaftar,

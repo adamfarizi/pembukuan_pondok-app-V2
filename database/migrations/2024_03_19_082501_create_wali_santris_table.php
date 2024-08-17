@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('no_hp');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role');
+            $table->string('role')->default('wali_santri');
             $table->string('pendidikan_wali');
             $table->string('pekerjaan_wali');
             $table->string('pendapatan_wali_perbulan');

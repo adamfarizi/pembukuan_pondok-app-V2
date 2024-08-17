@@ -165,47 +165,47 @@
                             <div class="row">
                                 <div class="col-md-3 mb-3">
                                     <label for="rt">RT <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="rt"
-                                        name="r" placeholder="RT">
+                                    <input type="number" class="form-control" id="rt"
+                                        name="rt" placeholder="RT" value="{{ $santri->rt }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="rw">RW <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="rw"
-                                        name="rw" placeholder="RW">
+                                    <input type="number" class="form-control" id="rw"
+                                        name="rw" placeholder="RW" value="{{ $santri->rw }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="dusun">Dusun <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="dusun"
-                                        name="dusun" placeholder="Dusun">
+                                        name="dusun" placeholder="Dusun" value="{{ $santri->dusun }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="desa">Desa <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="desa"
-                                        name="desa" placeholder="Desa">
+                                        name="desa" placeholder="Desa" value="{{ $santri->desa }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="kecamatan">Kecamatan <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="kecamatan"
-                                        name="kecamatan" placeholder="Kecamatan">
+                                        name="kecamatan" placeholder="Kecamatan" value="{{ $santri->kecamatan }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="kab_kota">Kabupaten/Kota <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="kab_kota"
-                                        name="kab_kota" placeholder="Kabupaten/Kota">
+                                        name="kab_kota" placeholder="Kabupaten/Kota" value="{{ $santri->kab_kota }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="provinsi">Provinsi <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="provinsi"
-                                        name="provinsi" placeholder="Provinsi">
+                                        name="provinsi" placeholder="Provinsi" value="{{ $santri->provinsi }}">
                                 </div>
                                 <div class="col-md-3 mb-3"">
                                     <label for="kode_pos">Kode Pos <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="kode_pos"
-                                        name="kode_pos" placeholder="Kode Pos">
+                                        name="kode_pos" placeholder="Kode Pos" value="{{ $santri->kode_pos }}">
                                 </div>
                             </div> 
                             <div class="row">
@@ -224,69 +224,63 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="mulai_masuk_tanggal">Mulai Masuk Tanggal <span
-                                            class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="mulai_masuk_tanggal"
-                                        name="mulai_masuk_tanggal" placeholder="Mulai Masuk Tanggal">
-                            </div>  
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung <span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="jumlah_saudara_kandung"
-                                        name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung">
+                                        name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung" value="{{ $santri->jumlah_saudara_kandung }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="anak_ke">Anak ke <span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="anak_ke"
-                                        name="anak_ke" placeholder="Anak ke">
+                                        name="anak_ke" placeholder="Anak ke" value="{{ $santri->anak_ke }}">
                                 </div>
                             </div> 
                             <div class="form-group">
-                                <label for="nama_ayah_santri">Nama Ayah <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama_ayah_santri" name="nama_ayah_santri"
-                                    value="{{ old('nama_ayah_santri') }}" placeholder="Masukkan Nama Ayah" required>
+                                <label for="nama_ayah">Nama Ayah <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nama_ayah" name="nama_ayah"
+                                    value="{{ $santri->nama_ayah }}" placeholder="Masukkan Nama Ayah" required>
                             </div>
                             <div class="form-group">
-                                <label for="nama_ibu_santri">Nama Ibu <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama_ibu_santri" name="nama_ibu_santri"
-                                    value="{{ old('nama_ibu_santri') }}" placeholder="Masukkan Nama Ibu" required>
+                                <label for="nama_ibu">Nama Ibu <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nama_ibu" name="nama_ibu"
+                                    value="{{ $santri->nama_ibu }}" placeholder="Masukkan Nama Ibu" required>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pendidikan_ayah_santri">Pendidikan Ayah<span
+                                        <label for="pendidikan_ayah">Pendidikan Ayah<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pendidikan_ayah_santri"
-                                            name="pendidikan_ayah_santri" value="{{ old('pendidikan_ayah_santri') }}" placeholder="Masukkan Pendidikan Ayah" required>
+                                        <input type="text" class="form-control" id="pendidikan_ayah"
+                                            name="pendidikan_ayah" value="{{ $santri->pendidikan_ayah }}" placeholder="Masukkan Pendidikan Ayah" required>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pendidikan_ibu_santri">Pendidikan Ibu<span
+                                        <label for="pendidikan_ibu">Pendidikan Ibu<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pendidikan_ibu_santri"
-                                            name="pendidikan_ibu_santri" value="{{ old('pendidikan_ibu_santri') }}" placeholder="Masukkan Pendidikan Ibu" required>
+                                        <input type="text" class="form-control" id="pendidikan_ibu"
+                                            name="pendidikan_ibu" value="{{ $santri->pendidikan_ibu }}" placeholder="Masukkan Pendidikan Ibu" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pekerjaan_ayah_santri">Pekerjaan Ayah<span
+                                        <label for="pekerjaan_ayah">Pekerjaan Ayah<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pekerjaan_ayah_santri"
-                                            name="pekerjaan_ayah_santri" value="{{ old('pekerjaan_ayah_santri') }}" placeholder="Masukkan Pekerjaan Ayah" required>
+                                        <input type="text" class="form-control" id="pekerjaan_ayah"
+                                            name="pekerjaan_ayah" value="{{ $santri->pekerjaan_ayah }}" placeholder="Masukkan Pekerjaan Ayah" required>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pekerjaan_ibu_santri">Pekerjaan Ibu<span
+                                        <label for="pekerjaan_ibu">Pekerjaan Ibu<span
                                                 class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="pekerjaan_ibu_santri"
-                                            name="pekerjaan_ibu_santri" value="{{ old('pekerjaan_ibu_santri') }}" placeholder="Masukkan Pekerjaan Ibu" required>
+                                        <input type="text" class="form-control" id="pekerjaan_ibu"
+                                            name="pekerjaan_ibu" value="{{ $santri->pekerjaan_ibu }}" placeholder="Masukkan Pekerjaan Ibu" required>
                                     </div>
                                 </div>
                             </div>
@@ -295,16 +289,16 @@
                                     <div class="form-group">
                                         <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pendapatan_ayah_perbulan"
-                                            name="pendapatan_ayah_perbulan" value="{{ old('pendapatan_ayah_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
+                                        <input type="number" class="form-control" id="pendapatan_ayah_perbulan"
+                                            name="pendapatan_ayah_perbulan" value="{{ $santri->pendapatan_ayah_perbulan }}" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu<span
                                                 class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="pendapatan_ibu_perbulan"
-                                            name="pendapatan_ibu_perbulan" value="{{ old('pendapatan_ibu_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
+                                        <input type="number" class="form-control" id="pendapatan_ibu_perbulan"
+                                            name="pendapatan_ibu_perbulan" value="{{ $santri->pendapatan_ibu_perbulan }}" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
                                     </div>
                                 </div>
                             </div>
@@ -312,78 +306,85 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <div class="mb-3">
-                                            <label for="nama_wali_santri">Nama Wali Santri <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="nama_wali_santri" name="nama_wali_santri" placeholder="Masukkan Nama Wali Santri">
+                                            <label for="nama_wali">Nama Wali Santri <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nama_wali" name="nama_wali" placeholder="Masukkan Nama Wali Santri" value="{{ $wali->nama_wali }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="no_identitas_wali_santri">No. Identitas Wali Santri (KTP/SIM) <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="no_identitas_wali_santri" name="no_identitas_wali_santri" placeholder="Masukkan No Identitas Wali Santri">
+                                            <label for="no_identitas_wali">No. Identitas Wali Santri (KTP/SIM) <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="no_identitas_wali" name="no_identitas_wali" placeholder="Masukkan No Identitas Wali Santri" value="{{ $wali->no_identitas_wali }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="tempat_tanggal_lahir_wali_santri">Tempat & Tanggal Lahir Wali Santri <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="tempat_tanggal_lahir_wali_santri" name="tempat_tanggal_lahir_wali_santri" placeholder="contoh. Madiun, 20 Oktober 2001">
+                                            <label for="tempat_tanggal_lahir_wali">Tempat & Tanggal Lahir Wali Santri <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="tempat_tanggal_lahir_wali" name="tempat_tanggal_lahir_wali" placeholder="contoh. Madiun, 20 Oktober 2001" value="{{ $wali->tempat_tanggal_lahir_wali }}">
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 mb-3">
                                                 <label for="rt_wali">RT <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT">
+                                                <input type="number" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT" value="{{ $wali->rt_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="rw_wali">RW <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW">
+                                                <input type="number" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW" value="{{ $wali->rw_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun">
+                                                <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun" value="{{ $wali->dusun_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="desa_wali">Desa <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa">
+                                                <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa" value="{{ $wali->desa_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="kecamatan_wali">Kecamatan <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan">
+                                                <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan" value="{{ $wali->kecamatan_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="kab_kota_wali">Kabupaten/Kota <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota">
+                                                <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota" value="{{ $wali->kab_kota_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="provinsi_wali">Provinsi <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi">
+                                                <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi" value="{{ $wali->provinsi_wali }}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="kode_pos_wali">Kode Pos <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos">
+                                                <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos" value="{{ $wali->kode_pos_wali }}">
                                             </div>                                        
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label for="no_hp_wali_santri">No Hp Wali Santri <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="no_hp_wali_santri" name="no_hp_wali_santri" placeholder="Masukkan No Hp Wali Santri">
+                                                <label for="no_hp_wali">No Hp Wali Santri <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="no_hp_wali" name="no_hp_wali" placeholder="Masukkan No Hp Wali Santri" value="{{ $wali->no_hp }}">
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="email_wali_santri">Email Wali Santri<span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" id="email_wali_santri" name="email_wali_santri" placeholder="Masukkan Email Wali Santri">
+                                                <label for="email_wali">Email Wali Santri<span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="email_wali" name="email_wali" placeholder="Masukkan Email Wali Santri" value="{{ $wali->email }}">
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="status_wali" name="status_wali" placeholder="Ayah Kandung/Ibu Kandung/Paman/Bibi/Lainnya">
+                                            <select class="form-control" name="status_wali"
+                                                id="status_wali" required>
+                                                <option value="Ayah Kandung" @if ($wali->status_wali == 'Ayah Kandung') selected @endif>Ayah Kandung</option>
+                                                <option value="Ibu Kandung" @if ($wali->status_wali == 'Ibu Kandung') selected @endif>Ibu Kandung</option>
+                                                <option value="Paman" @if ($wali->status_wali == 'Paman') selected @endif>Paman</option>
+                                                <option value="Bibi" @if ($wali->status_wali == 'Bibi') selected @endif>Bibi</option>
+                                                <option value="Lainnya" @if ($wali->status_wali == 'Lainnya') selected @endif>Lainnya</option>
+                                            </select>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="pendidikan_wali">Pendidikan <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" placeholder="Pendidikan">
+                                                <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" placeholder="Pendidikan" value="{{ $wali->pendidikan_wali }}">
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="pekerjaan_wali">Pekerjaan <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Pekerjaan">
+                                                <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Pekerjaan" value="{{ $wali->pekerjaan_wali }}">
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="pendapatan_wali_perbulan">Pendapatan Perbulan <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan">
+                                            <input type="number" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan" value="{{ $wali->pendapatan_wali_perbulan }}">
                                         </div>
                                     </div>
                                 </div>

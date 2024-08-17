@@ -26,7 +26,7 @@ class Santri extends Model
         'kode_pos',
         'no_hp_santri',
         'email_santri',
-        'mulai_masuk_tanggal',
+        'tahun_masuk',
         'jumlah_saudara_kandung',
         'anak_ke',
 
@@ -75,5 +75,9 @@ class Santri extends Model
         return $this->hasMany(Hafalan::class, 'id_santri', 'id_santri');
     }
 
+    public function getAlamatSantriAttribute()
+    {
+        return "RT.{$this->rt}/RW.{$this->rw}, {$this->dusun}, {$this->desa}, {$this->kecamatan}, {$this->kab_kota}, {$this->provinsi}, {$this->kode_pos}";
+    }
 
 }

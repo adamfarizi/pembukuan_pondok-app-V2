@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_santri');
             $table->integer('surah');
             $table->integer('total_ayat');
-            $table->integer('progress_ayat');
+            $table->integer('progress_ayat')->default(0);
             $table->enum('status', ['hafal', 'proses'])->default('proses');
             $table->timestamps();
 

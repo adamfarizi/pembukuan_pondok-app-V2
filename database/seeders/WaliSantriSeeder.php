@@ -32,7 +32,7 @@ class WaliSantriSeeder extends Seeder
             'no_hp' => '08912365432',
             'pendidikan_wali' => 'SMA',
             'pekerjaan_wali' => 'Petani',
-            'pendapatan_wali_perbulan' => '1.500.000',
+            'pendapatan_wali_perbulan' => '1500000',
             'email' => 'wali@example.com',
             'password' => Hash::make('password123'),
             'role' => 'wali',

@@ -35,7 +35,7 @@ class SantriFactory extends Factory
             'kode_pos' => $this->faker->postcode,
             'no_hp_santri' => $this->faker->numerify('###########'), // 13 digit random numeric
             'email_santri' => $this->faker->unique()->safeEmail,
-            'mulai_masuk_tanggal' => Carbon::parse($this->faker->date('Y-m-d'))->format('d-m-Y'),
+            'tahun_masuk' => Carbon::parse($this->faker->date('Y')),
             'jumlah_saudara_kandung' => $this->faker->randomDigitNotNull, // random number for sibling count
             'anak_ke' => $this->faker->randomDigitNotNull, // random number for child position
         
@@ -43,13 +43,13 @@ class SantriFactory extends Factory
             'nama_ayah' => $this->faker->name,
             'pendidikan_ayah' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'S1', 'S2', 'S3']),
             'pekerjaan_ayah' => $this->faker->jobTitle,
-            'pendapatan_ayah_perbulan' => $this->faker->randomElement(['< 1 juta', '1-3 juta', '3-5 juta', '5-10 juta', '> 10 juta']),
+            'pendapatan_ayah_perbulan' => $this->faker->randomDigitNotNull,
         
             // Identitas Ibu
             'nama_ibu' => $this->faker->name,
             'pendidikan_ibu' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'S1', 'S2', 'S3']),
             'pekerjaan_ibu' => $this->faker->jobTitle,
-            'pendapatan_ibu_perbulan' => $this->faker->randomElement(['< 1 juta', '1-3 juta', '3-5 juta', '5-10 juta', '> 10 juta']),
+            'pendapatan_ibu_perbulan' => $this->faker->randomDigitNotNull,
         
             // Berkas-berkas
             'ktp_santri' => 'ktp.png',

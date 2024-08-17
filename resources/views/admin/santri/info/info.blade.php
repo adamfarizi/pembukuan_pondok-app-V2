@@ -130,7 +130,6 @@
                                                     </div>
                                                     <div class="profile-detail d-flex align-items-center">
                                                         <h3>{{ $santri->nama_santri }}</h3>
-                                                        <p class="m-0 pl-3"> - Santri {{ ucfirst($santri->status_santri) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -190,7 +189,7 @@
                                             <div class="col-8"><a href="tel:{{ $santri->no_hp_santri }}">: <span
                                                         class="text-primary">{{ $santri->no_hp_santri }}</span></a></div>
                                             <div class="col-4">No Identitas (KTP/SIM)</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->no_identitas }}</div>
                                             <div class="col-4">Tahun Masuk</div>
                                             <div class="col-8">: {{ $santri->tahun_masuk }}</div>
                                             <div class="col-4">Jenis Kelamin</div>
@@ -198,9 +197,11 @@
                                             <div class="col-4">TTL</div>
                                             <div class="col-8">: {{ $santri->tempat_tanggal_lahir_santri }}</div>
                                             <div class="col-4">Anak ke</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->anak_ke }}</div>
+                                            <div class="col-4">Jumlah Saudara</div>
+                                            <div class="col-8">: {{ $santri->jumlah_saudara_kandung }}</div>
                                             <div class="col-4">Alamat</div>
-                                            <div class="col-8">: {{ $wali->alamat_wali_santri }}</div>
+                                            <div class="col-8">: {{ $santri->alamat_santri }}</div>
                                             <div class="col-4 mt-2">Berkas Santri</div>
                                             <div class="col-8">:</div>
                                         </div>
@@ -242,21 +243,21 @@
                                     <div class="about-info m-0 p-0">
                                         <div class="row">
                                             <div class="col-4">Nama Ayah</div>
-                                            <div class="col-8">: {{ $wali->nama_wali_santri }}</div>
+                                            <div class="col-8">: {{ $santri->nama_ayah }}</div>
                                             <div class="col-4">Nama Ibu</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->nama_ibu }}</div>
                                             <div class="col-4">Pendidikan Ayah</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->pendidikan_ayah }}</div>
                                             <div class="col-4">Pendidikan Ibu</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->pendidikan_ibu }}</div>
                                             <div class="col-4">Pekerjaan Ayah</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->pekerjaan_ayah }}</div>
                                             <div class="col-4">Pekerjaan Ibu</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $santri->pekerjaan_ibu }}</div>
                                             <div class="col-4">Pendapatan Perbulan Ayah</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ 'RP ' . number_format($santri->pendapatan_ayah_perbulan, 0, ',', '.') }}</div>
                                             <div class="col-4">Pendapatan Perbulan Ibu</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ 'RP ' . number_format($santri->pendapatan_ibu_perbulan, 0, ',', '.') }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -368,11 +369,11 @@
                                     <div class="about-info m-0 p-0">
                                         <div class="row">
                                             <div class="col-4">Nama</div>
-                                            <div class="col-8">: {{ $wali->nama_wali_santri }}</div>
+                                            <div class="col-8">: {{ $wali->nama_wali }}</div>
                                             <div class="col-4">No Identitas (KTP/SIM)</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $wali->no_identitas_wali }}</div>
                                             <div class="col-4">TTL</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $wali->tempat_tanggal_lahir_wali }}</div>
                                             <div class="col-4">Email</div>
                                             <div class="col-8"><a href="mailto:{{ $wali->email }}">: <span
                                                         class="text-primary">{{ $wali->email }}</span></a></div>
@@ -380,15 +381,15 @@
                                             <div class="col-8"><a href="tel:{{ $wali->no_hp }}">: <span
                                                         class="text-primary">{{ $wali->no_hp }}</span></a></div>
                                             <div class="col-4">Alamat</div>
-                                            <div class="col-8">: {{ $wali->alamat_wali_santri }}</div>
+                                            <div class="col-8">: {{ $wali->alamat_wali }}</div>
                                             <div class="col-4">Status</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $wali->status_wali }}</div>
                                             <div class="col-4">Pendidikan</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $wali->pendidikan_wali }}</div>
                                             <div class="col-4">Pekerjaan</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ $wali->pekerjaan_wali }}</div>
                                             <div class="col-4">Pendapatan Perbulan</div>
-                                            <div class="col-8">: </div>
+                                            <div class="col-8">: {{ 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') }}</div>
                                         </div>
                                     </div>
                                 </div>

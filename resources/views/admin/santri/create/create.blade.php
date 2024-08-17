@@ -170,12 +170,12 @@
                             <div class="row">
                                 <div class="col-md-3 mb-3">
                                     <label for="rt">RT <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="rt"
+                                    <input type="number" class="form-control" id="rt"
                                         name="rt" placeholder="RT">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="rw">RW <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="rw"
+                                    <input type="number" class="form-control" id="rw"
                                         name="rw" placeholder="RW">
                                 </div>
                                 <div class="col-md-3 mb-3">
@@ -229,12 +229,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="mulai_masuk_tanggal">Mulai Masuk Tanggal <span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="mulai_masuk_tanggal"
                                         name="mulai_masuk_tanggal" placeholder="Mulai Masuk Tanggal">
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung <span
@@ -300,7 +300,7 @@
                                     <div class="form-group">
                                         <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pendapatan_ayah_perbulan"
+                                        <input type="number" class="form-control" id="pendapatan_ayah_perbulan"
                                             name="pendapatan_ayah_perbulan" value="{{ old('pendapatan_ayah_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
                                     </div>
                                 </div>
@@ -308,7 +308,7 @@
                                     <div class="form-group">
                                         <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pendapatan_ibu_perbulan"
+                                        <input type="number" class="form-control" id="pendapatan_ibu_perbulan"
                                             name="pendapatan_ibu_perbulan" value="{{ old('pendapatan_ibu_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
                                     </div>
                                 </div>
@@ -331,11 +331,11 @@
                                         <div class="row">
                                             <div class="col-md-3 mb-3">
                                                 <label for="rt_wali">RT <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT">
+                                                <input type="number" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="rw_wali">RW <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW">
+                                                <input type="number" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
@@ -365,16 +365,23 @@
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="no_hp_wali_pendaftar">No Hp Wali Santri <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="no_hp_wali_pendaftar" name="no_hp_wali_pendaftar" placeholder="Masukkan No Hp Wali Santri">
+                                                <input type="number" class="form-control" id="no_hp_wali" name="no_hp_wali" placeholder="Masukkan No Hp Wali Santri">
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="email_wali_pendaftar">Email Wali Santri<span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" id="email_wali_pendaftar" name="email_wali_pendaftar" placeholder="Masukkan Email Wali Santri">
+                                                <input type="email" class="form-control" id="email_wali" name="email_wali" placeholder="Masukkan Email Wali Santri">
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="status_wali" name="status_wali" placeholder="Ayah Kandung/Ibu Kandung/Paman/Bibi/Lainnya">
+                                            <select class="form-control" name="status_wali"
+                                                id="status_wali" required>
+                                                <option value="Ayah Kandung">Ayah Kandung</option>
+                                                <option value="Ibu Kandung">Ibu Kandung</option>
+                                                <option value="Paman">Paman</option>
+                                                <option value="Bibi">Bibi</option>
+                                                <option value="Lainnya">Lainnya</option>
+                                            </select>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
@@ -388,7 +395,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="pendapatan_wali_perbulan">Pendapatan Perbulan Wali<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan">
+                                            <input type="number" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan">
                                         </div>
                                     </div>
                                 </div>

@@ -56,6 +56,7 @@ class Pendaftaran extends Model
         'kode_pos_wali',
         'status_wali',
         'pekerjaan_wali',
+        'pendidikan_wali',
         'pendapatan_wali_perbulan',
         'no_hp_wali_pendaftar',
         'email_wali_pendaftar',
@@ -65,6 +66,7 @@ class Pendaftaran extends Model
         'kk_pendaftar',
         'akta_pendaftar',
         'pas_foto_pendaftar',
+        'status',
     ];
     
 }

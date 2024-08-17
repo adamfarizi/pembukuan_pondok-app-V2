@@ -216,7 +216,7 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="no_hp_pendaftar">No Hp <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="no_hp_pendaftar"
+                                        <input type="number" class="form-control" id="no_hp_pendaftar"
                                             name="no_hp_pendaftar" placeholder="Masukkan No Hp" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -376,7 +376,7 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="no_hp_wali_pendaftar">No Hp <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="no_hp_wali_pendaftar" name="no_hp_wali_pendaftar" placeholder="Masukkan No Hp" required>
+                                            <input type="number" class="form-control" id="no_hp_wali_pendaftar" name="no_hp_wali_pendaftar" placeholder="Masukkan No Hp" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="email_wali_pendaftar">Email <span class="text-danger">*</span></label>

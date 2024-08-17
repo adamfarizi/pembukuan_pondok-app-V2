@@ -36,15 +36,14 @@ class WaliSantriFactory extends Factory
             'kab_kota_wali' => $this->faker->city,
             'provinsi_wali' => $this->faker->state,
             'kode_pos_wali' => $this->faker->postcode,
-            'status_wali' => $this->faker->randomElement(['Keluarga', 'Orang Lain']),
+            'status_wali' => $this->faker->randomElement(['Ayah', 'Ibu', 'Paman', 'Bibi', 'Lainnya']),
             'no_hp' => $this->faker->numerify('###########'),
             'pendidikan_wali' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'S1', 'S2', 'S3']),
             'pekerjaan_wali' => $this->faker->jobTitle,
-            'pendapatan_wali_perbulan' => $this->faker->randomElement(['< 1 juta', '1-3 juta', '3-5 juta', '5-10 juta', '> 10 juta']),
+            'pendapatan_wali_perbulan' => $this->faker->randomDigitNotNull,
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('password123'),
             'role' => 'wali',
-            'no_hp' => $this->faker->numerify('###########'),
         ];
     }
 
