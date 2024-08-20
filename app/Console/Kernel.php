@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\MasterAdmin;
 use Carbon\Carbon;
 use App\Models\Santri;
 use App\Models\Pembayaran;
@@ -38,10 +39,12 @@ class Kernel extends ConsoleKernel
     {
         $currentMonth = Carbon::now()->month;
         $santriIds = Santri::pluck('id_santri')->toArray();
+
+        $master = MasterAdmin::get();
         $jenisPembayaran = [
-            'daftar_ulang' => 50000,
-            'iuran_bulanan' => 100000,
-            'tamrin' => 50000,
+            'daftar_ulang' => $master->where('keterangan_pembayaran', 'Pendaftaran Ulang')->pluck('jumlah_pembayaran')->first(),
+            'iuran_bulanan' => 50000,
+            'tamrin' => $master->where('jenis_pembayaran', 'semester')->pluck('jumlah_pembayaran')->first(),
         ];
         $currentSemester = SemesterHelper::getCurrentSemester();
 

@@ -179,7 +179,10 @@
                     },
                     {
                         data: 'tahun_masuk',
-                        name: 'tahun_masuk'
+                        name: 'tahun_masuk',
+                        render: function(data, type, row) {
+                            return new Date(data).getFullYear(); // Mengambil tahun dari data
+                        }
                     },
                     {
                         data: 'jenis_kelamin_santri',

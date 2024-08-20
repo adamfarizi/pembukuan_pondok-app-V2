@@ -223,7 +223,7 @@
                                             <tr>
                                                 <th scope="row">{{ $loop->iteration }}</th>
                                                 <td class="text-center">{{ $cicilanSantri->tanggal_bayar }}</td>
-                                                <td class="text-center">Rp{{ $cicilanSantri->sub_bayar_cicilan }}</td>
+                                                <td class="text-center">{{ 'RP ' . number_format($cicilanSantri->sub_bayar_cicilan, 0, ',', '.') }}</td>
                                                 <td class="text-center">{{ $cicilanSantri->user->nama_admin }}</td>
                                                 <td class="text-center">
                                                     <div class="flex align-items-center list-user-action">

@@ -167,7 +167,7 @@ class AdminTamrinController extends Controller
             $pembayaran->status_pembayaran = 'lunas';
             $pembayaran->save();
 
-            return redirect()->route('tamrin')->with('success', 'Pembayaran semester Lunas, kembalian Rp' . $kembalian);
+            return redirect()->route('tamrin')->with('success', 'Pembayaran semester Lunas, kembalian Rp' . number_format($kembalian, 0, ',', '.'));
         }
 
         switch (true) {

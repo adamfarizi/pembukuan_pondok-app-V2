@@ -35,7 +35,7 @@ class SantriFactory extends Factory
             'kode_pos' => $this->faker->postcode,
             'no_hp_santri' => $this->faker->numerify('###########'), // 13 digit random numeric
             'email_santri' => $this->faker->unique()->safeEmail,
-            'tahun_masuk' => Carbon::parse($this->faker->date('Y')),
+            'tahun_masuk' => now()->year,
             'jumlah_saudara_kandung' => $this->faker->randomDigitNotNull, // random number for sibling count
             'anak_ke' => $this->faker->randomDigitNotNull, // random number for child position
         

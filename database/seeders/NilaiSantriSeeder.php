@@ -45,7 +45,7 @@ class NilaiSantriSeeder extends Seeder
                 NilaiSantri::create([
                     'id_santri' => $santriId,
                     'semester_ajaran' => 'genap',
-                    'tahun_ajaran' => '2024',
+                    'tahun_ajaran' => '2023',
                     'mata_pelajaran' => $subject,
                     'nilai' => rand(60, 100),
                 ]);
