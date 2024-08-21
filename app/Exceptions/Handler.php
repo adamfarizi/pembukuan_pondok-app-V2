@@ -41,14 +41,14 @@ class Handler extends ExceptionHandler
     }
 
     // Function custom error page
-    public function render($request, Throwable $exception)
-    {
-        Log::error('Exception rendered: ' . $exception->getMessage());
+    // public function render($request, Throwable $exception)
+    // {
+    //     Log::error('Exception rendered: ' . $exception->getMessage());
 
-        if ($this->isHttpException($exception)) {
-            return response()->view('error.404');
-        } else {
-            return response()->view('error.500');
-        }
-    }
+    //     if ($this->isHttpException($exception)) {
+    //         return response()->view('error.404');
+    //     } else {
+    //         return response()->view('error.500');
+    //     }
+    // }
 }
