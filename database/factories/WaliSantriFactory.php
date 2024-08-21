@@ -27,7 +27,8 @@ class WaliSantriFactory extends Factory
             // Identitas Wali
             'nama_wali' => $this->faker->name,
             'no_identitas_wali' => $this->faker->numerify('###############'), // 15 digit random numeric
-            'tempat_tanggal_lahir_wali' => $this->faker->city . ', ' . $this->faker->date('d-m-Y'),
+            'tempat_lahir_wali' => $this->faker->city ,
+            'tanggal_lahir_wali' => $this->faker->date('Y-m-d'),
             'rt_wali' => $this->faker->numerify('###'), // contoh format RT, bisa disesuaikan
             'rw_wali' => $this->faker->numerify('###'), // contoh format RW, bisa disesuaikan
             'dusun_wali' => $this->faker->word,

@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use App\Models\Hafalan;
+use App\Models\Pembayaran;
+use App\Models\WaliSantri;
+use App\Models\NilaiSantri;
+use App\Models\PointSantri;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Santri extends Model
 {
@@ -13,8 +19,11 @@ class Santri extends Model
     protected $fillable = [
         //Santri
         'nama_santri',
+        'no_induk',
+        'status_santri',
         'no_identitas',
-        'tempat_tanggal_lahir_santri',
+        'tempat_lahir_santri',
+        'tanggal_lahir_santri',
         'jenis_kelamin_santri',
         'rt',
         'rw',
@@ -27,6 +36,7 @@ class Santri extends Model
         'no_hp_santri',
         'email_santri',
         'tahun_masuk',
+        'tingkatan',
         'jumlah_saudara_kandung',
         'anak_ke',
 
@@ -73,6 +83,13 @@ class Santri extends Model
     public function Hafalan()
     {
         return $this->hasMany(Hafalan::class, 'id_santri', 'id_santri');
+    }
+
+    public function getTempatTanggalLahirSantriAttribute()
+    {
+        $formattedDate = Carbon::parse($this->tanggal_lahir_santri)->format('d-M-Y');
+        return "{$this->tempat_lahir_santri}, {$formattedDate}";
+        
     }
 
     public function getAlamatSantriAttribute()

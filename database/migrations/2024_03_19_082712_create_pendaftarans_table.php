@@ -17,42 +17,49 @@ return new class extends Migration
             $table->id('id_pendaftar');
             $table->string('kode_pendaftaran');
             
-            //Identitas calon santri
+            //?Identitas calon santri
             $table->string('nama_pendaftar');
             $table->string('no_identitas')->nullabel();
-            $table->string('tempat_tanggal_lahir_pendaftar');
+            $table->enum('status_pendaftar', ['mukim','tidak_mukim'])->default('mukim');
+            $table->string('tempat_lahir_pendaftar');
+            $table->date('tanggal_lahir_pendaftar');
             $table->enum('jenis_kelamin_pendaftar', ['laki-laki', 'perempuan']); 
+            // Alamat
             $table->string('rt');  
             $table->string('rw');  
             $table->string('dusun')->nullable();  
-            $table->string('desa');  
+            $table->string('desa')->nullable();  
             $table->string('kecamatan');  
             $table->string('kab_kota');  
             $table->string('provinsi');  
             $table->string('kode_pos');
-            $table->string('no_hp_pendaftar');
+            // Email
+            $table->string('no_hp_pendaftar')->nullable();
             $table->string('email_pendaftar')->unique();
+            // Lain-lain
             $table->date('mulai_masuk_tanggal');
-            $table->string('jumlah_saudara_kandung');
-            $table->string('anak_ke');
+            $table->string('tingkatan_pendaftar');
+            $table->string('jumlah_saudara_kandung')->nullable();
+            $table->string('anak_ke')->nullable();
 
-            //Identitas orang tua calon santri
+            //?Identitas orang tua calon santri
             //Ayah
             $table->string('nama_ayah_pendaftar');
-            $table->string('pendidikan_ayah');
-            $table->string('pekerjaan_ayah');
-            $table->integer('pendapatan_ayah_perbulan');
-
+            $table->string('pendidikan_ayah')->nullable();
+            $table->string('pekerjaan_ayah')->nullable();
+            $table->integer('pendapatan_ayah_perbulan')->nullable();
             //Ibu
             $table->string('nama_ibu_pendaftar');
-            $table->string('pendidikan_ibu');
-            $table->string('pekerjaan_ibu');
-            $table->integer('pendapatan_ibu_perbulan');
+            $table->string('pendidikan_ibu')->nullable();
+            $table->string('pekerjaan_ibu')->nullable();
+            $table->integer('pendapatan_ibu_perbulan')->nullable();
 
-            //Identitas wali calon santri
+            //?Identitas wali calon santri
             $table->string('nama_wali_pendaftar');
             $table->string('no_identitas_wali');
-            $table->string('tempat_tanggal_lahir_wali');
+            $table->string('tempat_lahir_wali');
+            $table->date('tanggal_lahir_wali');
+            // Alamat
             $table->string('rt_wali');  
             $table->string('rw_wali');  
             $table->string('dusun_wali')->nullable();  
@@ -61,14 +68,16 @@ return new class extends Migration
             $table->string('kab_kota_wali');  
             $table->string('provinsi_wali');  
             $table->string('kode_pos_wali');
-            $table->string('status_wali');
+            // Email
             $table->string('no_hp_wali_pendaftar');
             $table->string('email_wali_pendaftar')->unique();
-            $table->string('pendidikan_wali');
-            $table->string('pekerjaan_wali');
-            $table->integer('pendapatan_wali_perbulan');
+            // Lain-lain
+            $table->string('status_wali');
+            $table->string('pendidikan_wali')->nullable();
+            $table->string('pekerjaan_wali')->nullable();
+            $table->integer('pendapatan_wali_perbulan')->nullable();
 
-            //Berkas-berkas
+            //?Berkas-berkas
             $table->string('ktp_pendaftar')->nullable();
             $table->string('kk_pendaftar');
             $table->string('akta_pendaftar');

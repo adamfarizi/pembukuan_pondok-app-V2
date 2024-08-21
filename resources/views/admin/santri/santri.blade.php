@@ -141,6 +141,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>No. Induk</th>
                                             <th>Nama Santri</th>
                                             <th>TTL</th>
                                             <th>Alamat</th>
@@ -342,6 +343,11 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
+                    // Kolom nomor induk santri
+                    {
+                        data: 'no_induk',
+                        name: 'no_induk'
+                    },
                     // Kolom nama santri
                     {
                         data: 'nama_santri',
@@ -360,17 +366,24 @@
                     // Kolom nomor HP santri
                     {
                         data: 'no_hp_santri',
-                        name: 'no_hp_santri'
+                        name: 'no_hp_santri',
+                        render: function(data, type, full, meta) {
+                            if (data === null ) {
+                                return '<p class ="pl-3">-</p>';
+                            } else {
+                                return data;
+                            }
+                        }
                     },
                     // Kolom status santri
                     {
                         data: 'status_santri',
                         name: 'status_santri',
                         render: function(data, type, full, meta) {
-                            if (data === 'pulang') {
-                                return '<span class="badge badge-pill badge-primary">Pulang</span>';
+                            if (data === 'tidak_mukim') {
+                                return '<span class="badge badge-pill badge-primary">Tidak Mukim</span>';
                             } else {
-                                return '<span class="badge badge-pill badge-success">Menetap</span>';
+                                return '<span class="badge badge-pill badge-success">Mukim</span>';
                             }
                         }
                     },

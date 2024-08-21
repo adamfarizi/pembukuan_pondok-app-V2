@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pendaftaran extends Model
 {
@@ -14,7 +15,9 @@ class Pendaftaran extends Model
         'kode_pendaftaran',
         'nama_pendaftar',
         'no_identitas',
-        'tempat_tanggal_lahir_pendaftar',
+        'status_pendaftar',
+        'tempat_lahir_pendaftar',
+        'tanggal_lahir_pendaftar',
         'jenis_kelamin_pendaftar',
         'rt',
         'rw',
@@ -27,6 +30,7 @@ class Pendaftaran extends Model
         'no_hp_pendaftar',
         'email_pendaftar',
         'mulai_masuk_tanggal',
+        'tingkatan_pendaftar',
         'jumlah_saudara_kandung',
         'anak_ke',
 
@@ -45,7 +49,8 @@ class Pendaftaran extends Model
         //Identitas Wali
         'nama_wali_pendaftar',
         'no_identitas_wali',
-        'tempat_tanggal_lahir_wali',
+        'tempat_lahir_wali',
+        'tanggal_lahir_wali',
         'rt_wali',
         'rw_wali',
         'dusun_wali',
@@ -68,5 +73,19 @@ class Pendaftaran extends Model
         'pas_foto_pendaftar',
         'status',
     ];
+
+    public function getTempatTanggalLahirPendaftarAttribute()
+    {
+        $formattedDate = Carbon::parse($this->tanggal_lahir_pendaftar)->format('d-M-Y');
+        return "{$this->tempat_lahir_pendaftar}, {$formattedDate}";
+        
+    }
+
+    public function getTempatTanggalLahirWaliPendaftarAttribute()
+    {
+        $formattedDate = Carbon::parse($this->tanggal_lahir_wali)->format('d-M-Y');
+        return "{$this->tempat_lahir_wali}, {$formattedDate}";
+        
+    }
     
 }

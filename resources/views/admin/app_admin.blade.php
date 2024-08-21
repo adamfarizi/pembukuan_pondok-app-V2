@@ -95,10 +95,14 @@
                             </li>
                             @if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin_pembayaran')
                                 <li class="@if (request()->routeIs('pendaftaran')) active @endif">
-                                    <a href="{{ route('pendaftaran') }}" class="iq-waves-effect"><i
-                                            class="ri-pages-line"></i><span>Pendaftaran Baru</span>
+                                    <a href="{{ route('pendaftaran') }}" class="iq-waves-effect">
+                                        <i class="ri-pages-line"></i>
+                                        <span>Pendaftaran Baru</span>
+                                        @if($totalPendaftaranBaru > 0)
+                                            <span class="badge badge-danger px-2 py-1">{{ $totalPendaftaranBaru }}</span>
+                                        @endif
                                     </a>
-                                </li>
+                                </li>                            
                             @endif
                             <li class="@if (request()->routeIs('santri')) active @endif">
                                 <a href="{{ route('santri') }}" class="iq-waves-effect"><i

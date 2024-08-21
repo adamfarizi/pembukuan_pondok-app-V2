@@ -120,7 +120,7 @@
                 @endforeach
             @endif
         </div>
-        {{-- Form Edit --}}
+        {{-- Form Create --}}
         <div class="container-fluid">
             <div class="iq-card">
                 <div class="iq-card-header d-flex justify-content-between">
@@ -129,28 +129,69 @@
                     </div>
                 </div>
                 <div class="iq-card-body">
-                    <p>Lengkapi form dibawah dengan benar untuk menambah data.</p>
+                    <p>Lengkapi form dibawah dengan benar untuk menambah data. Form dengan tanda <span class="text-danger">*</span>, wajib diisi !</p>
                     <form action="{{ url('/admin/santri/create/action') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
+                            <h5 class="mb-2">IDENTITAS CALON SANTRI</h5>
                             <div class="form-group">
                                 <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nama_santri" name="nama_santri"
                                     value="{{ old('nama_santri') }}" placeholder="Masukkan Nama Lengkap" required>
                             </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="no_induk">No Induk <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="no_induk" name="no_induk"
+                                        value="{{ old('no_induk') }}" placeholder="Masukkan No Induk" required>
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="status_santri">Status Santri <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="status_santri"
+                                        id="status_santri" required>
+                                        <option value="mukim" @if (old('staus_santri') == 'mukim') selected @endif>Mukim (Tinggal)</option>
+                                        <option value="tidak_mukim" @if (old('staus_santri') == 'tidak_mukim') selected @endif>Tidak Mukim (Pulang)</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="tingkatan">Tingkatan <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="tingkatan"
+                                        id="tingkatan" required>
+                                        <option value="1" @if (old('tingkatan') == '1') selected @endif>Kelas 1</option>
+                                        <option value="2" @if (old('tingkatan') == '2') selected @endif>Kelas 2</option>
+                                        <option value="3" @if (old('tingkatan') == '3') selected @endif>Kelas 3</option>
+                                        <option value="4" @if (old('tingkatan') == '4') selected @endif>Kelas 4</option>
+                                        <option value="5" @if (old('tingkatan') == '5') selected @endif>Kelas 5</option>
+                                        <option value="6" @if (old('tingkatan') == '6') selected @endif>Kelas 6</option>
+                                        <option value="1_TSA" @if (old('tingkatan') == '1_TSA') selected @endif>1 TSA</option>
+                                        <option value="2_TSA" @if (old('tingkatan') == '2_TSA') selected @endif>2 TSA</option>
+                                        <option value="3_TSA" @if (old('tingkatan') == '3_TSA') selected @endif>3 TSA</option>
+                                        <option value="pengurus" @if (old('tingkatan') == 'pengurus') selected @endif>Pengurus</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
-                                <label for="no_identitas">No Identitas (KTP/SIM) <span class="text-danger">*</span></label>
+                                <label for="no_identitas">No Identitas Santri (KTP/SIM) <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="no_identitas" name="no_identitas"
                                     value="{{ old('no_identitas') }}" placeholder="Masukkan No Identitas" required>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="tempat_tanggal_lahir_santri">Tempat, Tanggal Lahir <span
+                                        <label for="tempat_lahir_santri">Tempat Lahir Santri<span
                                             class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="tempat_tanggal_lahir_santri"
-                                            name="tempat_tanggal_lahir_santri" value="{{ old('tempat_tanggal_lahir_santri') }}"
-                                            placeholder="contoh. Madiun, 3 Juni 2001" required>
+                                        <input type="text" class="form-control" id="tempat_lahir_santri"
+                                            name="tempat_lahir_santri" value="{{ old('tempat_lahir_santri') }}"
+                                            placeholder="contoh. Madiun" required>
+                                    </div>                              
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="tanggal_lahir_santri">Tanggal Lahir Santri<span
+                                            class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="tanggal_lahir_santri"
+                                            name="tanggal_lahir_santri" value="{{ old('tanggal_lahir_santri') }}"
+                                            required>
                                     </div>                              
                                 </div>
                                 <div class="col">
@@ -171,54 +212,54 @@
                                 <div class="col-md-3 mb-3">
                                     <label for="rt">RT <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="rt"
-                                        name="rt" placeholder="RT">
+                                        name="rt" placeholder="RT" value="{{ old('rt') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="rw">RW <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="rw"
-                                        name="rw" placeholder="RW">
+                                        name="rw" placeholder="RW" value="{{ old('rw') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="dusun">Dusun <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="dusun"
-                                        name="dusun" placeholder="Dusun">
+                                        name="dusun" placeholder="Dusun" value="{{ old('dusun') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="desa">Desa <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="desa"
-                                        name="desa" placeholder="Desa">
+                                        name="desa" placeholder="Desa" value="{{ old('desa') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="kecamatan">Kecamatan <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="kecamatan"
-                                        name="kecamatan" placeholder="Kecamatan">
+                                        name="kecamatan" placeholder="Kecamatan" value="{{ old('kecamatan') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="kab_kota">Kabupaten/Kota <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="kab_kota"
-                                        name="kab_kota" placeholder="Kabupaten/Kota">
+                                        name="kab_kota" placeholder="Kabupaten/Kota" value="{{ old('kab_kota') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="provinsi">Provinsi <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="provinsi"
-                                        name="provinsi" placeholder="Provinsi">
+                                        name="provinsi" placeholder="Provinsi" value="{{ old('provinsi') }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3"">
                                     <label for="kode_pos">Kode Pos <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="kode_pos"
-                                        name="kode_pos" placeholder="Kode Pos">
+                                        name="kode_pos" placeholder="Kode Pos" value="{{ old('kode_pos') }}" required>
                                 </div>
                             </div>   
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="no_hp_santri">No Hp Santri <span class="text-danger">*</span></label>
+                                        <label for="no_hp_santri">No Hp Santri </label>
                                         <input type="number" class="form-control" id="no_hp_santri" name="no_hp_santri"
-                                            value="{{ old('no_hp_santri') }}" placeholder="Masukkan No HP" required>
+                                            value="{{ old('no_hp_santri') }}" placeholder="Masukkan No HP">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -229,26 +270,19 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="form-group">
-                                <label for="mulai_masuk_tanggal">Mulai Masuk Tanggal <span
-                                            class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="mulai_masuk_tanggal"
-                                        name="mulai_masuk_tanggal" placeholder="Mulai Masuk Tanggal">
-                            </div> --}}
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung <span
-                                            class="text-danger">*</span></label>
+                                    <label for="jumlah_saudara_kandung">Jumlah Saudara Kandung </label>
                                     <input type="number" class="form-control" id="jumlah_saudara_kandung"
-                                        name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung">
+                                        name="jumlah_saudara_kandung" placeholder="Jumlah Saudara Kandung" value="{{ old('jumlah_saudara_kandung') }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="anak_ke">Anak ke <span
-                                            class="text-danger">*</span></label>
+                                    <label for="anak_ke">Anak ke </label>
                                     <input type="number" class="form-control" id="anak_ke"
-                                        name="anak_ke" placeholder="Anak ke">
+                                        name="anak_ke" placeholder="Anak ke" value="{{ old('anak_ke') }}">
                                 </div>
                             </div> 
+                            <h5 class="mt-2 mb-2">IDENTITAS ORANG TUA CALON SANTRI</h5>
                             <div class="form-group">
                                 <label for="nama_ayah">Nama Ayah <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nama_ayah" name="nama_ayah"
@@ -262,140 +296,151 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pendidikan_ayah">Pendidikan Ayah<span
-                                                class="text-danger">*</span></label>
+                                        <label for="pendidikan_ayah">Pendidikan Ayah </label>
                                         <input type="text" class="form-control" id="pendidikan_ayah"
-                                            name="pendidikan_ayah" value="{{ old('pendidikan_ayah') }}" placeholder="Masukkan Pendidikan Ayah" required>
+                                            name="pendidikan_ayah" value="{{ old('pendidikan_ayah') }}" placeholder="Masukkan Pendidikan Ayah">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pendidikan_ibu">Pendidikan Ibu<span
-                                                class="text-danger">*</span></label>
+                                        <label for="pendidikan_ibu">Pendidikan Ibu </label>
                                         <input type="text" class="form-control" id="pendidikan_ibu"
-                                            name="pendidikan_ibu" value="{{ old('pendidikan_ibu') }}" placeholder="Masukkan Pendidikan Ibu" required>
+                                            name="pendidikan_ibu" value="{{ old('pendidikan_ibu') }}" placeholder="Masukkan Pendidikan Ibu">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pekerjaan_ayah">Pekerjaan Ayah<span
-                                                class="text-danger">*</span></label>
+                                        <label for="pekerjaan_ayah">Pekerjaan Ayah </label>
                                         <input type="text" class="form-control" id="pekerjaan_ayah"
-                                            name="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="Masukkan Pekerjaan Ayah" required>
+                                            name="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="Masukkan Pekerjaan Ayah">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pekerjaan_ibu">Pekerjaan Ibu<span
-                                                class="text-danger">*</span></label>
+                                        <label for="pekerjaan_ibu">Pekerjaan Ibu </label>
                                         <input type="text" class="form-control" id="pekerjaan_ibu"
-                                            name="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Masukkan Pekerjaan Ibu" required>
+                                            name="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Masukkan Pekerjaan Ibu">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah<span
-                                                class="text-danger">*</span></label>
+                                        <label for="pendapatan_ayah_perbulan">Pendapatan Perbulan Ayah </label>
                                         <input type="number" class="form-control" id="pendapatan_ayah_perbulan"
-                                            name="pendapatan_ayah_perbulan" value="{{ old('pendapatan_ayah_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ayah" required>
+                                            name="pendapatan_ayah_perbulan" value="{{ old('pendapatan_ayah_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ayah">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu<span
-                                                class="text-danger">*</span></label>
+                                        <label for="pendapatan_ibu_perbulan">Pendapatan Perbulan Ibu </label>
                                         <input type="number" class="form-control" id="pendapatan_ibu_perbulan"
-                                            name="pendapatan_ibu_perbulan" value="{{ old('pendapatan_ibu_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ibu" required>
+                                            name="pendapatan_ibu_perbulan" value="{{ old('pendapatan_ibu_perbulan') }}" placeholder="Masukkan Pendapatan Perbulan Ibu">
                                     </div>
                                 </div>
                             </div>
+                            <h5 class="mt-2 mb-2">IDENTITAS WALI CALON SANTRI</h5>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
                                         <div class="mb-3">
-                                            <label for="nama_wali">Nama Wali Santri <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="nama_wali" name="nama_wali" placeholder="Masukkan Nama Wali Santri">
+                                            <label for="nama_wali">Nama Wali <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nama_wali" name="nama_wali" placeholder="Masukkan Nama Wali Santri" value="{{ old('nama_wali') }}" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="no_identitas_wali">No. Identitas Wali Santri (KTP/SIM) <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="no_identitas_wali" name="no_identitas_wali" placeholder="Masukkan No Identitas Wali Santri">
+                                            <label for="no_identitas_wali">No. Identitas Wali (KTP/SIM) <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="no_identitas_wali" name="no_identitas_wali" placeholder="Masukkan No Identitas Wali Santri" value="{{ old('no_identitas_wali') }}" required>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="tempat_tanggal_lahir_wali">Tempat & Tanggal Lahir Wali Santri <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="tempat_tanggal_lahir_wali" name="tempat_tanggal_lahir_wali" placeholder="contoh. Madiun, 20 Oktober 2001">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="tempat_lahir_wali">Tempat Lahir Wali <span
+                                                        class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="tempat_lahir_wali"
+                                                        name="tempat_lahir_wali" value="{{ old('tempat_lahir_wali') }}"
+                                                        placeholder="contoh. Madiun" required>
+                                                </div>                              
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="tanggal_lahir_wali">Tanggal Lahir Wali <span
+                                                        class="text-danger">*</span></label>
+                                                    <input type="date" class="form-control" id="tanggal_lahir_wali"
+                                                        name="tanggal_lahir_wali" value="{{ old('tanggal_lahir_wali') }}"
+                                                        required>
+                                                </div>                              
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 mb-3">
                                                 <label for="rt_wali">RT <span class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT">
+                                                <input type="number" class="form-control" id="rt_wali" name="rt_wali" placeholder="RT" value="{{ old('rt_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="rw_wali">RW <span class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW">
+                                                <input type="number" class="form-control" id="rw_wali" name="rw_wali" placeholder="RW" value="{{ old('rw_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="dusun_wali">Dusun <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun">
+                                                <input type="text" class="form-control" id="dusun_wali" name="dusun_wali" placeholder="Dusun" value="{{ old('dusun_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="desa_wali">Desa <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa">
+                                                <input type="text" class="form-control" id="desa_wali" name="desa_wali" placeholder="Desa" value="{{ old('desa_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="kecamatan_wali">Kecamatan <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan">
+                                                <input type="text" class="form-control" id="kecamatan_wali" name="kecamatan_wali" placeholder="Kecamatan" value="{{ old('kecamatan_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="kab_kota_wali">Kabupaten/Kota <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota">
+                                                <input type="text" class="form-control" id="kab_kota_wali" name="kab_kota_wali" placeholder="Kabupaten/Kota" value="{{ old('kab_kota_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="provinsi_wali">Provinsi <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi">
+                                                <input type="text" class="form-control" id="provinsi_wali" name="provinsi_wali" placeholder="Provinsi" value="{{ old('provinsi_wali') }}" required>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="kode_pos_wali">Kode Pos <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos">
+                                                <input type="text" class="form-control" id="kode_pos_wali" name="kode_pos_wali" placeholder="Kode Pos" value="{{ old('kode_pos_wali') }}" required>
                                             </div>                                        
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label for="no_hp_wali_pendaftar">No Hp Wali Santri <span class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="no_hp_wali" name="no_hp_wali" placeholder="Masukkan No Hp Wali Santri">
+                                                <label for="no_hp_wali_pendaftar">No Hp Wali <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="no_hp_wali" name="no_hp_wali" placeholder="Masukkan No Hp Wali Santri" value="{{ old('no_hp_wali') }}" required>
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="email_wali_pendaftar">Email Wali Santri<span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" id="email_wali" name="email_wali" placeholder="Masukkan Email Wali Santri">
+                                                <label for="email_wali_pendaftar">Email Wali<span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="email_wali" name="email_wali" placeholder="Masukkan Email Wali Santri" value="{{ old('email_wali') }}" required>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="status_wali">Status Wali Sebagai <span class="text-danger">*</span></label>
                                             <select class="form-control" name="status_wali"
                                                 id="status_wali" required>
-                                                <option value="Ayah Kandung">Ayah Kandung</option>
-                                                <option value="Ibu Kandung">Ibu Kandung</option>
-                                                <option value="Paman">Paman</option>
-                                                <option value="Bibi">Bibi</option>
-                                                <option value="Lainnya">Lainnya</option>
+                                                <option value="Ayah Kandung" @if (old('status_wali') == 'Ayah Kandung') selected @endif>Ayah Kandung</option>
+                                                <option value="Ibu Kandung" @if (old('status_wali') == 'Ibu Kandung') selected @endif>Ibu Kandung</option>
+                                                <option value="Paman" @if (old('status_wali') == 'Paman') selected @endif>Paman</option>
+                                                <option value="Bibi" @if (old('status_wali') == 'Bibi') selected @endif>Bibi</option>
+                                                <option value="Lainnya" @if (old('status_wali') == 'Lainnya') selected @endif>Lainnya</option>
                                             </select>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="pendidikan_wali">Pendidikan Wali <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" placeholder="Pendidikan">
+                                            <div class="col-md-4 ">
+                                                <label for="pendidikan_wali">Pendidikan Wali </label>
+                                                <input type="text" class="form-control" id="pendidikan_wali" name="pendidikan_wali" placeholder="Pendidikan" value="{{ old('pendidikan_wali') }}">
                                             </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="pekerjaan_wali">Pekerjaan Wali <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Pekerjaan">
+                                            <div class="col-md-4 ">
+                                                <label for="pekerjaan_wali">Pekerjaan Wali </label>
+                                                <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Pekerjaan" value="{{ old('pekerjaan_wali') }}">
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="pendapatan_wali_perbulan">Pendapatan Perbulan Wali<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan">
+                                            <div class="col-md-4 ">
+                                                <label for="pendapatan_wali_perbulan">Pendapatan Perbulan Wali </label>
+                                                <input type="number" class="form-control" id="pendapatan_wali_perbulan" name="pendapatan_wali_perbulan" placeholder="Pendapatan Perbulan" value="{{ old('pendapatan_wali_perbulan') }}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -422,6 +467,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <h5 class="mt-2 mb-2">BERKAS CALON SANTRI</h5>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class WaliSantri extends Authenticatable
@@ -19,7 +20,8 @@ class WaliSantri extends Authenticatable
         'id_santri',
         'nama_wali',
         'no_identitas_wali',
-        'tempat_tanggal_lahir_wali',
+        'tempat_lahir_wali',
+        'tanggal_lahir_wali',
         'rt_wali',
         'rw_wali',
         'dusun_wali',
@@ -45,6 +47,13 @@ class WaliSantri extends Authenticatable
     public function santri()
     {
         return $this->belongsTo(Santri::class, 'id_santri');
+    }
+
+    public function getTempatTanggalLahirWaliAttribute()
+    {
+        $formattedDate = Carbon::parse($this->tanggal_lahir_wali)->format('d-M-Y');
+        return "{$this->tempat_lahir_wali}, {$formattedDate}";
+        
     }
 
     public function getAlamatWaliAttribute()

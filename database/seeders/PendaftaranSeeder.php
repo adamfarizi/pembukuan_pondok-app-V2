@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use App\Models\Pendaftaran;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -21,7 +22,9 @@ class PendaftaranSeeder extends Seeder
             //Indentitas calon santri
             'nama_pendaftar' => 'Adam Farizi',
             'no_identitas' => '3578511354923',
-            'tempat_tanggal_lahir_pendaftar' => 'Madiun, 2000-01-01',
+            'status_pendaftar' => 'mukim',
+            'tempat_lahir_pendaftar' => 'Madiun',
+            'tanggal_lahir_pendaftar' => Carbon::createFromFormat('d-m-Y', '02-02-2001')->format('Y-m-d'),
             'jenis_kelamin_pendaftar' => 'laki-laki',
             'rt' => '01',
             'rw' => '10',
@@ -34,6 +37,7 @@ class PendaftaranSeeder extends Seeder
             'no_hp_pendaftar' => '081234567892',
             'email_pendaftar' => 'adamfarizi@example.com',
             'mulai_masuk_tanggal' => now(),
+            'tingkatan_pendaftar' => '5',
             'jumlah_saudara_kandung' => '2',
             'anak_ke' => '1',
 
@@ -53,7 +57,8 @@ class PendaftaranSeeder extends Seeder
             //Identitas wali calon santri
             'nama_wali_pendaftar' => 'Nathan Joe Doe',
             'no_identitas_wali' => '3578511354923',
-            'tempat_tanggal_lahir_wali' => 'Madiun, 1993-03-03',
+            'tempat_lahir_wali' => 'Madiun',
+            'tanggal_lahir_wali' => Carbon::createFromFormat('d-m-Y', '02-02-1992')->format('Y-m-d'),
             'rt_wali' => '01',
             'rw_wali' => '10',
             'dusun_wali' => 'Dusun',

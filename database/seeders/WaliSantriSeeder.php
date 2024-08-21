@@ -6,6 +6,8 @@ use App\Models\WaliSantri;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+
 
 class WaliSantriSeeder extends Seeder
 {
@@ -19,7 +21,8 @@ class WaliSantriSeeder extends Seeder
         WaliSantri::create([
             'nama_wali' => 'Super Wali',
             'no_identitas_wali' => '12345678987654',
-            'tempat_tanggal_lahir_wali' => 'Dumai, 18 - 02 - 1991',
+            'tempat_lahir_wali' => 'Madiun',
+            'tanggal_lahir_wali' => Carbon::createFromFormat('d-m-Y', '02-02-2001')->format('Y-m-d'),
             'rt_wali' => '10',
             'rw_wali' => '11',
             'dusun_wali' => 'Jahug',

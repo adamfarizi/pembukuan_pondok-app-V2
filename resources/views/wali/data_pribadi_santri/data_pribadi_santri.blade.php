@@ -124,8 +124,23 @@
                                                                 style="object-fit:cover;" />
                                                         @endif
                                                     </div>
-                                                    <div class="profile-detail d-flex align-items-center">
+                                                    <div class="profile-detail align-items-center">
                                                         <h3>{{ $santri->nama_santri }}</h3>
+                                                        <p>
+                                                            No. Induk {{ $santri->no_induk }} / 
+                                                            @if (in_array($santri->tingkatan, ['1', '2', '3', '4', '5', '6']))
+                                                                Kelas {{ $santri->tingkatan }}
+                                                            @elseif (in_array($santri->tingkatan, ['1_TSA', '2_TSA', '3_TSA']))
+                                                                {{ str_replace('_', ' ', $santri->tingkatan) }}
+                                                            @elseif ($santri->tingkatan == 'pengus')
+                                                                Pengurus
+                                                            @endif /
+                                                            @if ($santri->status_santri == 'tidak_mukim')
+                                                                <span class="badge badge-pill badge-primary">Tidak Mukim</span>
+                                                            @else
+                                                                <span class="badge badge-pill badge-success">Mukim</span>
+                                                            @endif
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>

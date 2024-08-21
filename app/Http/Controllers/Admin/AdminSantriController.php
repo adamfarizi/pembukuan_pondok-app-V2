@@ -27,6 +27,9 @@ class AdminSantriController extends Controller
         if ($request->ajax()) {
             $data = Santri::orderBy('created_at', 'desc')->get();
             return DataTables::of($data)
+                ->addColumn('tempat_tanggal_lahir_santri', function ($row) {
+                    return $row->tempat_tanggal_lahir_santri; // Menggunakan accessor dari model
+                })
                 ->addColumn('alamat_santri', function ($row) {
                     return $row->alamat_santri; // Menggunakan accessor dari model
                 })
@@ -52,80 +55,51 @@ class AdminSantriController extends Controller
         try {
             // Validasi input
             $this->validate($request, [
+                //? Identitas Santri
                 'nama_santri' => 'required',
+                'status_santri' => 'required',
                 'no_identitas' => 'required',
-                'tempat_tanggal_lahir_santri' => 'required',
+                'tempat_lahir_santri' => 'required',
+                'tanggal_lahir_santri' => 'required',
                 'jenis_kelamin_santri' => 'required',
                 'rt' => 'required',
                 'rw' => 'required',
-                'dusun' => 'required',
-                'desa' => 'required',
                 'kecamatan' => 'required',
                 'kab_kota' => 'required',
                 'provinsi' => 'required',
                 'kode_pos' => 'required',
-                'no_hp_santri' => 'required',
                 'email_santri' => 'required|email',
-                'jumlah_saudara_kandung' => 'required',
-                'anak_ke' => 'required',
+                'tingkatan' => 'required',
 
+                //? Identitas Orang tua
                 //Identitas Ayah
                 'nama_ayah' => 'required',
-                'pendidikan_ayah' => 'required',
-                'pekerjaan_ayah' => 'required',
-                'pendapatan_ayah_perbulan' => 'required',
-
                 //Identitas Ibu
                 'nama_ibu' => 'required',
-                'pendidikan_ibu' => 'required',
-                'pekerjaan_ibu' => 'required',
-                'pendapatan_ibu_perbulan' => 'required',
+                
+                //? Identitas Wali
+                'nama_wali' => 'required',
+                'no_identitas_wali' => 'required',
+                'tempat_lahir_wali' => 'required',
+                'tanggal_lahir_wali' => 'required',
+                // Alamat
+                'rt_wali' => 'required',
+                'rw_wali' => 'required',
+                'kecamatan_wali' => 'required',
+                'kab_kota_wali' => 'required',
+                'provinsi_wali' => 'required',
+                'kode_pos_wali' => 'required',
+                // Email
+                'no_hp_wali' => 'required',
+                'email_wali' => 'required|email',
+                // Lainnya
+                'status_wali' => 'required',
 
                 //Berkas-berkas
                 'ktp_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'kk_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'akta_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'pas_foto_santri' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ], [
-                'nama_santri.required' => 'Masukkan nama santri terlebih dahulu!',
-                'no_identitas.required' => 'Masukkan no identitas santri terlebih dahulu!',
-                'tempat_tanggal_lahir_santri.required' => 'Masukkan tempat, tanggal lahir santri terlebih dahulu!',
-                'jenis_kelamin_santri.required' => 'Pilih jenis kelamin santri terlebih dahulu!',
-                'rt.required' => 'Masukkan rt santri terlebih dahulu!',
-                'rw.required' => 'Masukkan rw santri terlebih dahulu!',
-                'dusun.required' => 'Masukkan dusun santri terlebih dahulu!',
-                'desa.required' => 'Masukkan desa santri terlebih dahulu!',
-                'kecamatan.required' => 'Masukkan kecamatan santri terlebih dahulu!',
-                'kab_kota.required' => 'Masukkan kab/kota santri terlebih dahulu!',
-                'provinsi.required' => 'Masukkan alamat santri terlebih dahulu!',
-                'kode_pos.required' => 'Masukkan propinsi santri terlebih dahulu!',
-                'no_hp_santri.required' => 'Masukkan nomor HP santri terlebih dahulu!',
-                'email_santri.required' => 'Masukkan email santri terlebih dahulu!',
-                'email_santri.email' => 'Format email tidak valid!',
-                'nama_ayah.required' => 'Masukkan nama ayah santri',
-                'pendidikan_ayah.required' => 'Masukkan pendidikan terakhir ayah santri',
-                'pekerjaan_ayah.required' => 'Masukkan pekerjaan ayah santri',
-                'pendapatan_ayah_perbulan.required' => 'Masukkan pendapatan perbulan ayah santri',
-                'nama_ibu.required' => 'Masukkan nama ibu santri',
-                'pendidikan_ibu.required' => 'Masukkan pendidikan terakhir ayah santri',
-                'pekerjaan_ibu.required' => 'Masukkan perkerjaan ibu santri',
-                'pendapatan_ibu_perbulan.required' => 'Masukkan pendapatan perbulan ibu santri',
-                'ktp_santri.required' => 'Upload file KTP santri terlebih dahulu!',
-                'ktp_santri.image' => 'File harus berupa gambar!',
-                'ktp_santri.mimes' => 'Format file KTP harus jpeg, png, jpg, atau gif!',
-                'ktp_santri.max' => 'Ukuran file KTP maksimal 2 MB!',
-                'kk_santri.required' => 'Upload file KK santri terlebih dahulu!',
-                'kk_santri.image' => 'File harus berupa gambar!',
-                'kk_santri.mimes' => 'Format file KK harus jpeg, png, jpg, atau gif!',
-                'kk_santri.max' => 'Ukuran file KK maksimal 2 MB!',
-                'akta_santri.required' => 'Upload file Akta santri terlebih dahulu!',
-                'akta_santri.image' => 'File harus berupa gambar!',
-                'akta_santri.mimes' => 'Format file Akta harus jpeg, png, jpg, atau gif!',
-                'akta_santri.max' => 'Ukuran file Akta maksimal 2 MB!',
-                'pas_foto_santri.required' => 'Upload file Pas Foto santri terlebih dahulu!',
-                'pas_foto_santri.image' => 'File harus berupa gambar!',
-                'pas_foto_santri.mimes' => 'Format file Pas Foto harus jpeg, png, jpg, atau gif!',
-                'pas_foto_santri.max' => 'Ukuran file Pas Foto maksimal 2 MB!',
             ]);
 
             $ktpSantri = $request->file('ktp_santri');
@@ -152,8 +126,11 @@ class AdminSantriController extends Controller
             // Simpan data santri
             $santri = Santri::create([
                 'nama_santri' => $request->input('nama_santri'),
+                'no_induk' => $request->input('no_induk'),
+                'status_santri' => $request->input('status_santri'),
                 'no_identitas' => $request->input('no_identitas'),
-                'tempat_tanggal_lahir_santri' => $request->input('tempat_tanggal_lahir_santri'),
+                'tempat_lahir_santri' => $request->input('tempat_lahir_santri'),
+                'tanggal_lahir_santri' => $request->input('tanggal_lahir_santri'),
                 'jenis_kelamin_santri' => $request->input('jenis_kelamin_santri'),
                 'rt' => $request->input('rt'),
                 'rw' => $request->input('rw'),
@@ -166,6 +143,7 @@ class AdminSantriController extends Controller
                 'no_hp_santri' => $request->input('no_hp_santri'),
                 'email_santri' => $request->input('email_santri'),
                 'tahun_masuk' => now()->year,
+                'tingkatan' => $request->input('tingkatan'),
                 'jumlah_saudara_kandung' => $request->input('jumlah_saudara_kandung'),
                 'anak_ke' => $request->input('anak_ke'),
 
@@ -193,7 +171,8 @@ class AdminSantriController extends Controller
                 'id_santri' => $santri->id_santri,
                 'nama_wali' => $request->input('nama_wali'),
                 'no_identitas_wali' => $request->input('no_identitas_wali'),
-                'tempat_tanggal_lahir_wali' => $request->input('tempat_tanggal_lahir_wali'),
+                'tempat_lahir_wali' => $request->input('tempat_lahir_wali'),
+                'tanggal_lahir_wali' => $request->input('tanggal_lahir_wali'),
                 'rt_wali' => $request->input('rt_wali'),
                 'rw_wali' => $request->input('rw_wali'),
                 'dusun_wali' => $request->input('dusun_wali'),
@@ -340,59 +319,45 @@ class AdminSantriController extends Controller
         try {
             // Validasi input
             $this->validate($request, [
+                //? Identitas Santri
                 'nama_santri' => 'required',
+                'status_santri' => 'required',
                 'no_identitas' => 'required',
-                'tempat_tanggal_lahir_santri' => 'required',
+                'tempat_lahir_santri' => 'required',
+                'tanggal_lahir_santri' => 'required',
                 'jenis_kelamin_santri' => 'required',
                 'rt' => 'required',
                 'rw' => 'required',
-                'dusun' => 'required',
-                'desa' => 'required',
                 'kecamatan' => 'required',
                 'kab_kota' => 'required',
                 'provinsi' => 'required',
                 'kode_pos' => 'required',
-                'no_hp_santri' => 'required',
                 'email_santri' => 'required|email',
-                'jumlah_saudara_kandung' => 'required',
-                'anak_ke' => 'required',
+                'tingkatan' => 'required',
 
+                //? Identitas Orang tua
                 //Identitas Ayah
                 'nama_ayah' => 'required',
-                'pendidikan_ayah' => 'required',
-                'pekerjaan_ayah' => 'required',
-                'pendapatan_ayah_perbulan' => 'required',
-
                 //Identitas Ibu
                 'nama_ibu' => 'required',
-                'pendidikan_ibu' => 'required',
-                'pekerjaan_ibu' => 'required',
-                'pendapatan_ibu_perbulan' => 'required',
-
-            ], [
-                'nama_santri.required' => 'Masukkan nama santri terlebih dahulu!',
-                'no_identitas.required' => 'Masukkan no identitas santri terlebih dahulu!',
-                'tempat_tanggal_lahir_santri.required' => 'Masukkan tempat, tanggal lahir santri terlebih dahulu!',
-                'jenis_kelamin_santri.required' => 'Pilih jenis kelamin santri terlebih dahulu!',
-                'rt.required' => 'Masukkan rt santri terlebih dahulu!',
-                'rw.required' => 'Masukkan rw santri terlebih dahulu!',
-                'dusun.required' => 'Masukkan dusun santri terlebih dahulu!',
-                'desa.required' => 'Masukkan desa santri terlebih dahulu!',
-                'kecamatan.required' => 'Masukkan kecamatan santri terlebih dahulu!',
-                'kab_kota.required' => 'Masukkan kab/kota santri terlebih dahulu!',
-                'provinsi.required' => 'Masukkan alamat santri terlebih dahulu!',
-                'kode_pos.required' => 'Masukkan propinsi santri terlebih dahulu!',
-                'no_hp_santri.required' => 'Masukkan nomor HP santri terlebih dahulu!',
-                'email_santri.required' => 'Masukkan email santri terlebih dahulu!',
-                'email_santri.email' => 'Format email tidak valid!',
-                'nama_ayah.required' => 'Masukkan nama ayah santri',
-                'pendidikan_ayah.required' => 'Masukkan pendidikan terakhir ayah santri',
-                'pekerjaan_ayah.required' => 'Masukkan pekerjaan ayah santri',
-                'pendapatan_ayah_perbulan.required' => 'Masukkan pendapatan perbulan ayah santri',
-                'nama_ibu.required' => 'Masukkan nama ibu santri',
-                'pendidikan_ibu.required' => 'Masukkan pendidikan terakhir ayah santri',
-                'pekerjaan_ibu.required' => 'Masukkan perkerjaan ibu santri',
-                'pendapatan_ibu_perbulan.required' => 'Masukkan pendapatan perbulan ibu santri',
+                
+                //? Identitas Wali
+                'nama_wali' => 'required',
+                'no_identitas_wali' => 'required',
+                'tempat_lahir_wali' => 'required',
+                'tanggal_lahir_wali' => 'required',
+                // Alamat
+                'rt_wali' => 'required',
+                'rw_wali' => 'required',
+                'kecamatan_wali' => 'required',
+                'kab_kota_wali' => 'required',
+                'provinsi_wali' => 'required',
+                'kode_pos_wali' => 'required',
+                // Email
+                'no_hp_wali' => 'required',
+                'email_wali' => 'required|email',
+                // Lainnya
+                'status_wali' => 'required',
             ]);
 
             $nama_santri = $request->input('nama_santri');
@@ -455,8 +420,11 @@ class AdminSantriController extends Controller
             // Perbarui data santri
             $santri = Santri::where('id_santri', $id_santri)->update([
                 'nama_santri' => $request->input('nama_santri'),
+                'no_induk' => $request->input('no_induk'),
+                'status_santri' => $request->input('status_santri'),
                 'no_identitas' => $request->input('no_identitas'),
-                'tempat_tanggal_lahir_santri' => $request->input('tempat_tanggal_lahir_santri'),
+                'tempat_lahir_santri' => $request->input('tempat_lahir_santri'),
+                'tanggal_lahir_santri' => $request->input('tanggal_lahir_santri'),
                 'jenis_kelamin_santri' => $request->input('jenis_kelamin_santri'),
                 'rt' => $request->input('rt'),
                 'rw' => $request->input('rw'),
@@ -468,6 +436,7 @@ class AdminSantriController extends Controller
                 'kode_pos' => $request->input('kode_pos'),
                 'no_hp_santri' => $request->input('no_hp_santri'),
                 'email_santri' => $request->input('email_santri'),
+                'tingkatan' => $request->input('tingkatan'),
                 // 'tahun_masuk' => $request->input('mulai_masuk_tanggal'),
                 'jumlah_saudara_kandung' => $request->input('jumlah_saudara_kandung'),
                 'anak_ke' => $request->input('anak_ke'),
@@ -491,7 +460,8 @@ class AdminSantriController extends Controller
                 'id_santri' => $id_santri,
                 'nama_wali' => $request->input('nama_wali'),
                 'no_identitas_wali' => $request->input('no_identitas_wali'),
-                'tempat_tanggal_lahir_wali' => $request->input('tempat_tanggal_lahir_wali'),
+                'tempat_lahir_wali' => $request->input('tempat_lahir_wali'),
+                'tanggal_lahir_wali' => $request->input('tanggal_lahir_wali'),
                 'rt_wali' => $request->input('rt_wali'),
                 'rw_wali' => $request->input('rw_wali'),
                 'dusun_wali' => $request->input('dusun_wali'),

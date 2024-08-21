@@ -22,8 +22,11 @@ class SantriFactory extends Factory
         return [
             // Data Santri
             'nama_santri' => $this->faker->name,
+            'no_induk' => $this->faker->numerify('####'), // 15 digit random numeric
+            'status_santri' => 'mukim', // 15 digit random numeric
             'no_identitas' => $this->faker->numerify('###############'), // 15 digit random numeric
-            'tempat_tanggal_lahir_santri' => $this->faker->city . ', ' . $this->faker->date('d-m-Y'),
+            'tempat_lahir_santri' => $this->faker->city,
+            'tanggal_lahir_santri' => $this->faker->date('Y-m-d'),
             'jenis_kelamin_santri' => $this->faker->randomElement(['laki-laki', 'perempuan']),
             'rt' => $this->faker->numerify('###'), // contoh format RT, bisa disesuaikan
             'rw' => $this->faker->numerify('###'), // contoh format RW, bisa disesuaikan
@@ -36,6 +39,7 @@ class SantriFactory extends Factory
             'no_hp_santri' => $this->faker->numerify('###########'), // 13 digit random numeric
             'email_santri' => $this->faker->unique()->safeEmail,
             'tahun_masuk' => now()->year,
+            'tingkatan' => '1_TSA',
             'jumlah_saudara_kandung' => $this->faker->randomDigitNotNull, // random number for sibling count
             'anak_ke' => $this->faker->randomDigitNotNull, // random number for child position
         
