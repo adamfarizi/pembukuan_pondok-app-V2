@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -37,5 +38,17 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    // Function custom error page
+    public function render($request, Throwable $exception)
+    {
+        Log::error('Exception rendered: ' . $exception->getMessage());
+
+        if ($this->isHttpException($exception)) {
+            return response()->view('error.404');
+        } else {
+            return response()->view('error.500');
+        }
     }
 }

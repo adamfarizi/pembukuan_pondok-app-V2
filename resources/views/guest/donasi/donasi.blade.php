@@ -100,13 +100,13 @@
                         <div class="card p-4 form-step mb-5" id="step-2" style="background-color: #f5f5f5; border:none;">
                             <div class="card-body row">
                                 <div class="col-lg-6">
-                                    <h3 class="fw-bold p-navy mt-2">Tata Cara Pembayaran / Tata Cara Isi Form</h3>
-                                    <p>Anda perlu mengikuti langkah-langkah berikut untuk proses pemasukan:</p>
+                                    <h3 class="fw-bold p-navy mt-2">Tata Cara Donasi / Tata Cara Isi Form</h3>
+                                    <p>Anda perlu mengikuti langkah-langkah berikut untuk proses donasi:</p>
                                     <ol>
                                         <li>Mengisi nama pengirim.</li>
-                                        <li>Masukkan jumlah pemasukan yang sesuai.</li>
-                                        <li>Deskripsikan pemasukan dengan jelas.</li>
-                                        <li>Unggah bukti pemasukan yang valid.</li>
+                                        <li>Masukkan jumlah donasi yang sesuai.</li>
+                                        <li>Deskripsikan donasi dengan jelas.</li>
+                                        <li>Unggah bukti donasi yang valid.</li>
                                         <li>Setelah mengisi, harap menghubungi admin untuk konfirmasi lebih lanjut.</li>
                                     </ol>
                                     <p class="fw-bold">Berikut adalah daftar akun pembayaran yang dapat Anda gunakan:</p>
@@ -129,22 +129,22 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="nama_pengirim">Nama Pengirim</label>
+                                    <label for="nama_pengirim">Nama Pengirim Donasi</label>
                                     <input type="text" class="form-control" id="nama_pengirim" name="nama_pengirim"
                                         value="">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jumlah_pemasukan">Jumlah Pemasukan <span
+                                    <label for="jumlah_pemasukan">Jumlah Donasi <span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="jumlah_pemasukan" name="jumlah_pemasukan"
                                         value="" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="deskripsi_pemasukan">Deskripsi Pemasukan</label>
+                                    <label for="deskripsi_pemasukan">Deskripsi Donasi</label>
                                     <textarea class="form-control" id="deskripsi_pemasukan" name="deskripsi_pemasukan" rows="4" required></textarea>
                                 </div>
                                 <div class="mb-5">
-                                    <label for="bukti_pemasukan">Bukti Pemasukan <span class="text-danger">*</span></label>
+                                    <label for="bukti_pemasukan">Bukti Donasi <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control custom-file-input" id="bukti_pemasukan"
                                         name="bukti_pemasukan" required>
                                 </div>
