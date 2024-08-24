@@ -245,7 +245,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                            <select class="form-control" name="nama_santri" id="nama_santri">
+                            <select class="form-control" name="nama_santri" id="nama_santri"> 
                                 <option value="">Pilih Nama Santri</option>
                                 @foreach ($pembayarans as $pembayaran)
                                     <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }} (Rp. {{ $pembayaran->	jumlah_pembayaran }})</option>
