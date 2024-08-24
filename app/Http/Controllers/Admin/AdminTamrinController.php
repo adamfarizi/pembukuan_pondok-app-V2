@@ -240,6 +240,10 @@ class AdminTamrinController extends Controller
 
         $pembayaran_cicilan->delete();
 
+        if ($pembayaran->jumlah_bayar == 0) {
+            return redirect()->route('tamrin', ['id' => $request->id_pembayaran])->with('success', 'Pembayaran cicilan semester dibatalkan');
+        }
+
         return redirect()->route('cicilan_detail', ['id' => $request->id_pembayaran])->with('success', 'Pembayaran cicilan semester dibatalkan');
     }
 }

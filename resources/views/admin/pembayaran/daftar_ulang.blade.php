@@ -248,7 +248,7 @@
                             <select class="form-control" name="nama_santri" id="nama_santri">
                                 <option value="">Pilih Nama Santri</option>
                                 @foreach ($pembayarans as $pembayaran)
-                                    <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }}</option>
+                                    <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }} (Rp. {{ $pembayaran->	jumlah_pembayaran }})</option>
                                 @endforeach
                             </select>
                         </div>

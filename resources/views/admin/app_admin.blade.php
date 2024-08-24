@@ -36,7 +36,7 @@
         <!-- Sidebar  -->
         <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
-                <a href="index.html">
+                <a href="/">
                     <span>Al-Huda Admin</span>
                 </a>
             </div>
