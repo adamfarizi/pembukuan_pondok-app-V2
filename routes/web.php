@@ -74,6 +74,7 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/santri', [AdminSantriController::class, 'index'])->name('santri');
   Route::get('/admin/santri/{id}/info', [AdminSantriController::class, 'index_info']);
   Route::put('/admin/santri/pembayaran/{jenis_pembayaran}/{id_pembayaran}/update', [AdminSantriController::class, 'update_pembayaran']);
+  Route::get('/admin/santri/pembayaran/cetak-riwayat/{id_santri}/{tanggal}', [AdminSantriController::class, 'cetakRiwayat'])->name('cetak.riwayat');
   Route::get('/admin/santri/create', [AdminSantriController::class, 'index_create']);
   Route::post('/admin/santri/create/action', [AdminSantriController::class, 'create']);
   Route::get('/admin/santri/edit/{id}', [AdminSantriController::class, 'index_edit']);

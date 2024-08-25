@@ -59,7 +59,6 @@ class AdminSantriController extends Controller
                 //? Identitas Santri
                 'nama_santri' => 'required',
                 'status_santri' => 'required',
-                'no_identitas' => 'required',
                 'tempat_lahir_santri' => 'required',
                 'tanggal_lahir_santri' => 'required',
                 'jenis_kelamin_santri' => 'required',
@@ -319,6 +318,7 @@ class AdminSantriController extends Controller
         if ($pembayaran) {
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->id_admin = Auth::user()->id_admin;
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
             $pembayaran->status_pembayaran = 'lunas';
             $pembayaran->save();
 
@@ -326,6 +326,23 @@ class AdminSantriController extends Controller
         } else {
             return redirect()->back()->with('error', 'Pembayaran tidak ditemukan.');
         }
+    }
+
+    public function cetakRiwayat($id_santri, $tanggal)
+    {   
+        $formattedDate = \Carbon\Carbon::parse($tanggal)->format('Y-m-d');
+
+        // Ambil riwayat pembayaran pada tanggal tersebut
+        $riwayatPembayaran = Pembayaran::whereDate('tanggal_pembayaran', $formattedDate)
+            ->where('id_santri', $id_santri)
+            ->with('santri', 'user')
+            ->get();
+        // dd($formattedDate);
+            // Kirim data ke view cetak
+        return view('admin.santri.info.cetak.riwayat_pembayaran', [
+            'riwayatPembayaran' => $riwayatPembayaran,
+            'tanggal' => $tanggal,
+        ]);
     }
 
     public function index_edit(Request $request, $id_santri)

@@ -87,32 +87,53 @@ class AdminLaporanKeuanganController extends Controller
     {
         $currentSemester = SemesterHelper::getCurrentSemester();
 
+        // Mengambil data pembayaran dengan status lunas
         $pembayarans = Pembayaran::where('status_pembayaran', 'lunas')
             ->orderBy('tanggal_pembayaran', 'desc')
             ->with('santri', 'user')
-            ->get();
+            ->get()
+            ->map(function ($pembayaran) {
+                return [
+                    'santri_nama' => $pembayaran->santri->nama_santri ?? 'Sumbangan',
+                    'jumlah_pemasukan' => $pembayaran->jumlah_pembayaran,
+                    'tanggal_pemasukan' => $pembayaran->tanggal_pembayaran,
+                    'jenis_pemasukan' => $pembayaran->jenis_pembayaran ?? 'lainnya',
+                    'user_nama' => $pembayaran->user->nama_admin ?? 'Lainnya',
+                ];
+            });
+
+        // Mengambil data pemasukan
         $pemasukans = Pemasukan::with('user')
-            ->orderBy('created_at', 'desc')    
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($pemasukan) {
+                return [
+                    'santri_nama' => 'Sumbangan', // Misalkan ini default untuk pemasukan
+                    'jumlah_pemasukan' => $pemasukan->jumlah_pemasukan,
+                    'tanggal_pemasukan' => $pemasukan->tanggal_pemasukan,
+                    'jenis_pemasukan' => 'lainnya', // Misalkan default ini untuk pemasukan
+                    'user_nama' => $pemasukan->user->nama_admin ?? 'Lainnya',
+                ];
+            });
 
         // Gabungkan data dari dua tabel
         $data = $pembayarans->merge($pemasukans);
-
+        // dd($data);
         return DataTables::of($data)
-            ->addColumn('santri.nama_santri', function($item) {
-                return $item->santri->nama_santri ?? 'Sumbangan';
+            ->addColumn('santri_nama', function($item) {
+                return $item['santri_nama'];
             })
             ->addColumn('jumlah_pemasukan', function($item) {
-                return $item->jumlah_pemasukan ?? $item->jumlah_pembayaran;
+                return $item['jumlah_pemasukan'];
             })
             ->addColumn('tanggal_pemasukan', function($item) {
-                return $item->tanggal_pembayaran ?? $item->tanggal_pemasukan;
+                return $item['tanggal_pemasukan'];
+            })
+            ->addColumn('user_nama', function($item) {
+                return $item['user_nama'];
             })
             ->addColumn('jenis_pemasukan', function($item) {
-                return isset($item->jenis_pembayaran) ? $item->jenis_pembayaran : 'lainnya';
-            })
-            ->addColumn('user.nama_admin', function($item) {
-                return $item->user->nama_admin ?? 'Lainnya';
+                return $item['jenis_pemasukan'];
             })
             ->make(true);
     }

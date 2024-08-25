@@ -153,7 +153,12 @@
                                                                 @endphp
                                                                 <tr>
                                                                     <td>{{ $loop->iteration }}</td>
-                                                                    <td>{{ ucwords(str_replace('_', ' ', $pembayaran->jenis_pembayaran)) }}
+                                                                    <td>
+                                                                        @if ($pembayaran->jenis_pembayaran === 'tamrin')
+                                                                            Semester
+                                                                        @else
+                                                                            {{ ucwords(str_replace('_', ' ', $pembayaran->jenis_pembayaran)) }}
+                                                                        @endif
                                                                     </td>
                                                                     <td>
                                                                         @if ($currentSemester['semester'] == 'ganjil')

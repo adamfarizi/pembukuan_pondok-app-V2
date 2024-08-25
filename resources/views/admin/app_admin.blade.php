@@ -64,10 +64,10 @@
                                 <ul id="pembayaran" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                     <li class="@if (request()->routeIs('daftar_ulang')) active @endif"><a
                                             href="{{ route('daftar_ulang') }}">Daftar Ulang</a></li>
+                                    <li class="@if (request()->routeIs('tamrin')) active @endif"><a
+                                                    href="{{ route('tamrin') }}">Semester</a></li>
                                     <li class="@if (request()->routeIs('iuran_bulanan')) active @endif"><a
                                             href="{{ route('iuran_bulanan') }}">Iuran Bulanan</a></li>
-                                    <li class="@if (request()->routeIs('tamrin')) active @endif"><a
-                                            href="{{ route('tamrin') }}">Tamrin</a></li>
                                 </ul>
                             </li>
                             <li class="@if (request()->routeIs('pemasukan')) active @endif">

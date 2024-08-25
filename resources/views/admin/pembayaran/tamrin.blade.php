@@ -12,12 +12,12 @@
             </div>
             {{-- Halaman --}}
             <div class="navbar-breadcrumb">
-                <h5 class="mb-0">Tamrin</h5>
+                <h5 class="mb-0">Semester</h5>
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin-beranda') }}">Main</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Pembayaran</li>
-                        <li class="breadcrumb-item active" aria-current="page">Tamrin</li>
+                        <li class="breadcrumb-item active" aria-current="page">Semester</li>
                     </ul>
                 </nav>
             </div>
@@ -193,7 +193,7 @@
                     <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
-                                <h4 class="card-title mt-3">Pembayaran Tamrin</h4>
+                                <h4 class="card-title mt-3">Pembayaran Semester</h4>
                                 <p class="text-dark">Semester {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
                                     {{ $currentSemester['tahun'] }}</p>
                             </div>
@@ -250,7 +250,7 @@
                             <select class="form-control" name="nama_santri" id="nama_santri">
                                 <option value="">Pilih Nama Santri</option>
                                 @foreach ($pembayarans as $pembayaran)
-                                    <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }}</option>
+                                    <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }} ({{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }})</option>
                                 @endforeach
                             </select>
                         </div>
@@ -302,18 +302,18 @@
     @endforeach --}}
 @endsection
 @section('js')
-<script>
-    document.getElementById('jenisPembayaran').addEventListener('change', function () {
-        var jumlahBayarGroup = document.getElementById('jumlahBayarGroup');
-        if (this.value === 'cicilan') {
-            jumlahBayarGroup.style.display = 'block';
-            document.getElementById('jumlah_bayar').required = true;
-        } else {
-            jumlahBayarGroup.style.display = 'none';
-            document.getElementById('jumlah_bayar').required = false;
-        }
-    });
-</script>
+    <script>
+        document.getElementById('jenisPembayaran').addEventListener('change', function () {
+            var jumlahBayarGroup = document.getElementById('jumlahBayarGroup');
+            if (this.value === 'cicilan') {
+                jumlahBayarGroup.style.display = 'block';
+                document.getElementById('jumlah_bayar').required = true;
+            } else {
+                jumlahBayarGroup.style.display = 'none';
+                document.getElementById('jumlah_bayar').required = false;
+            }
+        });
+    </script>
 
     {{-- Datatable --}}
     <script>

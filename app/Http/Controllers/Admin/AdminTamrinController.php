@@ -15,7 +15,7 @@ class AdminTamrinController extends Controller
 {
     public function index(Request $request)
     {
-        $data['title'] = 'Tamrin';
+        $data['title'] = 'Semester';
 
         $currentSemester = SemesterHelper::getCurrentSemester();
 

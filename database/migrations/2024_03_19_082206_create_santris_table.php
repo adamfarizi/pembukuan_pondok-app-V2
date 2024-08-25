@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nama_santri');
             $table->string('no_induk')->nullable();
             $table->enum('status_santri', ['mukim','tidak_mukim'])->default('mukim');
-            $table->string('no_identitas');
+            $table->string('no_identitas')->nullable();
             $table->string('tempat_lahir_santri');
             $table->date('tanggal_lahir_santri');
             $table->enum('jenis_kelamin_santri', ['laki-laki', 'perempuan']); 

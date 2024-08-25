@@ -171,9 +171,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="no_identitas">No Identitas Santri (KTP/SIM) <span class="text-danger">*</span></label>
+                                <label for="no_identitas">No Identitas Santri (KTP/SIM)</label>
                                 <input type="text" class="form-control" id="no_identitas" name="no_identitas"
-                                    value="{{ old('no_identitas') }}" placeholder="Masukkan No Identitas" required>
+                                    value="{{ old('no_identitas') }}" placeholder="Masukkan No Identitas">
                             </div>
                             <div class="row">
                                 <div class="col">
