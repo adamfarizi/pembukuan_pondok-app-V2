@@ -172,9 +172,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="no_identitas">No Identitas Santri (KTP/SIM) <span class="text-danger">*</span></label>
+                                <label for="no_identitas">No Identitas Santri (KTP/SIM)</label>
                                 <input type="text" class="form-control" id="no_identitas" name="no_identitas"
-                                    value="{{ $santri->no_identitas }}" required>
+                                    value="{{ $santri->no_identitas }}" placeholder="Masukkan No Identitas">
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -260,14 +260,14 @@
                                     <div class="form-group">
                                         <label for="no_hp_santri">No Hp Santri</label>
                                         <input type="number" class="form-control" id="no_hp_santri" name="no_hp_santri"
-                                            value="{{ $santri->no_hp_santri }}">
+                                            value="{{ $santri->no_hp_santri }}" placeholder="Masukkan No HP">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="email_santri">Email Santri <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email_santri" name="email_santri"
-                                            value="{{ $santri->email_santri }}" required>
+                                            value="{{ $santri->email_santri }}"placeholder="Masukkan Email" required>
                                     </div>
                                 </div>
                             </div>
@@ -450,7 +450,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="ktp_santri">KTP Santri <span class="text-danger">*</span></label>
+                                        <label for="ktp_santri">KTP Santri <span class="text-danger">*</span> <span class="text-secondary">(Masukkan ktp orang tua / wali jika tidak ada)</span></label>
                                         <input type="file" class="form-control-file mb-3" id="ktp_santri"
                                             name="ktp_santri">
                                         @if ($santri->ktp_santri !== null)

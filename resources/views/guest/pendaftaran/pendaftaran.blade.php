@@ -465,12 +465,12 @@
                                     </p>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="ktp_pendaftar">KTP <span class="text-danger">*</span></label>
+                                            <label for="ktp_santri">KTP Calon Santri <span class="text-danger">*</span> <span class="text-secondary">(Masukkan ktp orang tua / wali jika tidak ada)</span></label>
                                             <input type="file" class="form-control custom-file-input"
                                                 id="ktp_pendaftar" name="ktp_pendaftar" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="kk_pendaftar">Kartu Keluarga <span
+                                            <label for="kk_pendaftar">Kartu Keluarga Calon Santri <span
                                                     class="text-danger">*</span></label>
                                             <input type="file" class="form-control custom-file-input"
                                                 id="kk_pendaftar" name="kk_pendaftar" required>
@@ -478,13 +478,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="akta_kelahiran_pendaftar">Akta Kelahiran <span
+                                            <label for="akta_kelahiran_pendaftar">Akta Kelahiran Calon Santri <span
                                                     class="text-danger">*</span></label>
                                             <input type="file" class="form-control custom-file-input"
                                                 id="akta_kelahiran_pendaftar" name="akta_kelahiran_pendaftar" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="pasfoto_pendaftar">Pas Foto <span
+                                            <label for="pasfoto_pendaftar">Pas Foto Calon Santri <span
                                                     class="text-danger">*</span></label>
                                             <input type="file" class="form-control custom-file-input"
                                                 id="pasfoto_pendaftar" name="pasfoto_pendaftar" required>
