@@ -28,7 +28,9 @@ class AdminLaporanKeuanganController extends Controller
         $totalkeuangan = $totalpemasukan - $totalpengeluaran;
 
         //* chart keuangan
+        // Ambil data pemasukan
         $chartDataPemasukan = Pembayaran::where('status_pembayaran', 'lunas')
+            ->whereYear('tanggal_pembayaran', now()->year)
             ->select(
                 Pembayaran::raw('YEAR(tanggal_pembayaran) as tahun'),
                 Pembayaran::raw('MONTH(tanggal_pembayaran) as bulan'),
@@ -37,42 +39,72 @@ class AdminLaporanKeuanganController extends Controller
             ->groupBy('tahun', 'bulan')
             ->unionAll(
                 Pemasukan::select(
-                        Pemasukan::raw('YEAR(tanggal_pemasukan) as tahun'),
-                        Pemasukan::raw('MONTH(tanggal_pemasukan) as bulan'),
-                        Pemasukan::raw('SUM(jumlah_pemasukan) as total_pemasukan')
-                    )
+                    Pemasukan::raw('YEAR(tanggal_pemasukan) as tahun'),
+                    Pemasukan::raw('MONTH(tanggal_pemasukan) as bulan'),
+                    Pemasukan::raw('SUM(jumlah_pemasukan) as total_pemasukan')
+                )
+                    ->whereYear('tanggal_pemasukan', now()->year)
                     ->groupBy('tahun', 'bulan')
                     ->getQuery()
             )
             ->orderBy('tahun', 'asc')
             ->orderBy('bulan', 'asc')
-            ->limit(6)
             ->get();
 
+        // Ambil data pengeluaran
         $chartDataPengeluaran = Pengeluaran::select(
-                Pengeluaran::raw('YEAR(tanggal_pengeluaran) as tahun'),
-                Pengeluaran::raw('MONTH(tanggal_pengeluaran) as bulan'),
-                Pengeluaran::raw('SUM(jumlah_pengeluaran) as total_pengeluaran')
-            )
+            Pengeluaran::raw('YEAR(tanggal_pengeluaran) as tahun'),
+            Pengeluaran::raw('MONTH(tanggal_pengeluaran) as bulan'),
+            Pengeluaran::raw('SUM(jumlah_pengeluaran) as total_pengeluaran')
+        )
+            ->whereYear('tanggal_pengeluaran', now()->year)
             ->groupBy('tahun', 'bulan')
             ->orderBy('tahun', 'asc')
             ->orderBy('bulan', 'asc')
-            ->limit(6)
             ->get();
 
+        // Gabungkan data pemasukan dan pengeluaran
         $mergedData = [];
-        foreach ($chartDataPemasukan as $pemasukan) {
-            $pengeluaran = $chartDataPengeluaran->first(function ($pengeluaran) use ($pemasukan) {
-                return $pengeluaran->tahun == $pemasukan->tahun && $pengeluaran->bulan == $pemasukan->bulan;
-            });
 
-            $mergedData[] = [
-                'tahun' => $pemasukan->tahun,
-                'bulan' => $pemasukan->bulan,
-                'total_pemasukan' => $pemasukan->total_pemasukan,
-                'total_pengeluaran' => $pengeluaran ? $pengeluaran->total_pengeluaran : 0,
-            ];
+        // Proses penggabungan data pemasukan dan pengeluaran dalam 1 array berdasarkan bulan dan tahun
+        foreach ($chartDataPemasukan as $pemasukan) {
+            $key = $pemasukan->tahun . '-' . $pemasukan->bulan;
+
+            // Jika data untuk bulan dan tahun ini belum ada, inisialisasi
+            if (!isset($mergedData[$key])) {
+                $mergedData[$key] = [
+                    'tahun' => $pemasukan->tahun,
+                    'bulan' => $pemasukan->bulan,
+                    'total_pemasukan' => $pemasukan->total_pemasukan,
+                    'total_pengeluaran' => 0,
+                ];
+            } else {
+                // Tambahkan total pemasukan jika sudah ada entry untuk bulan dan tahun ini
+                $mergedData[$key]['total_pemasukan'] += $pemasukan->total_pemasukan;
+            }
         }
+
+        foreach ($chartDataPengeluaran as $pengeluaran) {
+            $key = $pengeluaran->tahun . '-' . $pengeluaran->bulan;
+
+            // Jika data untuk bulan dan tahun ini sudah ada, tambahkan total pengeluaran
+            if (isset($mergedData[$key])) {
+                $mergedData[$key]['total_pengeluaran'] += $pengeluaran->total_pengeluaran;
+            } else {
+                // Jika data belum ada, inisialisasi dengan data pengeluaran
+                $mergedData[$key] = [
+                    'tahun' => $pengeluaran->tahun,
+                    'bulan' => $pengeluaran->bulan,
+                    'total_pemasukan' => 0,
+                    'total_pengeluaran' => $pengeluaran->total_pengeluaran,
+                ];
+            }
+        }
+
+        // Ubah ke format array yang diurutkan berdasarkan tahun dan bulan
+        $mergedData = collect($mergedData)->sort(function ($a, $b) {
+            return $a['tahun'] == $b['tahun'] ? $a['bulan'] - $b['bulan'] : $a['tahun'] - $b['tahun'];
+        })->values()->all();
 
         return view('admin.laporan_keuangan.laporan_keuangan', [
             'totalpemasukan' => $totalpemasukan,
@@ -81,7 +113,7 @@ class AdminLaporanKeuanganController extends Controller
             'chartDataKeuangan' => $mergedData,
         ], $data);
     }
-    
+
 
     public function getPemasukan()
     {
@@ -98,7 +130,7 @@ class AdminLaporanKeuanganController extends Controller
                     'jumlah_pemasukan' => $pembayaran->jumlah_pembayaran,
                     'tanggal_pemasukan' => $pembayaran->tanggal_pembayaran,
                     'jenis_pemasukan' => $pembayaran->jenis_pembayaran ?? 'lainnya',
-                    'user_nama' => $pembayaran->user->nama_admin ?? 'Lainnya',
+                    'user_nama' => $pembayaran->user->nama_admin ?? 'Tidak ada',
                 ];
             });
 
@@ -112,29 +144,42 @@ class AdminLaporanKeuanganController extends Controller
                     'jumlah_pemasukan' => $pemasukan->jumlah_pemasukan,
                     'tanggal_pemasukan' => $pemasukan->tanggal_pemasukan,
                     'jenis_pemasukan' => 'lainnya', // Misalkan default ini untuk pemasukan
-                    'user_nama' => $pemasukan->user->nama_admin ?? 'Lainnya',
+                    'user_nama' => $pemasukan->user->nama_admin ?? 'Tidak ada',
                 ];
             });
 
-        // Gabungkan data dari dua tabel
-        $data = $pembayarans->merge($pemasukans);
-        // dd($data);
+        // Pilih data untuk ditampilkan
+        if ($pembayarans->isEmpty() && $pemasukans->isEmpty()) {
+            // Jika kedua data kosong
+            $data = collect(); // Kosong
+        } elseif ($pembayarans->isEmpty()) {
+            // Jika pembayaran kosong, tampilkan hanya pemasukan
+            $data = $pemasukans;
+        } elseif ($pemasukans->isEmpty()) {
+            // Jika pemasukan kosong, tampilkan hanya pembayaran
+            $data = $pembayarans;
+        } else {
+            // Jika keduanya ada, gabungkan data dari dua tabel
+            $data = $pembayarans->merge($pemasukans);
+        }
+
         return DataTables::of($data)
-            ->addColumn('santri_nama', function($item) {
+            ->addColumn('santri_nama', function ($item) {
                 return $item['santri_nama'];
             })
-            ->addColumn('jumlah_pemasukan', function($item) {
+            ->addColumn('jumlah_pemasukan', function ($item) {
                 return $item['jumlah_pemasukan'];
             })
-            ->addColumn('tanggal_pemasukan', function($item) {
+            ->addColumn('tanggal_pemasukan', function ($item) {
                 return $item['tanggal_pemasukan'];
             })
-            ->addColumn('user_nama', function($item) {
+            ->addColumn('user_nama', function ($item) {
                 return $item['user_nama'];
             })
-            ->addColumn('jenis_pemasukan', function($item) {
+            ->addColumn('jenis_pemasukan', function ($item) {
                 return $item['jenis_pemasukan'];
             })
             ->make(true);
     }
+
 }

@@ -71,10 +71,10 @@
             <h3>Pondok Pesantren AL-Huda</h3>
         </div>
         <div class="content">
-            <h1>Halo, {{ $waliSantri->nama_wali_santri }}</h1>
+            <h1 style="margin-top: 5%">Halo, {{ $waliSantri->nama_wali }}</h1>
             <p>Nilai terbaru untuk {{ $nama_santri }} sudah tersedia.</p>
             <div class="alert alert-primary" role="alert">
-                Silahkan kunjungi website <a href="http://al-huda.com/nilai">{{ url('/nilai') }}</a> untuk melihat detail nilai.
+                Silahkan kunjungi website untuk melihat detail nilai.
             </div>
             <p>Terima kasih atas perhatiannya.</p>
         </div>

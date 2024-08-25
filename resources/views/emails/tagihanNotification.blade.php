@@ -91,7 +91,7 @@
             <h3>Pondok Pesantren AL-Huda</h3>
         </div>
         <div class="content">
-            <h1>Halo, {{ $tagihans[0]->santri->nama_santri }}</h1>
+            <h1 style="margin-top: 5%">Halo, {{ $tagihans[0]->santri->nama_santri }}</h1>
             <p>Anda telah menerima tagihan baru dengan detail sebagai berikut:</p>
             <table class="table">
                 <thead>
@@ -117,7 +117,7 @@
                 Total tagihan anda senilai <b>Rp{{ number_format($totalTagihan, 0, ',', '.') }}</b>, silahkan melakukan pembayaran di
                 <b>Kantor Tata Usaha Pondok Pesantren AL HUDA</b>.
             </div>
-            <p>Informasi lebih lanjut, kunjungi website <a href="http://al-huda.com">al-huda.com</a>.</p>
+            <p>Silahkan kunjungi website untuk informasi lebih lanjut.</p>
         </div>
         <div class="footer">
             <p>&copy; {{ date('Y') }} Pondok Pesantren Al-Huda. Semua hak dilindungi.</p>

@@ -133,7 +133,7 @@
                             <span class="float-right line-height-6">Total Keuangan</span>
                             <div class="text-center mt-3">
                                 <h2 class="mb-5"><span
-                                        class="">{{ 'Rp. ' . number_format($totalpengeluaran, 0, ',', '.') }}</span>
+                                        class="">{{ 'Rp. ' . number_format($totalkeuangan, 0, ',', '.') }}</span>
                                 </h2>
                                 <p class="custom-text-color">{{ $keteranganKeuangan }}</p>
                             </div>
