@@ -152,27 +152,52 @@
                                 <div class="iq-header-title">
                                     <h4 class="card-title">Data Pengumuman</h4>
                                 </div>
-                                <div class="text-right">
-                                    <a type="button" class="btn btn-primary mt-1" href="" data-toggle="modal"
-                                        data-target="#createPengumumanModal">
-                                        Tambah Pengumuman
-                                    </a>
-                                </div>
                             </div>
                             <div class="iq-card-body">
                                 <div class="table-responsive pb-3 pt-3 px-3">
-                                    <table id="tableAdmin" class="table" role="grid"
+                                    <table id="" class="table" role="grid"
                                         aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Nama Pengumuman</th>
-                                                <th>Deskripsi</th>
-                                                <th>Gambar</th>
-                                                <th></th>
+                                                <th>Field</th>
+                                                <th>Value</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr>
+                                                <td>Nama Pengumuman</td>
+                                                <td>
+                                                    <input class="form-control" name="nama_pengumuman" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </input>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Deskripsi</td>
+                                                <td>
+                                                    <textarea class="form-control" name="deskripsi_pengumuman" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Contact Person</td>
+                                                <td>
+                                                    <textarea class="form-control" name="cp_pengumuman" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gambar</td>
+                                                <td>
+                                                    <div class="upload__box">
+                                                        <input type="file" class="upload__inputfile" name="foto[]" multiple data-max_length="20">
+                                                        <div class="upload__img-wrap"></div>
+                                                    </div>
+                                                    {{-- <input type="file" class="form-control-file" name="foto[]" multiple>
+                                                    <div class="mt-3">
+                                                        <img src="" alt="Foto Pondok" style="max-width: 200px; margin-top: 10px;">
+                                                        @foreach($pondok->foto as $foto)
+                                                            <img src="{{ asset('storage/' . $foto) }}" alt="Foto Pondok" style="max-width: 200px; margin-top: 10px;">
+                                                        @endforeach
+                                                    </div> --}}
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
