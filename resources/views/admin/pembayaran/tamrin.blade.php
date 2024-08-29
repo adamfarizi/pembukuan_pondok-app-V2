@@ -36,71 +36,6 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-list">
-                        {{-- Notif --}}
-                        <li class="nav-item">
-                            <a href="#" class="search-toggle iq-waves-effect">
-                                <i class="ri-notification-2-line"></i>
-                                <span class="bg-danger dots"></span>
-                            </a>
-                            <div class="iq-sub-dropdown">
-                                <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
-                                    <div class="iq-card-body p-0 ">
-                                        <div class="bg-danger p-3">
-                                            <h5 class="mb-0 text-white">All Notifications<small
-                                                    class="badge  badge-light float-right pt-1">4</small></h5>
-                                        </div>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="media align-items-center">
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">New Order Recieved</h6>
-                                                    <small class="float-right font-size-12">23 hrs ago</small>
-                                                    <p class="mb-0">Lorem is simply</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="media align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded" src="{{ asset('images/user/01.jpg') }}"
-                                                        alt="">
-                                                </div>
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">Emma Watson Nik</h6>
-                                                    <small class="float-right font-size-12">Just Now</small>
-                                                    <p class="mb-0">95 MB</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="media align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded"
-                                                        src="{{ asset('images/user/02.jpg') }}" alt="">
-                                                </div>
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">New customer is join</h6>
-                                                    <small class="float-right font-size-12">5 days ago</small>
-                                                    <p class="mb-0">Jond Nik</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="media align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40" src="{{ asset('images/small/jpg.svg') }}"
-                                                        alt="">
-                                                </div>
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">Updates Available</h6>
-                                                    <small class="float-right font-size-12">Just Now</small>
-                                                    <p class="mb-0">120 MB</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
                         {{-- FullScreen --}}
                         <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect"
                                 id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
@@ -247,24 +182,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                            <select class="form-control" name="nama_santri" id="nama_santri">
-                                <option value="">Pilih Nama Santri</option>
-                                @foreach ($pembayarans as $pembayaran)
-                                    <option value="{{ $pembayaran->santri->id_santri }}">{{ $pembayaran->santri->nama_santri }} ({{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }})</option>
-                                @endforeach
+                            <select class="form-control" name="nama_santri" id="nama_santri" multiple="multiple" style="width: 100%;"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jenisPembayaran">Jenis Pembayaran <span class="text-danger">*</span></label>
+                            <select class="form-control" name="jenis_bayar" id="jenisPembayaran" required>
+                                <option value="lunas">Lunas</option>
+                                <option value="cicilan">Cicilan</option>
                             </select>
                         </div>
-                    <div class="form-group">
-                        <label for="jenisPembayaran">Jenis Pembayaran <span class="text-danger">*</span></label>
-                        <select class="form-control" name="jenis_bayar" id="jenisPembayaran" required>
-                            <option value="lunas">Lunas</option>
-                            <option value="cicilan">Cicilan</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="jumlahBayarGroup" style="display: none;">
-                        <label for="jumlah_bayar">Nominal Bayar Awal <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar" required>
-                    </div>
+                        <div class="form-group" id="jumlahBayarGroup" style="display: none;">
+                            <label for="jumlah_bayar">Nominal Bayar Awal <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar" required>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -410,14 +340,35 @@
         });
     </script>
 
-    {{-- Update --}}
+    {{-- Select2 --}}
     <script>
-        // Mengatur URL aksi formulir berdasarkan id_santri yang dipilih
-        document.getElementById('nama_santri').addEventListener('change', function() {
-            var selectedId = this.value;
-            var form = document.getElementById('updateForm');
-            var actionUrl = "{{ url('/admin/tamrin/edit') }}/" + selectedId + "/action";
-            form.setAttribute('action', actionUrl);
+        $(document).ready(function(){
+            var select2Url = "{{ route('tamrin.select2') }}";
+            
+            $('#nama_santri').select2({
+                dropdownParent: $('#exampleModalCenter'),
+                minimumInputLength: 2,
+                placeholder: 'Pilih Nama Santri',
+                ajax: {
+                    url: select2Url,
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                            results: data.map(function (res) {
+                                return { text: res.santri.nama_santri, id: res.santri.id_santri };
+                            })
+                        };
+                    }
+                }
+            });
+
+            // Mengatur URL aksi formulir berdasarkan id_santri yang dipilih
+            $('#nama_santri').on('change', function() {
+                var selectedId = this.value;
+                var form = document.getElementById('updateForm');
+                var actionUrl = "{{ url('/admin/tamrin/edit') }}/" + selectedId + "/action";
+                form.setAttribute('action', actionUrl);
+            });
         });
     </script>
 @endsection
