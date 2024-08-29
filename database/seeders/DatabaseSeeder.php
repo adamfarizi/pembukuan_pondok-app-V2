@@ -39,7 +39,6 @@ class DatabaseSeeder extends Seeder
         // Pengeluaran::factory(10)->create();
         
         $this->call([
-            PembayaranSeeder::class,
             // NilaiSantriSeeder::class,
             HafalanSeeder::class,
             // PengajarSeeder::class,
@@ -47,6 +46,7 @@ class DatabaseSeeder extends Seeder
             MasterGuestSeeder::class,
             MasterGuestFotoSeeder::class,
             MasterGuestMisiSeeder::class,
+            PembayaranSeeder::class,
         ]);
     }
 }
