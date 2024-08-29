@@ -295,16 +295,8 @@ class AdminPendaftaranController extends Controller
                 ->where('keterangan_pembayaran', 'Semester')
                 ->pluck('jumlah_pembayaran')
                 ->first();
-            $iuran_makan_transport = $master->where('jenis_pembayaran', 'iuran')
-                ->where('keterangan_pembayaran', 'Makan & Transport')
-                ->pluck('jumlah_pembayaran')
-                ->first();
-            $iuran_ziarah = $master->where('jenis_pembayaran', 'iuran')
-                ->where('keterangan_pembayaran', 'Ziarah')
-                ->pluck('jumlah_pembayaran')
-                ->first();
-
-            $total_iuran = $iuran_makan_transport + $iuran_ziarah;
+            $total_iuran = $master->where('jenis_pembayaran', 'iuran')
+                ->sum('jumlah_pembayaran');
 
             // Daftar Ulang
             Pembayaran::create([

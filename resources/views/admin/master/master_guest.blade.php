@@ -48,7 +48,7 @@
                             <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                        <h5 class="mb-0 text-white line-height">Nama User</h5>
+                                        <h5 class="mb-0 text-white line-height">{{Auth::user()->nama_admin}}</h5>
                                         <span class="text-white font-size-12">Online</span>
                                     </div>
                                     <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">

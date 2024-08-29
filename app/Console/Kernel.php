@@ -23,22 +23,37 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Mengirim setiap bulan januari dan juni
-        // Schedule the task to run at the beginning of January and June
-        // $schedule->call(function () {
-        //     $this->createPembayaranAndSendEmails();
-        // })->twiceMonthly(1, 6, '00:00');
-
-        // Test mengirim email
+        // Daftar Ulang: Setiap tahun di bulan Januari
         $schedule->call(function () {
             $this->createPembayaranDaftarUlangAndSendEmails();
-        })->everyMinute();
+        })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
+
+        // Iuran: Setiap tahun pada bulan Januari
         $schedule->call(function () {
             $this->createPembayaranIuranAndSendEmails();
-        })->everyMinute();
+        })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
+
+        // Iuran: Setiap tahun pada bulan Juni
+        $schedule->call(function () {
+            $this->createPembayaranIuranAndSendEmails();
+        })->yearlyOn(6, 1); // Setiap tahun pada 1 Juni
+
+        // Tamrin: Setiap bulan
         $schedule->call(function () {
             $this->createPembayaranTamrinAndSendEmails();
-        })->everyMinute();
+        })->monthly(); // Setiap bulan
+
+
+        // Test mengirim email
+        // $schedule->call(function () {
+        //     $this->createPembayaranDaftarUlangAndSendEmails();
+        // })->everyMinute();
+        // $schedule->call(function () {
+        //     $this->createPembayaranIuranAndSendEmails();
+        // })->everyMinute();
+        // $schedule->call(function () {
+        //     $this->createPembayaranTamrinAndSendEmails();
+        // })->everyMinute();
     }
 
     public function createPembayaranDaftarUlangAndSendEmails()
@@ -119,17 +134,9 @@ class Kernel extends ConsoleKernel
         $santriIds = Santri::pluck('id_santri')->toArray();
 
         $master = MasterAdmin::get();
-        $iuran_makan_transport = $master->where('jenis_pembayaran', 'iuran')
-                                        ->where('keterangan_pembayaran', 'Makan & Transport')
-                                        ->pluck('jumlah_pembayaran')
-                                        ->first();
 
-        $iuran_ziarah = $master->where('jenis_pembayaran', 'iuran')
-                                ->where('keterangan_pembayaran', 'Ziarah')
-                                ->pluck('jumlah_pembayaran')
-                                ->first();
-
-        $total_iuran = $iuran_makan_transport + $iuran_ziarah;
+        $total_iuran = $master->where('jenis_pembayaran', 'iuran')
+            ->sum('jumlah_pembayaran');
 
         $jenisPembayaran = [
             'iuran_bulanan' => $total_iuran,

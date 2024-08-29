@@ -118,14 +118,14 @@
                                             <div class="user-detail pl-5">
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="profile-img pr-4">
-                                                        @if ($santri->pas_foto_santri)
-                                                            <img src="{{ asset('berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri) }}"
-                                                                alt="profile-img" class="avatar-130 img-fluid"
-                                                                style="object-fit:cover;" />
+                                                        @php
+                                                            $fotoPath = 'berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri;
+                                                        @endphp
+
+                                                        @if ($santri->pas_foto_santri && file_exists(public_path($fotoPath)))
+                                                            <img src="{{ asset($fotoPath) }}" alt="profile-img" class="avatar-130 img-fluid" style="object-fit:cover;" />
                                                         @else
-                                                            <img src="{{ asset('images/page-img/15.jpg') }}"
-                                                                alt="profile-img" class="avatar-130 img-fluid"
-                                                                style="object-fit:cover;" />
+                                                            <img src="{{ asset('images/page-img/15.jpg') }}" alt="profile-img" class="avatar-130 img-fluid" style="object-fit:cover;" />
                                                         @endif
                                                     </div>
                                                     <div class="profile-detail align-items-center">
@@ -301,7 +301,7 @@
                                                             @elseif ($pembayaran->jenis_pembayaran == 'iuran_bulanan')
                                                                 <span class="text-warning">Iuran Bulanan</span>
                                                             @else
-                                                                <span class="text-success">Tamrin</span>
+                                                                <span class="text-success">Semester</span>
                                                             @endif
                                                             untuk semester {{ $pembayaran->semester_ajaran }} tahun
                                                             {{ $pembayaran->tahun_ajaran }} sejumlah
@@ -329,9 +329,9 @@
                                         <h4 class="card-title">Riwayat Pembayaran Santri</h4>
                                     </div>
                                 </div>
-                                <div class="iq-card-body" style="max-height: 300px; overflow-y: auto;">
-                                    <ul class="m-0 p-0">
-                                        @if (!$RiwayatPembayaran->isEmpty())
+                                <div class="iq-card-body pt-1" style="max-height: 300px; overflow-y: auto;">
+                                    <ul class="m-0 p-0 pb-2">
+                                        {{-- @if (!$RiwayatPembayaran->isEmpty())
                                             @foreach ($RiwayatPembayaran as $pembayaran)
                                                 @php
 
@@ -360,14 +360,69 @@
                                                             {{ $pembayaran->tahun_ajaran }} sejumlah
                                                             {{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }},
                                                             dibayar pada {{ $tanggal_pembayaran }} jam {{ $variabel_jam }}
-                                                            dan diterima dan diterima oleh
+                                                            dan diterima oleh
                                                             {{ $pembayaran->user->nama_admin }}
                                                         </p>
                                                     </div>
                                                 </li>
                                             @endforeach
                                         @else
-                                            <p class="text-center">Tidak ada tagihan</p>
+                                            <p class="text-center">Tidak ada riwayat</p>
+                                        @endif --}}
+                                        @if (!$RiwayatPembayaran->isEmpty())
+                                            @php
+                                                $previousDate = null;
+                                            @endphp
+                                            @foreach ($RiwayatPembayaran as $pembayaran)
+                                                @php
+                                                    // Format tanggal pembayaran
+                                                    $tanggal_pembayaran = \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)
+                                                        ->translatedFormat('d F Y'); // Format tanggal dengan hari dan bulan dalam bahasa Indonesia
+
+                                                    // Format waktu pembayaran
+                                                    $variabel_jam = \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)
+                                                        ->format('H:i'); // Format waktu
+                                                @endphp
+
+                                                {{-- Cek apakah tanggal pembayaran berbeda dengan tanggal sebelumnya --}}
+                                                @if ($previousDate !== $tanggal_pembayaran)
+                                                    @php
+                                                        $previousDate = $tanggal_pembayaran;
+                                                    @endphp
+
+                                                    {{-- Tampilkan tanggal sebagai header kelompok --}}
+                                                    <h5 class="mt-2 mb-1 d-flex align-items-center">
+                                                        <span class="badge badge-light text-secondary">{{ $tanggal_pembayaran }}</span>
+                                                        <hr class="flex-grow-1 ml-2" style="border: 0; border-bottom: 1px solid #ccc;">
+                                                        <a href="{{ route('cetak.riwayat', ['id_santri' => $pembayaran->id_santri,'tanggal' => $pembayaran->tanggal_pembayaran]) }}" target="_blank" class="ml-2 btn btn-sm text-primary">
+                                                            <i class="ri-bill-fill"></i> Cetak
+                                                        </a>
+                                                    </h5>                                                                                                       
+                                                @endif
+
+                                                {{-- Tampilkan detail pembayaran --}}
+                                                <li class="d-flex mb-1">
+                                                    <div class="news-icon"><i class="ri-chat-check-fill"></i></div>
+                                                    <div class="news-detail mt-1">
+                                                        <p class="mb-0">
+                                                            Pembayaran
+                                                            @if ($pembayaran->jenis_pembayaran == 'daftar_ulang')
+                                                                <span class="text-danger">Daftar Ulang</span>
+                                                            @elseif ($pembayaran->jenis_pembayaran == 'iuran_bulanan')
+                                                                <span class="text-warning">Iuran Bulanan</span>
+                                                            @else
+                                                                <span class="text-success">Semester</span>
+                                                            @endif
+                                                            untuk semester {{ $pembayaran->semester_ajaran }} tahun {{ $pembayaran->tahun_ajaran }} sejumlah
+                                                            {{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }},
+                                                            dibayar pada {{ $tanggal_pembayaran }} jam {{ $variabel_jam }} dan diterima oleh
+                                                            {{ $pembayaran->user->nama_admin }}
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <p class="text-center">Tidak ada riwayat</p>
                                         @endif
                                     </ul>
                                 </div>

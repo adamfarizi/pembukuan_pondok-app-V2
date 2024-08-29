@@ -15,7 +15,7 @@ class AdminTamrinController extends Controller
 {
     public function index(Request $request)
     {
-        $data['title'] = 'Tamrin';
+        $data['title'] = 'Semester';
 
         $currentSemester = SemesterHelper::getCurrentSemester();
 
@@ -45,6 +45,26 @@ class AdminTamrinController extends Controller
             'pembayarans' => $pembayarans,
         ], $data);
     }
+
+    public function select2(Request $request)
+    {
+        $currentSemester = SemesterHelper::getCurrentSemester();
+
+        $data = Pembayaran::orderBy('created_at', 'desc')
+            ->where('semester_ajaran', $currentSemester['semester'])
+            ->where('tahun_ajaran', $currentSemester['tahun'])
+            ->where('jenis_pembayaran', 'tamrin')
+            ->where('status_pembayaran', 'belum_lunas')
+            ->where('jumlah_bayar', 0)
+            ->whereHas('santri', function ($query) use ($request) {
+                $query->where('nama_santri', 'like', '%' . $request->q . '%');
+            })
+            ->with(['santri', 'user'])
+            ->get();
+
+        return response()->json($data);
+    }
+
 
     public function edit(Request $request, $id_santri)
     {

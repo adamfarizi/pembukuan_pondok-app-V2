@@ -17,17 +17,17 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <!-- Boostrap -->
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
-    <link
-        href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rr-1.4.1/sc-2.3.0/sb-1.6.0/datatables.min.css"
-        rel="stylesheet">
-
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rr-1.4.1/sc-2.3.0/sb-1.6.0/datatables.min.css" rel="stylesheet">
     <style>
         a {
             text-decoration: none;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -64,10 +64,10 @@
                                 <ul id="pembayaran" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                     <li class="@if (request()->routeIs('daftar_ulang')) active @endif"><a
                                             href="{{ route('daftar_ulang') }}">Daftar Ulang</a></li>
+                                    <li class="@if (request()->routeIs('tamrin')) active @endif"><a
+                                                    href="{{ route('tamrin') }}">Semester</a></li>
                                     <li class="@if (request()->routeIs('iuran_bulanan')) active @endif"><a
                                             href="{{ route('iuran_bulanan') }}">Iuran Bulanan</a></li>
-                                    <li class="@if (request()->routeIs('tamrin')) active @endif"><a
-                                            href="{{ route('tamrin') }}">Tamrin</a></li>
                                 </ul>
                             </li>
                             <li class="@if (request()->routeIs('pemasukan')) active @endif">
@@ -137,16 +137,17 @@
                                         class="ri-profile-line"></i><span>Master Admin</span>
                                 </a>
                             </li>
+                            {{-- Master --}}
                             <li class="@if (request()->routeIs('master_guest')) active @endif">
                                 <a href="{{ route('master_guest') }}" class="iq-waves-effect"><i
                                         class="ri-profile-line"></i><span>Master Guest</span>
                                 </a>
                             </li>
-                            <li class="@if (request()->routeIs('master_wali')) active @endif">
+                            {{-- <li class="@if (request()->routeIs('master_wali')) active @endif">
                                 <a href="{{ route('master_wali') }}" class="iq-waves-effect"><i
                                         class="ri-profile-line"></i><span>Master Wali</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         @endif
                     </ul>
                 </nav>
@@ -206,7 +207,6 @@
     <script src="{{ asset('js/chart-custom.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('js/custom.js') }}"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
@@ -216,27 +216,33 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
-
     <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
     <!-- DataTables -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-        src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rr-1.4.1/sc-2.3.0/sb-1.6.0/datatables.min.js">
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rr-1.4.1/sc-2.3.0/sb-1.6.0/datatables.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    {{-- Script untuk menutup alert setelah beberapa detik --}}
     <script>
-        // Script untuk menutup alert setelah beberapa detik
         window.onload = function() {
             setTimeout(function() {
-                document.getElementById("success-alert").style.display = "none";
-                document.getElementById("error-alert").style.display = "none";
+                // Get the success alert element
+                var successAlert = document.getElementById("success-alert");
+                if (successAlert) {
+                    successAlert.style.display = "none";
+                }
+
+                // Get the error alert element(s)
+                var errorAlerts = document.querySelectorAll("#error-alert");
+                errorAlerts.forEach(function(alert) {
+                    alert.style.display = "none";
+                });
             }, 5000); // Waktu dalam milidetik (5000 ms = 5 detik)
         };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('js')
 </body>
 

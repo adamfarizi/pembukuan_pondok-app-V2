@@ -29,20 +29,20 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            WaliSantriSeeder::class,
-            PendaftaranSeeder::class,
+            // WaliSantriSeeder::class,
+            // PendaftaranSeeder::class,
         ]);
 
-        Santri::factory(2)->create();
-        WaliSantri::factory(2)->create();
-        Pemasukan::factory(10)->create();
-        Pengeluaran::factory(10)->create();
+        // Santri::factory(2)->create();
+        // WaliSantri::factory(2)->create();
+        // Pemasukan::factory(10)->create();
+        // Pengeluaran::factory(10)->create();
         
         $this->call([
-            // PembayaranSeeder::class,
-            NilaiSantriSeeder::class,
+            PembayaranSeeder::class,
+            // NilaiSantriSeeder::class,
             HafalanSeeder::class,
-            PengajarSeeder::class,
+            // PengajarSeeder::class,
             MasterAdminSeeder::class,
             MasterGuestSeeder::class,
             MasterGuestFotoSeeder::class,

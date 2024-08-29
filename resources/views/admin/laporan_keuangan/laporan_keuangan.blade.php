@@ -393,13 +393,13 @@
                         }
                     },
                     {
-                        data: 'santri.nama_santri',
-                        name: 'santri.nama_santri',
+                        data: 'santri_nama',
+                        name: 'santri_nama',
                         render: function(data, type, full, meta) {
-                            if (full.santri.nama_santri == 'Sumbangan') {
+                            if (full.santri_nama == 'Sumbangan') {
                                 return 'Sumbangan luar';
                             } else {
-                                return 'Santri : ' + full.santri.nama_santri
+                                return 'Santri : ' + full.santri_nama
                             }
                         }
                     },
@@ -411,8 +411,8 @@
                         }
                     },
                     {
-                        data: 'user.nama_admin',
-                        name: 'user.nama_admin'
+                        data: 'user_nama',
+                        name: 'user_nama'
                     },
                     {
                         data: 'jenis_pemasukan',
@@ -423,8 +423,8 @@
                                     return '<span class="badge badge-pill badge-danger">Daftar Ulang</span>';
                                 case 'iuran_bulanan':
                                     return '<span class="badge badge-pill badge-warning">Iuran Bulanan</span>';
-                                case 'iru':
-                                    return '<span class="badge badge-pill badge-success">Tamrin</span>';
+                                case 'tamrin':
+                                    return '<span class="badge badge-pill badge-success">Semester</span>';
                                 default:
                                     return '<span class="badge badge-pill badge-primary">Lainnya</span>';
                             }

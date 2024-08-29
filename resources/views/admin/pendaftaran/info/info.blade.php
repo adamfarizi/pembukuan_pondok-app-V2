@@ -148,9 +148,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="no_identitas">No Identitas Calon Santri (KTP/SIM) <span class="text-danger">*</span></label>
+                                        <label for="no_identitas">No Identitas Calon Santri (KTP/SIM)</label>
                                         <input type="text" class="form-control" id="no_identitas"
-                                            name="no_identitas" placeholder="Masukkan No Identitas" value="{{ $pendaftar->no_identitas }}" required>
+                                            name="no_identitas" placeholder="Masukkan No Identitas" value="{{ $pendaftar->no_identitas }}">
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 mb-3">
