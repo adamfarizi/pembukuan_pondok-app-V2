@@ -138,12 +138,12 @@
                                 </a>
                             </li>
                             {{-- Master --}}
-                            {{-- <li class="@if (request()->routeIs('master_guest')) active @endif">
+                            <li class="@if (request()->routeIs('master_guest')) active @endif">
                                 <a href="{{ route('master_guest') }}" class="iq-waves-effect"><i
                                         class="ri-profile-line"></i><span>Master Guest</span>
                                 </a>
                             </li>
-                            <li class="@if (request()->routeIs('master_wali')) active @endif">
+                            {{-- <li class="@if (request()->routeIs('master_wali')) active @endif">
                                 <a href="{{ route('master_wali') }}" class="iq-waves-effect"><i
                                         class="ri-profile-line"></i><span>Master Wali</span>
                                 </a>
