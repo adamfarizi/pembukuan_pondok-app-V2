@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\Models\Pengajar;
 use App\Models\Santri;
+use App\Models\MasterGuest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class GuestBerandaController extends Controller
     {
         $data['title'] = 'Beranda';
 
-        $imageFiles = glob(public_path('images/pondok/area_pondok/*'));
+        $imageFiles = glob(public_path('gambar_pondok/*'));
         $imageFiles = array_diff($imageFiles, ['.', '..']);
         $imageNames = [];
         foreach ($imageFiles as $imageFile) {
@@ -23,11 +24,13 @@ class GuestBerandaController extends Controller
 
         $total_santri = Santri::count();
         $total_guru = Pengajar::count();
+        $guests = MasterGuest::with(['misi'])->get();
 
         return view('guest.beranda.beranda', [
             'imageNames' => $imageNames,
             'total_santri' => $total_santri,
             'total_guru' => $total_guru,
+            'guests' => $guests,
         ], $data);
     }
 
