@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MasterGuest;
 use App\Models\Santri;
 use App\Models\Pemasukan;
 use App\Models\Pembayaran;
@@ -11,6 +12,10 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\AdminSeeder;
 use Database\Seeders\PembayaranSeeder;
 use Database\Seeders\WaliSantriSeeder;
+use Database\Seeders\MasterAdminSeeder;
+use Database\Seeders\MasterGuestSeeder;
+use Database\Seeders\MasterGuestFotoSeeder;
+use Database\Seeders\MasterGuestMisiSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
@@ -39,6 +44,9 @@ class DatabaseSeeder extends Seeder
             HafalanSeeder::class,
             PengajarSeeder::class,
             MasterAdminSeeder::class,
+            MasterGuestSeeder::class,
+            MasterGuestFotoSeeder::class,
+            MasterGuestMisiSeeder::class,
         ]);
     }
 }

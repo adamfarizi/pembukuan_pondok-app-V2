@@ -129,10 +129,13 @@
                             </div>
                         </div>
                         <div class="iq-card-body">
-                            <form action="/update-pondok" method="POST" enctype="multipart/form-data">
+                            @foreach ($guests as $guest)
+                            <form action="{{ route('master_guest_save', $guest->id_guest) }}" method="POST" enctype="multipart/form-data">
+                                @method('PUT')
                                 @csrf
                                 <div class="table-responsive pb-3 pt-3 px-3">
-                                    <table id="tableEditPondok" class="table" role="grid" style="width: 100%; min-height: 500px;">
+                                    <table id="tableEditPondok" class="table" role="grid"
+                                        style="width: 100%; min-height: 500px;">
                                         <thead>
                                             <tr>
                                                 <th>Field</th>
@@ -140,76 +143,106 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Visi</td>
-                                                <td>
-                                                    <textarea class="form-control" name="visi" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </textarea>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misi</td>
-                                                <td>
-                                                    <textarea class="form-control" name="misi" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </textarea>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Foto</td>
-                                                <td>
-                                                    <div class="upload__box">
-                                                        <input type="file" class="upload__inputfile" name="foto[]" multiple data-max_length="20">
-                                                        <div class="upload__img-wrap"></div>
-                                                    </div>
-                                                    {{-- <input type="file" class="form-control-file" name="foto[]" multiple>
-                                                    <div class="mt-3">
-                                                        <img src="" alt="Foto Pondok" style="max-width: 200px; margin-top: 10px;">
-                                                        @foreach($pondok->foto as $foto)
-                                                            <img src="{{ asset('storage/' . $foto) }}" alt="Foto Pondok" style="max-width: 200px; margin-top: 10px;">
-                                                        @endforeach
-                                                    </div> --}}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lokasi</td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="lokasi" value="lokasi">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Link Gmaps Lokasi</td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="gmaps_link" value="link gmaps">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nomor Telepon</td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="telepon" value="no telp">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Email</td>
-                                                <td>
-                                                    <input type="email" class="form-control" name="email" value="email">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Instagram</td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="instagram" value="instgram">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Youtube</td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="youtube" value="youtube">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Facebook</td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="facebook" value="facebook">
-                                                </td>
-                                            </tr>
+                                            @foreach ($guests as $guest)
+                                                <tr>
+                                                    <td>Visi</td>
+                                                    <td>
+                                                        <textarea class="form-control" name="visi" rows="3">{{ $guest->visi }}</textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Misi</td>
+                                                    <td>
+                                                        @if (!empty($guest->misi))
+                                                            @foreach ($guest->misi as $misi)
+                                                                <ul id="missionList"
+                                                                    style="list-style-type: none; padding-left: 0;">
+                                                                    <li
+                                                                        style="display: flex; align-items: center; margin-bottom: 10px;">
+                                                                        <input class="form-control" name="misi[]"
+                                                                            style="flex: 1; margin-right: 10px;"
+                                                                            value="{{ $misi->misi }}" />
+                                                                            <i class="ri-delete-bin-line remove-mission"
+                                                                            style="cursor: pointer; color: red; font-size: 20px;"
+                                                                            data-toggle="modal"
+                                                                            data-target="#delete_misi{{ $misi->id_misi }}"></i>
+                                                                    </li>
+                                                                </ul>
+                                                            @endforeach
+                                                        @endif
+                                                        <button type="button" class="btn btn-primary"
+                                                            id="addMissionButton">Tambah Misi</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Foto</td>
+                                                    <td>
+                                                        @if (!empty($guest->foto))
+                                                        <div class="mb-3">
+                                                            @foreach ($guest->foto as $fotos)
+                                                            <img src="{{ asset('gambar_pondok/' . $fotos->foto) }}"
+                                                            alt={{'gambar_pondok/'.$fotos->foto}}
+                                                            style="max-width: 200px; margin-top: 10px;">
+                                                            @endforeach
+                                                        </div>
+                                                        @endif
+                                                        <div class="upload__box">
+                                                            <input type="file" class="upload__inputfile"
+                                                                name="foto[]" multiple data-max_length="20">
+                                                            <div class="upload__img-wrap"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Lokasi</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="lokasi"
+                                                            value="{{ $guest->lokasi }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Link Gmaps Lokasi</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="gmaps_link"
+                                                            value="{{ $guest->linkgmaps }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nomor Telepon</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="no_tlp"
+                                                            value="{{ $guest->no_tlp }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Email</td>
+                                                    <td>
+                                                        <input type="email" class="form-control" name="email"
+                                                            value="{{ $guest->email }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Instagram</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="instagram"
+                                                            value="{{ $guest->instagram }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Youtube</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="youtube"
+                                                            value="{{ $guest->youtube }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Facebook</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="facebook"
+                                                            value="{{ $guest->facebook }}">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -217,14 +250,39 @@
                                     <button type="submit" class="btn btn-primary mt-3">Simpan</button>
                                 </div>
                             </form>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
 
+    <!-- Modal Delete -->
+    @foreach ($guest->misi as $misi)
+        <div class="modal fade" id="delete_misi{{ $misi->id_misi }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle{{ $misi->id_misi }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <form id="deleteForm" method="post"
+                        action="{{ url('/admin/master_guest/delete/' . $misi->id_misi) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                            <h3 class="mt-4">Anda yakin ingin hapus {{ $misi->misi }} ?</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 @section('js')
     <script>
@@ -296,106 +354,125 @@
         });
     </script>
     <script>
-        jQuery(document).ready(function () {
-        ImgUpload();
+        jQuery(document).ready(function() {
+            ImgUpload();
         });
 
         function ImgUpload() {
-        var imgWrap = "";
-        var imgArray = [];
+            var imgWrap = "";
+            var imgArray = [];
 
-        $('.upload__inputfile').each(function () {
-            $(this).on('change', function (e) {
-            imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
-            var maxLength = $(this).attr('data-max_length');
+            $('.upload__inputfile').each(function() {
+                $(this).on('change', function(e) {
+                    imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+                    var maxLength = $(this).attr('data-max_length');
 
-            var files = e.target.files;
-            var filesArr = Array.prototype.slice.call(files);
-            var iterator = 0;
-            filesArr.forEach(function (f, index) {
+                    var files = e.target.files;
+                    var filesArr = Array.prototype.slice.call(files);
+                    var iterator = 0;
+                    filesArr.forEach(function(f, index) {
 
-                if (!f.type.match('image.*')) {
-                return;
-                }
+                        if (!f.type.match('image.*')) {
+                            return;
+                        }
 
-                if (imgArray.length > maxLength) {
-                return false
-                } else {
-                var len = 0;
+                        if (imgArray.length > maxLength) {
+                            return false
+                        } else {
+                            var len = 0;
+                            for (var i = 0; i < imgArray.length; i++) {
+                                if (imgArray[i] !== undefined) {
+                                    len++;
+                                }
+                            }
+                            if (len > maxLength) {
+                                return false;
+                            } else {
+                                imgArray.push(f);
+
+                                var reader = new FileReader();
+                                reader.onload = function(e) {
+                                    var html =
+                                        "<div class='upload__img-box'><div style='background-image: url(" +
+                                        e.target.result + ")' data-number='" + $(
+                                            ".upload__img-close").length + "' data-file='" + f
+                                        .name +
+                                        "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+                                    imgWrap.append(html);
+                                    iterator++;
+                                }
+                                reader.readAsDataURL(f);
+                            }
+                        }
+                    });
+                });
+            });
+
+            $('body').on('click', ".upload__img-close", function(e) {
+                var file = $(this).parent().data("file");
                 for (var i = 0; i < imgArray.length; i++) {
-                    if (imgArray[i] !== undefined) {
-                    len++;
+                    if (imgArray[i].name === file) {
+                        imgArray.splice(i, 1);
+                        break;
                     }
                 }
-                if (len > maxLength) {
-                    return false;
-                } else {
-                    imgArray.push(f);
-
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                    var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
-                    imgWrap.append(html);
-                    iterator++;
-                    }
-                    reader.readAsDataURL(f);
-                }
-                }
+                $(this).parent().parent().remove();
             });
-            });
-        });
-
-        $('body').on('click', ".upload__img-close", function (e) {
-            var file = $(this).parent().data("file");
-            for (var i = 0; i < imgArray.length; i++) {
-            if (imgArray[i].name === file) {
-                imgArray.splice(i, 1);
-                break;
-            }
-            }
-            $(this).parent().parent().remove();
-        });
         }
+
+        document.getElementById('addMissionButton').addEventListener('click', function() {
+            var missionList = document.getElementById('missionList');
+
+            var newLi = document.createElement('li');
+            newLi.style.display = 'flex';
+            newLi.style.alignItems = 'center';
+            newLi.style.marginBottom = '10px';
+            newLi.innerHTML =
+                '<input class="form-control" name="misi[]" placeholder="Masukkan misi baru" style="flex: 1; margin-right: 10px;"/>' +
+                '<i class="ri-delete-bin-line remove-mission" style="cursor: pointer; color: red; font-size: 20px;"></i>';
+
+            missionList.appendChild(newLi);
+        });
     </script>
     <style>
         .upload__img-wrap {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -10px;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
         }
 
         .upload__img-box {
-        width: 200px;
-        padding: 0 10px;
-        margin-bottom: 12px;
+            width: 200px;
+            padding: 0 10px;
+            margin-bottom: 12px;
         }
 
         .upload__img-close {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        text-align: center;
-        line-height: 24px;
-        z-index: 1;
-        cursor: pointer;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: center;
+            line-height: 24px;
+            z-index: 1;
+            cursor: pointer;
         }
 
         .upload__img-close:after {
-        content: "\2716";
-        font-size: 14px;
-        color: white;
+            content: "\2716";
+            font-size: 14px;
+            color: white;
         }
 
         .img-bg {
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        position: relative;
-        padding-bottom: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            padding-bottom: 100%;
         }
     </style>
 @endsection
