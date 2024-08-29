@@ -180,7 +180,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                            <select class="form-control" name="nama_santri" id="nama_santri" multiple="multiple" style="width: 100%"></select>
+                            <select class="form-control" name="nama_santri" id="nama_santri" style="width: 100%"></select>
                         </div>
                     </div>
                     <div class="modal-footer">

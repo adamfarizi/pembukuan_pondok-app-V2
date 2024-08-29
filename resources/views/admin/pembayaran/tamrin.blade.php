@@ -182,7 +182,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                            <select class="form-control" name="nama_santri" id="nama_santri" multiple="multiple" style="width: 100%;"></select>
+                            <select class="form-control" name="nama_santri" id="nama_santri" style="width: 100%;"></select>
                         </div>
                         <div class="form-group">
                             <label for="jenisPembayaran">Jenis Pembayaran <span class="text-danger">*</span></label>
@@ -193,7 +193,7 @@
                         </div>
                         <div class="form-group" id="jumlahBayarGroup" style="display: none;">
                             <label for="jumlah_bayar">Nominal Bayar Awal <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar" required>
+                            <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar">
                         </div>
                     </div>
                     <div class="modal-footer">
