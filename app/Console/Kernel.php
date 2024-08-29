@@ -43,6 +43,7 @@ class Kernel extends ConsoleKernel
             $this->createPembayaranTamrinAndSendEmails();
         })->monthly(); // Setiap bulan
 
+
         // Test mengirim email
         // $schedule->call(function () {
         //     $this->createPembayaranDaftarUlangAndSendEmails();

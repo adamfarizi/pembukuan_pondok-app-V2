@@ -34,10 +34,9 @@ class DatabaseSeeder extends Seeder
         // Pengeluaran::factory(10)->create();
         
         $this->call([
-            // PembayaranSeeder::class,
-            NilaiSantriSeeder::class,
+            // NilaiSantriSeeder::class,
             HafalanSeeder::class,
-            PengajarSeeder::class,
+            // PengajarSeeder::class,
             MasterAdminSeeder::class,
         ]);
     }
