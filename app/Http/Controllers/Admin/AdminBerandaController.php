@@ -16,7 +16,7 @@ class AdminBerandaController extends Controller
         $data['title'] = 'Beranda';
 
         //* total pemasukan
-        $pembayaran = Pembayaran::pluck('jumlah_pembayaran')->sum();
+        $pembayaran = Pembayaran::where('status_pembayaran', 'lunas')->pluck('jumlah_pembayaran')->sum();
         $pemasukan = Pemasukan::pluck('jumlah_pemasukan')->sum();
         $totalpemasukan = $pembayaran + $pemasukan;
 

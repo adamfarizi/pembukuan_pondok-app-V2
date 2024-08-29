@@ -24,36 +24,35 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Daftar Ulang: Setiap tahun di bulan Januari
-        // $schedule->call(function () {
-        //     $this->createPembayaranDaftarUlangAndSendEmails();
-        // })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
-
-        // // Iuran: Setiap tahun pada bulan Januari
-        // $schedule->call(function () {
-        //     $this->createPembayaranIuranAndSendEmails();
-        // })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
-
-        // // Iuran: Setiap tahun pada bulan Juni
-        // $schedule->call(function () {
-        //     $this->createPembayaranIuranAndSendEmails();
-        // })->yearlyOn(6, 1); // Setiap tahun pada 1 Juni
-
-        // // Tamrin: Setiap bulan
-        // $schedule->call(function () {
-        //     $this->createPembayaranTamrinAndSendEmails();
-        // })->monthly(); // Setiap bulan
-
-
-        // Test mengirim email
         $schedule->call(function () {
             $this->createPembayaranDaftarUlangAndSendEmails();
-        })->everyMinute();
+        })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
+
+        // Iuran: Setiap tahun pada bulan Januari
         $schedule->call(function () {
             $this->createPembayaranIuranAndSendEmails();
-        })->everyMinute();
+        })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
+
+        // Iuran: Setiap tahun pada bulan Juni
+        $schedule->call(function () {
+            $this->createPembayaranIuranAndSendEmails();
+        })->yearlyOn(6, 1); // Setiap tahun pada 1 Juni
+
+        // Tamrin: Setiap bulan
         $schedule->call(function () {
             $this->createPembayaranTamrinAndSendEmails();
-        })->everyMinute();
+        })->monthly(); // Setiap bulan
+
+        // Test mengirim email
+        // $schedule->call(function () {
+        //     $this->createPembayaranDaftarUlangAndSendEmails();
+        // })->everyMinute();
+        // $schedule->call(function () {
+        //     $this->createPembayaranIuranAndSendEmails();
+        // })->everyMinute();
+        // $schedule->call(function () {
+        //     $this->createPembayaranTamrinAndSendEmails();
+        // })->everyMinute();
     }
 
     public function createPembayaranDaftarUlangAndSendEmails()
@@ -86,10 +85,10 @@ class Kernel extends ConsoleKernel
             }
 
             // Kirim email ke wali santri
-            $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
-            if ($waliSantri) {
-                Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
-            }
+            // $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
+            // if ($waliSantri) {
+            //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
+            // }
         }
     }
     public function createPembayaranTamrinAndSendEmails()
@@ -122,10 +121,10 @@ class Kernel extends ConsoleKernel
             }
 
             // Kirim email ke wali santri
-            $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
-            if ($waliSantri) {
-                Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
-            }
+            // $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
+            // if ($waliSantri) {
+            //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
+            // }
         }
     }
     public function createPembayaranIuranAndSendEmails()
@@ -159,10 +158,10 @@ class Kernel extends ConsoleKernel
             }
 
             // Kirim email ke wali santri
-            $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
-            if ($waliSantri) {
-                Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
-            }
+            // $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
+            // if ($waliSantri) {
+            //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
+            // }
         }
     }
 

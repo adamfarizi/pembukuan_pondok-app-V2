@@ -118,14 +118,14 @@
                                             <div class="user-detail pl-5">
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="profile-img pr-4">
-                                                        @if ($santri->pas_foto_santri)
-                                                            <img src="{{ asset('berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri) }}"
-                                                                alt="profile-img" class="avatar-130 img-fluid"
-                                                                style="object-fit:cover;" />
+                                                        @php
+                                                            $fotoPath = 'berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri;
+                                                        @endphp
+
+                                                        @if ($santri->pas_foto_santri && file_exists(public_path($fotoPath)))
+                                                            <img src="{{ asset($fotoPath) }}" alt="profile-img" class="avatar-130 img-fluid" style="object-fit:cover;" />
                                                         @else
-                                                            <img src="{{ asset('images/page-img/15.jpg') }}"
-                                                                alt="profile-img" class="avatar-130 img-fluid"
-                                                                style="object-fit:cover;" />
+                                                            <img src="{{ asset('images/page-img/15.jpg') }}" alt="profile-img" class="avatar-130 img-fluid" style="object-fit:cover;" />
                                                         @endif
                                                     </div>
                                                     <div class="profile-detail align-items-center">

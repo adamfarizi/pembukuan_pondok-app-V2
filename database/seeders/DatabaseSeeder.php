@@ -24,14 +24,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            WaliSantriSeeder::class,
-            PendaftaranSeeder::class,
+            // WaliSantriSeeder::class,
+            // PendaftaranSeeder::class,
         ]);
 
-        Santri::factory(2)->create();
-        WaliSantri::factory(2)->create();
-        Pemasukan::factory(10)->create();
-        Pengeluaran::factory(10)->create();
+        // Santri::factory(2)->create();
+        // WaliSantri::factory(2)->create();
+        // Pemasukan::factory(10)->create();
+        // Pengeluaran::factory(10)->create();
         
         $this->call([
             // PembayaranSeeder::class,

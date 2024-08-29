@@ -17,7 +17,7 @@ class AdminLaporanKeuanganController extends Controller
         $data['title'] = 'Laporan Keuangan';
 
         //* pemasukan pondok
-        $pembayaran = Pembayaran::pluck('jumlah_pembayaran')->sum();
+        $pembayaran = Pembayaran::where('status_pembayaran', 'lunas')->pluck('jumlah_pembayaran')->sum();
         $pemasukan = Pemasukan::pluck('jumlah_pemasukan')->sum();
         $totalpemasukan = $pembayaran + $pemasukan;
 
