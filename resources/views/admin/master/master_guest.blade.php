@@ -48,7 +48,7 @@
                             <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                        <h5 class="mb-0 text-white line-height">{{Auth::user()->nama_admin}}</h5>
+                                        <h5 class="mb-0 text-white line-height">{{ Auth::user()->nama_admin }}</h5>
                                         <span class="text-white font-size-12">Online</span>
                                     </div>
                                     <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
@@ -130,126 +130,134 @@
                         </div>
                         <div class="iq-card-body">
                             @foreach ($guests as $guest)
-                            <form action="{{ route('master_guest_save', $guest->id_guest) }}" method="POST" enctype="multipart/form-data">
-                                @method('PUT')
-                                @csrf
-                                <div class="table-responsive pb-3 pt-3 px-3">
-                                    <table id="tableEditPondok" class="table" role="grid"
-                                        style="width: 100%; min-height: 500px;">
-                                        <thead>
-                                            <tr>
-                                                <th>Field</th>
-                                                <th>Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($guests as $guest)
+                                <form action="{{ route('master_guest_save', $guest->id_guest) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @method('PUT')
+                                    @csrf
+                                    <div class="table-responsive pb-3 pt-3 px-3">
+                                        <table id="tableEditPondok" class="table" role="grid"
+                                            style="width: 100%; min-height: 500px;">
+                                            <thead>
                                                 <tr>
-                                                    <td>Visi</td>
-                                                    <td>
-                                                        <textarea class="form-control" name="visi" rows="3">{{ $guest->visi }}</textarea>
-                                                    </td>
+                                                    <th>Field</th>
+                                                    <th>Value</th>
                                                 </tr>
-                                                <tr>
-                                                    <td>Misi</td>
-                                                    <td>
-                                                        @if (!empty($guest->misi))
-                                                            @foreach ($guest->misi as $misi)
-                                                                <ul id="missionList"
-                                                                    style="list-style-type: none; padding-left: 0;">
-                                                                    <li
-                                                                        style="display: flex; align-items: center; margin-bottom: 10px;">
-                                                                        <input class="form-control" name="misi[]"
-                                                                            style="flex: 1; margin-right: 10px;"
-                                                                            value="{{ $misi->misi }}" />
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($guests as $guest)
+                                                    <tr>
+                                                        <td>Visi</td>
+                                                        <td>
+                                                            <textarea class="form-control" name="visi" rows="3">{{ $guest->visi }}</textarea>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Misi</td>
+                                                        <td>
+                                                            @if (!empty($guest->misi))
+                                                                @foreach ($guest->misi as $misi)
+                                                                    <ul id="missionList"
+                                                                        style="list-style-type: none; padding-left: 0;">
+                                                                        <li
+                                                                            style="display: flex; align-items: center; margin-bottom: 10px;">
+                                                                            <input class="form-control" name="misi[]"
+                                                                                style="flex: 1; margin-right: 10px;"
+                                                                                value="{{ $misi->misi }}" />
                                                                             <i class="ri-delete-bin-line remove-mission"
-                                                                            style="cursor: pointer; color: red; font-size: 20px;"
-                                                                            data-toggle="modal"
-                                                                            data-target="#delete_misi{{ $misi->id_misi }}"></i>
-                                                                    </li>
-                                                                </ul>
-                                                            @endforeach
-                                                        @endif
-                                                        <button type="button" class="btn btn-primary"
-                                                            id="addMissionButton">Tambah Misi</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Foto</td>
-                                                    <td>
-                                                        @if (!empty($guest->foto))
-                                                        <div class="mb-3">
-                                                            @foreach ($guest->foto as $fotos)
-                                                            <img src="{{ asset('gambar_pondok/' . $fotos->foto) }}"
-                                                            alt={{'gambar_pondok/'.$fotos->foto}}
-                                                            style="max-width: 200px; margin-top: 10px;">
-                                                            @endforeach
-                                                        </div>
-                                                        @endif
-                                                        <div class="upload__box">
-                                                            <input type="file" class="upload__inputfile"
-                                                                name="foto[]" multiple data-max_length="20">
-                                                            <div class="upload__img-wrap"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lokasi</td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="lokasi"
-                                                            value="{{ $guest->lokasi }}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Link Gmaps Lokasi</td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="gmaps_link"
-                                                            value="{{ $guest->linkgmaps }}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nomor Telepon</td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="no_tlp"
-                                                            value="{{ $guest->no_tlp }}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Email</td>
-                                                    <td>
-                                                        <input type="email" class="form-control" name="email"
-                                                            value="{{ $guest->email }}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Instagram</td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="instagram"
-                                                            value="{{ $guest->instagram }}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Youtube</td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="youtube"
-                                                            value="{{ $guest->youtube }}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Facebook</td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="facebook"
-                                                            value="{{ $guest->facebook }}">
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="text-right">
-                                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
-                                </div>
-                            </form>
+                                                                                style="cursor: pointer; color: red; font-size: 20px;"
+                                                                                data-toggle="modal"
+                                                                                data-target="#delete_misi{{ $misi->id_misi }}"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                @endforeach
+                                                            @endif
+                                                            <button type="button" class="btn btn-primary"
+                                                                id="addMissionButton">Tambah Misi</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Foto</td>
+                                                        <td>
+                                                            @if (!empty($guest->foto))
+                                                                <div class="mb-3">
+                                                                    @foreach ($guest->foto as $fotos)
+                                                                        <div
+                                                                            style="position: relative; display: inline-block; margin-top: 10px;">
+                                                                            <img src="{{ asset('gambar_pondok/' . $fotos->foto) }}"
+                                                                                alt="{{ $fotos->foto }}"
+                                                                                style="max-width: 200px;">
+                                                                                <button type="button" class="close delete-image" data-toggle="modal"
+                                                                                data-target="#delete_foto{{ $fotos->id_foto }}" style="position: absolute; top: 5px; right: 5px; background-color: transparent; border: none;">
+                                                                                <i class="ri-delete-bin-line" alt="Delete" style="cursor: pointer; color: red; font-size: 20px;"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                                            <div class="upload__box">
+                                                                <input type="file" class="upload__inputfile"
+                                                                    name="foto[]" multiple data-max_length="20">
+                                                                <div class="upload__img-wrap"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lokasi</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="lokasi"
+                                                                value="{{ $guest->lokasi }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Link Gmaps Lokasi</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="gmaps_link"
+                                                                value="{{ $guest->linkgmaps }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nomor Telepon</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="no_tlp"
+                                                                value="{{ $guest->no_tlp }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Email</td>
+                                                        <td>
+                                                            <input type="email" class="form-control" name="email"
+                                                                value="{{ $guest->email }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Instagram</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="instagram"
+                                                                value="{{ $guest->instagram }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Youtube</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="youtube"
+                                                                value="{{ $guest->youtube }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Facebook</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="facebook"
+                                                                value="{{ $guest->facebook }}">
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+                                    </div>
+                                </form>
                             @endforeach
                         </div>
                     </div>
@@ -258,7 +266,7 @@
         </div>
     </div>
 
-    <!-- Modal Delete -->
+    <!-- Modal Delete Misi -->
     @foreach ($guest->misi as $misi)
         <div class="modal fade" id="delete_misi{{ $misi->id_misi }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle{{ $misi->id_misi }}" aria-hidden="true">
@@ -273,6 +281,32 @@
                         <div class="modal-body text-center">
                             <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
                             <h3 class="mt-4">Anda yakin ingin hapus {{ $misi->misi }} ?</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Modal Delete Foto -->
+    @foreach ($guest->foto as $fotos)
+        <div class="modal fade" id="delete_foto{{ $fotos->id_foto }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle{{ $fotos->id_foto }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <form id="deleteForm" method="post"
+                        action="{{ url('/admin/master_guest/delete/' . $fotos->id_foto) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                            <h3 class="mt-4">Anda yakin ingin hapus?</h3>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

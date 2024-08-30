@@ -111,6 +111,7 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/master_guest', [AdminGuestMasterController::class, 'index'])->name('master_guest');
   Route::put('/admin/master_guest/simpan/{id}', [AdminGuestMasterController::class, 'update'])->name('master_guest_save');
   Route::delete('/admin/master_guest/delete/{id}', [AdminGuestMasterController::class, 'delete_misi'])->name('master_guest_delete_misi');
+  Route::delete('/admin/master_guest/delete/{id}', [AdminGuestMasterController::class, 'delete_foto'])->name('master_guest_delete_foto');
   Route::get('/admin/master_wali', [AdminWaliMasterController::class, 'index'])->name('master_wali');
 });
 

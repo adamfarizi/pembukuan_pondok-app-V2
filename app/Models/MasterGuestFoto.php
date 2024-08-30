@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterGuestFoto extends Model
 {
+    protected $primaryKey = 'id_foto';
+
     protected $fillable = [
         'id_guest',
         'foto',
