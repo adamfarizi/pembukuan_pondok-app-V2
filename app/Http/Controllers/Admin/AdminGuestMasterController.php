@@ -68,16 +68,12 @@ class AdminGuestMasterController extends Controller
 
         if ($request->hasFile('foto')) {
             foreach ($request->foto as $fotos) {
-                // Ambil nama asli file
                 $originalName = $fotos->getClientOriginalName();
         
-                // Tentukan path untuk menyimpan file langsung ke public/gambar_pondok
                 $path = public_path('gambar_pondok'); 
         
-                // Pindahkan file ke folder tujuan
                 $fotos->move($path, $originalName);
         
-                // Simpan informasi file ke database
                 MasterGuestFoto::create([
                     'id_guest' => $id_guest,
                     'foto' => $originalName
