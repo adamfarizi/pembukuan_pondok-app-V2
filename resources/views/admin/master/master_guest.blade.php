@@ -175,6 +175,28 @@
                                                                 id="addMissionButton">Tambah Misi</button>
                                                         </td>
                                                     </tr>
+                                                    <tr><td>Rekening</td>
+                                                        <td>
+                                                            @if (!empty($guest->rekening))
+                                                                @foreach ($guest->rekening as $rekening)
+                                                                    <ul id="rekeningList"
+                                                                        style="list-style-type: none; padding-left: 0;">
+                                                                        <li
+                                                                            style="display: flex; align-items: center; margin-bottom: 10px;">
+                                                                            <input class="form-control" name="rekening[]"
+                                                                                style="flex: 1; margin-right: 10px;"
+                                                                                value="{{ $rekening->rekening }}" />
+                                                                            <i class="ri-delete-bin-line remove-mission"
+                                                                                style="cursor: pointer; color: red; font-size: 20px;"
+                                                                                data-toggle="modal"
+                                                                                data-target="#delete_rekening{{ $rekening->id_rekening }}"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                @endforeach
+                                                            @endif
+                                                            <button type="button" class="btn btn-primary" id="addRekeningButton">Tambah Rekening</button>
+                                                        </td>                                                        
+                                                    </tr>
                                                     <tr>
                                                         <td>Foto</td>
                                                         <td>
@@ -262,65 +284,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- row 2 --}}
-                <div class="col-sm-12">
-                    <div class="iq-card">
-                        <div class="iq-card-header d-flex justify-content-between">
-                            <div class="iq-header-title">
-                                <h4 class="card-title">Data Donasi</h4>
-                            </div>
-                        </div>
-                        <div class="iq-card-body">
-                            {{-- @foreach ($guests as $guest) --}}
-                                <form action="" method="POST"
-                                    enctype="multipart/form-data">
-                                    {{-- @method('PUT')
-                                    @csrf --}}
-                                    <div class="table-responsive pb-3 pt-3 px-3">
-                                        <table id="tableEditPondok" class="table" role="grid"
-                                            style="width: 100%; min-height: 20px;">
-                                            <tbody>
-                                                {{-- @foreach ($guests as $guest) --}}
-                                                    <tr><td>Rekening</td>
-                                                        <td>
-                                                            <ul id="rekeningList" style="list-style-type: none; padding-left: 0;">
-                                                                <li style="display: flex; align-items: center; margin-bottom: 10px;">
-                                                                    <input class="form-control" name="bank[]" placeholder="Nama Bank" style="flex: 1; margin-right: 10px;" />
-                                                                    <input class="form-control" name="nomor_rekening[]" placeholder="Nomor Rekening" style="flex: 1; margin-right: 10px;" />
-                                                                    <i class="ri-delete-bin-line remove-rekening" style="cursor: pointer; color: red; font-size: 20px;" data-toggle="modal" data-target="#delete_rekening"></i>
-                                                                </li>
-                                                            </ul>
-                                                            <button type="button" class="btn btn-primary" id="addRekeningButton">Tambah Rekening</button>
-                                                        </td>                                                        
-                                                    </tr>
-                                                {{-- @endforeach --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            {{-- @endforeach --}}
-                        </div>
-                        <div class="iq-card-body">
-                            <div class="table-responsive pb-3 pt-2 px-3">
-                                <table id="tablePengeluaran" class="table" role="grid"
-                                    aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Nama Pengirim</th>
-                                            <th>Jumlah Donasi</th>
-                                            <th>Deskripsi Donasi</th>
-                                            <th>Bukti Donasi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -334,12 +297,38 @@
                     <div class="modal-header">
                     </div>
                     <form id="deleteForm" method="post"
-                        action="{{ url('/admin/master_guest/delete/' . $misi->id_misi) }}">
+                        action="{{ url('/admin/master_guest/delete_misi/' . $misi->id_misi) }}">
                         @csrf
                         @method('DELETE')
                         <div class="modal-body text-center">
                             <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
                             <h3 class="mt-4">Anda yakin ingin hapus {{ $misi->misi }} ?</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Modal Delete Rekening -->
+    @foreach ($guest->rekening as $rekening)
+        <div class="modal fade" id="delete_rekening{{ $rekening->id_rekening }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle{{ $rekening->id_rekening }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <form id="deleteForm" method="post"
+                        action="{{ url('/admin/master_guest/delete_rekening/' . $rekening->id_rekening) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                            <h3 class="mt-4">Anda yakin ingin hapus {{ $rekening->rekening }} ?</h3>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -360,7 +349,7 @@
                     <div class="modal-header">
                     </div>
                     <form id="deleteForm" method="post"
-                        action="{{ url('/admin/master_guest/delete/' . $fotos->id_foto) }}">
+                        action="{{ url('/admin/master_guest/delete_foto/' . $fotos->id_foto) }}">
                         @csrf
                         @method('DELETE')
                         <div class="modal-body text-center">
@@ -526,8 +515,7 @@
         newRekeningItem.style.marginBottom = '10px';
 
         newRekeningItem.innerHTML = `
-            <input class="form-control" name="bank[]" placeholder="Nama Bank" style="flex: 1; margin-right: 10px;" />
-            <input class="form-control" name="nomor_rekening[]" placeholder="Nomor Rekening" style="flex: 1; margin-right: 10px;" />
+            <input class="form-control" name="rekening[]" placeholder="Silahkan masukkan nama bank dan no rekening" style="flex: 1; margin-right: 10px;" />
             <i class="ri-delete-bin-line remove-rekening" style="cursor: pointer; color: red; font-size: 20px;"></i>
         `;
 

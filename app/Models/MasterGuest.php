@@ -33,4 +33,9 @@ class MasterGuest extends Model
     {
         return $this->hasMany(MasterGuestMisi::class, 'id_guest', 'id_guest');
     }
+
+    public function rekening()
+    {
+        return $this->hasMany(MasterGuestRekening::class, 'id_guest', 'id_guest');
+    }
 }

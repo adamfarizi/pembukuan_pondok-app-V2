@@ -16,6 +16,7 @@ use Database\Seeders\MasterAdminSeeder;
 use Database\Seeders\MasterGuestSeeder;
 use Database\Seeders\MasterGuestFotoSeeder;
 use Database\Seeders\MasterGuestMisiSeeder;
+use Database\Seeders\MasterGuestRekeningSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
             MasterGuestSeeder::class,
             MasterGuestFotoSeeder::class,
             MasterGuestMisiSeeder::class,
+            MasterGuestRekeningSeeder::class,
             PembayaranSeeder::class,
         ]);
     }

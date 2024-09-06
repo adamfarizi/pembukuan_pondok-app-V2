@@ -110,8 +110,9 @@ Route::middleware(['auth:web'])->group(function () {
   Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete_admin`']);
   Route::get('/admin/master_guest', [AdminGuestMasterController::class, 'index'])->name('master_guest');
   Route::put('/admin/master_guest/simpan/{id}', [AdminGuestMasterController::class, 'update'])->name('master_guest_save');
-  Route::delete('/admin/master_guest/delete/{id}', [AdminGuestMasterController::class, 'delete_misi'])->name('master_guest_delete_misi');
-  Route::delete('/admin/master_guest/delete/{id}', [AdminGuestMasterController::class, 'delete_foto'])->name('master_guest_delete_foto');
+  Route::delete('/admin/master_guest/delete_misi/{id}', [AdminGuestMasterController::class, 'delete_misi'])->name('master_guest_delete_misi');
+  Route::delete('/admin/master_guest/delete_foto/{id}', [AdminGuestMasterController::class, 'delete_foto'])->name('master_guest_delete_foto');
+  Route::delete('/admin/master_guest/delete_rekening/{id}', [AdminGuestMasterController::class, 'delete_rekening'])->name('master_guest_delete_rekening');
   Route::get('/admin/master_wali', [AdminWaliMasterController::class, 'index'])->name('master_wali');
 });
 

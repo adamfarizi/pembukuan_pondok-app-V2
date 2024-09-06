@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MasterGuestMisiSeeder extends Seeder
+class MasterGuestRekeningSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +15,9 @@ class MasterGuestMisiSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('master_guests_misi')->insert([
+        DB::table('master_guests_rekening')->insert([
             'id_guest' => 1,
-            'misi' => 'Meningkatkan Kualitas Pendidikan Agama',
+            'rekening' => 'Bank BCD: 1234567890 a/n Pusat Pendidikan ABC',
             'created_at' => now(),
             'updated_at' => now(),
         ]);   
