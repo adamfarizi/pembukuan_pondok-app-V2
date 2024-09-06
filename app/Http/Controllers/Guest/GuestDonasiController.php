@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guest;
 use App\Models\Pemasukan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\MasterGuest;
 use Illuminate\Support\Facades\Auth;
 
 class GuestDonasiController extends Controller
@@ -13,7 +14,10 @@ class GuestDonasiController extends Controller
     {
         $data['title'] = 'Donasi';
 
+        $guest = MasterGuest::with(['rekening'])->get();
+
         return view('guest.donasi.donasi', [
+            'guests' => $guest
         ], $data);
     }
 
