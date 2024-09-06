@@ -150,6 +150,31 @@
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
+                                    <h4 class="card-title">Point Pelanggaran Santri</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <form id="fileUploadForm">
+                                    <div class="form-group">
+                                        <label for="fileUpload">Pilih File:</label>
+                                        <input type="file" class="form-control-file" id="fileUpload">
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary mt-1">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
                                     <h4 class="card-title">Data Pengumuman</h4>
                                 </div>
                             </div>
