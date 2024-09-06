@@ -262,6 +262,65 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- row 2 --}}
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Data Donasi</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            {{-- @foreach ($guests as $guest) --}}
+                                <form action="" method="POST"
+                                    enctype="multipart/form-data">
+                                    {{-- @method('PUT')
+                                    @csrf --}}
+                                    <div class="table-responsive pb-3 pt-3 px-3">
+                                        <table id="tableEditPondok" class="table" role="grid"
+                                            style="width: 100%; min-height: 20px;">
+                                            <tbody>
+                                                {{-- @foreach ($guests as $guest) --}}
+                                                    <tr><td>Rekening</td>
+                                                        <td>
+                                                            <ul id="rekeningList" style="list-style-type: none; padding-left: 0;">
+                                                                <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                                                                    <input class="form-control" name="bank[]" placeholder="Nama Bank" style="flex: 1; margin-right: 10px;" />
+                                                                    <input class="form-control" name="nomor_rekening[]" placeholder="Nomor Rekening" style="flex: 1; margin-right: 10px;" />
+                                                                    <i class="ri-delete-bin-line remove-rekening" style="cursor: pointer; color: red; font-size: 20px;" data-toggle="modal" data-target="#delete_rekening"></i>
+                                                                </li>
+                                                            </ul>
+                                                            <button type="button" class="btn btn-primary" id="addRekeningButton">Tambah Rekening</button>
+                                                        </td>                                                        
+                                                    </tr>
+                                                {{-- @endforeach --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </form>
+                            {{-- @endforeach --}}
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="table-responsive pb-3 pt-2 px-3">
+                                <table id="tablePengeluaran" class="table" role="grid"
+                                    aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nama Pengirim</th>
+                                            <th>Jumlah Donasi</th>
+                                            <th>Deskripsi Donasi</th>
+                                            <th>Bukti Donasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -319,73 +378,63 @@
     @endforeach
 @endsection
 @section('js')
-    <script>
-        $(document).ready(function() {
-            $('#tableAdmin').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('master_admin') }}",
-                columns: [
-                    // Kolom nomor urut
-                    {
-                        data: null,
-                        searchable: false,
-                        orderable: false,
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'nama_admin',
-                        name: 'nama_admin'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'role',
-                        name: 'role',
-                        render: function(data, type, full, meta) {
-                            if (data === 'super_admin') {
-                                return '<span class="badge badge-pill badge-primary">Super Admin</span>';
-                            } else if (data === 'admin_pembayaran') {
-                                return '<span class="badge badge-pill badge-warning">Admin Pembayaran</span>';
-                            } else {
-                                return '<span class="badge badge-pill badge-success">Admin Penilaian</span>';
-                            }
-                        }
-                    },
-                    // Kolom aksi (tombol Info, Edit, Delete)
-                    {
-                        data: null,
-                        searchable: false,
-                        orderable: false,
-                        render: function(data, type, full, meta) {
-                            return '<td class="text-center">' +
-                                '<div class="d-flex align-items-center list-user-action">' +
-                                '<a data-placement="top" title="Edit" href="#" data-target="#editModal' +
-                                full.id_admin + '" data-toggle="modal" data-id="' + full
-                                .id_admin + '">' +
-                                '<i class="ri-pencil-line"></i>' +
-                                '</a>' +
-                                '<a data-placement="top" title="Delete" href="#" data-target="#deleteModal' +
-                                full.id_admin + '" data-toggle="modal" data-id="' + full
-                                .id_admin + '">' +
-                                '<i class="ri-delete-bin-line"></i>' +
-                                '</a>' +
-                                '</div>' +
-                                '</td>';
-                        }
+<script>
+    $(document).ready(function() {
+        $('#tablePengeluaran').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('pengeluaran') }}",
+            columns: [
+                // Kolom nomor urut
+                {
+                    data: null,
+                    searchable: false,
+                    orderable: false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
-                ],
-                lengthMenu: [
-                    [10, 25, 50, 100, -1], // Jumlah entries per halaman, -1 untuk Tampilkan Semua Data
-                    ['10', '25', '50', '100', 'Semua']
-                ]
-            });
-
+                },
+                // Kolom tanggal pembayaran
+               // Kolom nama pengeluar
+               {
+                    data: 'nama_pengeluar',
+                    name: 'nama_pengeluar',
+                },
+                // Kolom jumlah pembayaran
+                {
+                    data: 'jumlah_pengeluaran',
+                    render: function(data, type, full, meta) {
+                        return 'Rp. ' + data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                },
+                // Kolom diterima oleh
+                {
+                    data: 'deskripsi_pengeluaran',
+                    name: 'deskripsi_pengeluaran',
+                },
+                {
+                    data: 'id_pengeluaran',
+                    searchable: false,
+                    orderable: false,
+                    render: function(data, type, full, meta) {
+                        return '<div class="d-flex align-items-center">' +
+                            '<a data-placement="top" title="Bukti" href="#"' +
+                            'data-target="#infoModal' + full.id_pengeluaran +
+                            '" data-toggle="modal" ' +
+                            'data-id="' + full.id_pengeluaran + '">' +
+                            '<i class="ri-information-line"></i> Bukti' +
+                            '</a>' +
+                            '</div>';
+                    }
+                },
+            ],
+            lengthMenu: [
+                [10, 25, 50, 100, -1], // Jumlah entries per halaman, -1 untuk Tampilkan Semua Data
+                ['10', '25', '50', '100', 'Semua']
+            ]
         });
+
+    });
     </script>
     <script>
         jQuery(document).ready(function() {
@@ -467,6 +516,27 @@
 
             missionList.appendChild(newLi);
         });
+    </script>
+    <script>
+        document.getElementById('addRekeningButton').addEventListener('click', function() {
+        const rekeningList = document.getElementById('rekeningList');
+        const newRekeningItem = document.createElement('li');
+        newRekeningItem.style.display = 'flex';
+        newRekeningItem.style.alignItems = 'center';
+        newRekeningItem.style.marginBottom = '10px';
+
+        newRekeningItem.innerHTML = `
+            <input class="form-control" name="bank[]" placeholder="Nama Bank" style="flex: 1; margin-right: 10px;" />
+            <input class="form-control" name="nomor_rekening[]" placeholder="Nomor Rekening" style="flex: 1; margin-right: 10px;" />
+            <i class="ri-delete-bin-line remove-rekening" style="cursor: pointer; color: red; font-size: 20px;"></i>
+        `;
+
+        newRekeningItem.querySelector('.remove-rekening').addEventListener('click', function() {
+            rekeningList.removeChild(newRekeningItem);
+        });
+
+        rekeningList.appendChild(newRekeningItem);
+    });
     </script>
     <style>
         .upload__img-wrap {
