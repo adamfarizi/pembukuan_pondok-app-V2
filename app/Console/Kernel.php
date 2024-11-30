@@ -12,6 +12,7 @@ use App\Mail\TagihanNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -43,6 +44,10 @@ class Kernel extends ConsoleKernel
             $this->createPembayaranTamrinAndSendEmails();
         })->monthly(); // Setiap bulan
 
+        
+        $schedule->call(function () {
+            Log::info('Test schedule execute');
+        })->everyMinute();
 
         // Test mengirim email
         // $schedule->call(function () {
@@ -91,6 +96,8 @@ class Kernel extends ConsoleKernel
             //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
             // }
         }
+
+        Log::info('Executing Create Daftar Ulang');
     }
     public function createPembayaranTamrinAndSendEmails()
     {
@@ -127,6 +134,8 @@ class Kernel extends ConsoleKernel
             //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
             // }
         }
+
+        Log::info('Executing Create Tamrin');
     }
     public function createPembayaranIuranAndSendEmails()
     {
@@ -164,6 +173,8 @@ class Kernel extends ConsoleKernel
             //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
             // }
         }
+
+        Log::info('Executing Create Iuran');
     }
 
     /**
