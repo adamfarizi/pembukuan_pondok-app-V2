@@ -1,4 +1,4 @@
-<p align="center"><img src="public/images/pondok/koran.png" width="400" alt="PEMBUKUAN PONDOK APP Logo"></p>
+<p align="center"><img src="public/images/pondok/koran.png" width="200" alt="PEMBUKUAN PONDOK APP Logo"></p>
 
 # Tentang PEMBUKUAN PONDOK APP
 
@@ -30,21 +30,14 @@ php artisan serve
 ```
 Perintah ini akan menjalankan server pengembangan Laravel di alamat http://localhost:8000.
 
-### Menjalankan Build Dev dengan NPM
-Untuk menjalankan build pengembangan dengan NPM, gunakan perintah berikut:
+### Menjalankan Scheduler
+Untuk menjalankan scheduler gunakan perintah berikut:
 
 ```sh
-npm run dev
+php artisan schedule:work
 ```
-Perintah ini akan menjalankan Webpack untuk memantau perubahan pada berkas JavaScript dan CSS, serta membangun ulang bundle ketika terjadi perubahan.
+Perintah ini akan menjalankan Scheduler guna penjadwalan pembuatan tagihan pada santri.
 
-### Menjalankan Websocket Server
-Untuk menjalankan server WebSocket, gunakan perintah berikut:
-
-```sh
-php artisan websocket:serve
-```
-Perintah ini akan menjalankan server WebSocket yang digunakan untuk komunikasi waktu nyata dalam aplikasi Anda.
 
 ## Made with Laravel 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
