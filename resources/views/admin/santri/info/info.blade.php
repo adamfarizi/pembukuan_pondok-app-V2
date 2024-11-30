@@ -303,7 +303,12 @@
                                                             @else
                                                                 <span class="text-success">Semester</span>
                                                             @endif
-                                                            untuk semester {{ $pembayaran->semester_ajaran }} tahun
+                                                            
+                                                            untuk 
+                                                            @if ($pembayaran->jenis_pembayaran == 'iuran_bulanan')
+                                                                {{ $currentMonth }}
+                                                            @endif
+                                                            semester {{ $pembayaran->semester_ajaran }} tahun
                                                             {{ $pembayaran->tahun_ajaran }} sejumlah
                                                             {{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }}
                                                             @if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin_pembayaran')
@@ -413,7 +418,12 @@
                                                             @else
                                                                 <span class="text-success">Semester</span>
                                                             @endif
-                                                            untuk semester {{ $pembayaran->semester_ajaran }} tahun {{ $pembayaran->tahun_ajaran }} sejumlah
+                                                            
+                                                            untuk 
+                                                            @if ($pembayaran->jenis_pembayaran == 'iuran_bulanan')
+                                                                {{ $currentMonth }}
+                                                            @endif 
+                                                            semester {{ $pembayaran->semester_ajaran }} tahun {{ $pembayaran->tahun_ajaran }} sejumlah
                                                             {{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }},
                                                             dibayar pada {{ $tanggal_pembayaran }} jam {{ $variabel_jam }} dan diterima oleh
                                                             {{ $pembayaran->user->nama_admin }}

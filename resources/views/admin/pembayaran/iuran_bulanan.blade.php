@@ -128,7 +128,7 @@
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
                                 <h4 class="card-title mt-3">Pembayaran Iuran Bulanan</h4>
-                                <p class="text-dark">Semester {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
+                                <p class="text-dark">Bulan {{ $currentMonth }}, Semester {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
                                     {{ $currentSemester['tahun'] }}</p>
                             </div>
                             <div class="text-right">

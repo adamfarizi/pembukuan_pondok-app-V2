@@ -13,6 +13,7 @@ use App\Models\PointSantri;
 use Illuminate\Http\Request;
 use App\Helpers\SemesterHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -282,6 +283,8 @@ class AdminSantriController extends Controller
         $wali = WaliSantri::where('id_santri', $id_santri)->first();
 
         $currentSemester = SemesterHelper::getCurrentSemester();
+        $currentMonth = Carbon::now()->locale('id')->translatedFormat('F');
+
         $RiwayatPembayaran = Pembayaran::where('id_santri', $id_santri)
             ->where('status_pembayaran', 'lunas')
             ->with(['santri', 'user'])
@@ -294,6 +297,7 @@ class AdminSantriController extends Controller
             ->orderBy('tahun_ajaran', 'asc')
             ->get();
         return view('admin.santri.info.info', [
+            'currentMonth' => $currentMonth,
             'santri' => $santri,
             'wali' => $wali,
             'RiwayatPembayaran' => $RiwayatPembayaran,

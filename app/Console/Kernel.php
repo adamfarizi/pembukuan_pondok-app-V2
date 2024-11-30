@@ -29,19 +29,19 @@ class Kernel extends ConsoleKernel
             $this->createPembayaranDaftarUlangAndSendEmails();
         })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
 
-        // Iuran: Setiap tahun pada bulan Januari
-        $schedule->call(function () {
-            $this->createPembayaranIuranAndSendEmails();
-        })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
-
-        // Iuran: Setiap tahun pada bulan Juni
-        $schedule->call(function () {
-            $this->createPembayaranIuranAndSendEmails();
-        })->yearlyOn(6, 1); // Setiap tahun pada 1 Juni
-
-        // Tamrin: Setiap bulan
+        // Tamrin: Setiap tahun pada bulan Januari
         $schedule->call(function () {
             $this->createPembayaranTamrinAndSendEmails();
+        })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
+
+        // Tamrin: Setiap tahun pada bulan Juni
+        $schedule->call(function () {
+            $this->createPembayaranTamrinAndSendEmails();
+        })->yearlyOn(6, 1); // Setiap tahun pada 1 Juni
+
+        // Iuran: Setiap bulan
+        $schedule->call(function () {
+            $this->createPembayaranIuranAndSendEmails();
         })->monthly(); // Setiap bulan
 
         
