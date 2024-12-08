@@ -279,7 +279,8 @@ class AdminMasterController extends Controller
     public function createTagihanIuranBulanan()
     {
         $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month;
+        Carbon::setLocale('id');
+        $currentMonth = Carbon::now()->translatedFormat('F');
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         // Get the MasterAdmin data and determine the amount for iuran bulanan
@@ -334,7 +335,6 @@ class AdminMasterController extends Controller
     public function createTagihanSemester()
     {
         $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month;
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         // Get the MasterAdmin data and determine the amount for tagihan semester
