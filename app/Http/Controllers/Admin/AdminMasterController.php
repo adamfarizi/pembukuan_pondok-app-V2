@@ -6,9 +6,13 @@ use App\Models\User;
 use App\Models\MasterAdmin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
+use App\Helpers\SemesterHelper;
+use App\Models\Santri;
 
 class AdminMasterController extends Controller
 {
@@ -22,6 +26,25 @@ class AdminMasterController extends Controller
                 ->make(true);
         }
 
+        $currentYear = Carbon::now()->year;
+        Carbon::setLocale('id');
+        $currentMonth = Carbon::now()->translatedFormat('F');
+        $currentSemester = SemesterHelper::getCurrentSemester();
+        $total_daftar_ulang = Pembayaran::where('jenis_pembayaran', 'daftar_ulang')
+                                ->count('id_santri');
+        $total_tamrin = Pembayaran::where('jenis_pembayaran', 'tamrin')
+                                ->count('id_santri');
+        $total_iuran_bulanan = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
+                                ->count('id_santri');
+        $tag_daftar_ulang = Pembayaran::where('jenis_pembayaran', 'daftar_ulang')
+                                ->where('status_pembayaran', 'belum_lunas')
+                                ->count('id_santri');
+        $tag_tamrin = Pembayaran::where('jenis_pembayaran', 'tamrin')
+                                ->where('status_pembayaran', 'belum_lunas')
+                                ->count('id_santri');
+        $tag_iuran_bulanan = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
+                                ->where('status_pembayaran', 'belum_lunas')
+                                ->count('id_santri');
         $daftar_ulang_baru = MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Baru')->first();
         $daftar_ulang = MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Ulang')->first();
         $semester = MasterAdmin::where('jenis_pembayaran', 'semester')->first();
@@ -35,6 +58,15 @@ class AdminMasterController extends Controller
             'daftar_ulang' => $daftar_ulang,
             'semester' => $semester,
             'iurans' => $iurans,
+            'tagihan_daftar_ulang' => $tag_daftar_ulang,
+            'tagihan_semester' => $tag_tamrin,
+            'tagihan_bulanan' => $tag_iuran_bulanan,
+            'tagihan_total_daftar_ulang' => $total_daftar_ulang,
+            'tagihan_total_semester' => $total_tamrin,
+            'tagihan_total_bulanan' => $total_iuran_bulanan,
+            'year' => $currentYear,
+            'month' => $currentMonth,
+            'smt' => $currentSemester['semester'],
         ], $data);
     }
 
@@ -189,4 +221,169 @@ class AdminMasterController extends Controller
 
         return redirect()->back()->with('success', 'Admin berhasil dihapus.');
     }
+
+    public function createTagihanDaftarUlang()
+    {
+        // Get the current year for the current semester
+        $currentYear = Carbon::now()->year;
+        $currentSemester = SemesterHelper::getCurrentSemester();
+
+        // Get the MasterAdmin data and determine the amount for daftar ulang
+        $master = MasterAdmin::get();
+        $jenisPembayaran = [
+            'daftar_ulang' => $master->where('jenis_pembayaran', 'pendaftaran')
+                ->where('keterangan_pembayaran', 'Pendaftaran Ulang')
+                ->pluck('jumlah_pembayaran')
+                ->first(),
+        ];
+
+        // Get the list of santri IDs
+        $santriIds = Santri::pluck('id_santri')->toArray();
+
+        // Flag to track if any tagihan is created
+        $tagihanCreated = false;
+
+        // Loop through the santri IDs and create pembayaran records
+        foreach ($santriIds as $santriId) {
+            // Check if the pembayaran for the previous year exists based on created_at
+            $existingPembayaranCurrentYear = Pembayaran::where('id_santri', $santriId)
+                ->where('jenis_pembayaran', 'daftar_ulang')
+                ->where('tahun_ajaran', $currentYear)
+                ->exists();
+
+            // If the pembayaran for the current year does not exist, create a new one
+            if (!$existingPembayaranCurrentYear) {
+                foreach ($jenisPembayaran as $jenis => $jumlah) {
+                    Pembayaran::create([
+                        'id_santri' => $santriId,
+                        'jenis_pembayaran' => $jenis,
+                        'jumlah_pembayaran' => $jumlah,
+                        'jumlah_bayar' => 0,
+                        'tahun_ajaran' => $currentYear,
+                        'semester_ajaran' => $currentSemester['semester'],
+                    ]);
+                }
+                $tagihanCreated = true;
+            }
+        }
+
+        if (!$tagihanCreated) {
+            return redirect()->back()->withErrors([
+                'error' => 'Tagihan daftar ulang sudah ada untuk santri di tahun ajaran ' . $currentYear
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Tagihan Daftar Ulang berhasil dibuat untuk santri yang belum memiliki tagihan di tahun ajaran ini.');
+    }
+
+    public function createTagihanIuranBulanan()
+    {
+        $currentYear = Carbon::now()->year;
+        Carbon::setLocale('id');
+        $currentMonth = Carbon::now()->translatedFormat('F');
+        $currentSemester = SemesterHelper::getCurrentSemester();
+        $month = carbon::now()->month;
+        // Get the MasterAdmin data and determine the amount for iuran bulanan
+        $master = MasterAdmin::get();
+        $total_iuran = $master->where('jenis_pembayaran', 'iuran')
+            ->sum('jumlah_pembayaran');
+
+        $jenisPembayaran = [
+            'iuran_bulanan' => $total_iuran,
+        ];
+
+        // Get the list of santri IDs
+        $santriIds = Santri::pluck('id_santri')->toArray();
+
+        // Flag to track if any tagihan is created
+        $tagihanCreated = false;
+
+        // Loop through the santri IDs and create pembayaran records
+        foreach ($santriIds as $santriId) {
+            // Check if the pembayaran for the previous month exists based on created_at
+            $existingPembayaranCurrentMonth = Pembayaran::where('id_santri', $santriId)
+                ->where('jenis_pembayaran', 'iuran_bulanan')
+                ->whereYear('created_at', $currentYear)
+                ->whereMonth('created_at', $month)
+                ->exists();
+
+            // If the pembayaran for the current month does not exist, create a new one
+            if (!$existingPembayaranCurrentMonth) {
+                foreach ($jenisPembayaran as $jenis => $jumlah) {
+                    Pembayaran::create([
+                        'id_santri' => $santriId,
+                        'jenis_pembayaran' => $jenis,
+                        'jumlah_pembayaran' => $jumlah,
+                        'jumlah_bayar' => 0,
+                        'tahun_ajaran' => $currentYear,
+                        'semester_ajaran' => $currentSemester['semester'],
+                    ]);
+                }
+                $tagihanCreated = true;
+            }
+        }
+
+        if (!$tagihanCreated) {
+            return redirect()->back()->withErrors([
+                'error' => 'Tagihan iuran bulanan sudah ada untuk santri di bulan ' . $currentMonth . ' tahun ajaran ' . $currentYear
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Tagihan Iuran Bulanan berhasil dibuat untuk santri yang belum memiliki tagihan di bulan ini.');
+    }
+
+    public function createTagihanSemester()
+    {
+        $currentYear = Carbon::now()->year;
+        $currentSemester = SemesterHelper::getCurrentSemester();
+
+        // Get the MasterAdmin data and determine the amount for tagihan semester
+        $master = MasterAdmin::get();
+        $jenisPembayaran = [
+            'tamrin' => $master->where('jenis_pembayaran', 'semester')
+                ->where('keterangan_pembayaran', 'Semester')
+                ->pluck('jumlah_pembayaran')
+                ->first(),
+        ];
+
+        // Get the list of santri IDs
+        $santriIds = Santri::pluck('id_santri')->toArray();
+
+        // Flag to track if any tagihan is created
+        $tagihanCreated = false;
+
+        // Loop through the santri IDs and create pembayaran records
+        foreach ($santriIds as $santriId) {
+            // Check if the pembayaran for the current semester exists
+            $existingPembayaranForCurrentSemester = Pembayaran::where('id_santri', $santriId)
+                ->where('jenis_pembayaran', 'tamrin')
+                ->where('tahun_ajaran', $currentYear)
+                ->where('semester_ajaran', $currentSemester['semester'])
+                ->exists();
+
+            // If the pembayaran for the current semester does not exist, create a new one
+            if (!$existingPembayaranForCurrentSemester) {
+                foreach ($jenisPembayaran as $jenis => $jumlah) {
+                    Pembayaran::create([
+                        'id_santri' => $santriId,
+                        'jenis_pembayaran' => $jenis,
+                        'jumlah_pembayaran' => $jumlah,
+                        'jumlah_bayar' => 0,
+                        'tahun_ajaran' => $currentYear,
+                        'semester_ajaran' => $currentSemester['semester'],
+                    ]);
+                }
+                $tagihanCreated = true;
+            }
+        }
+
+        if (!$tagihanCreated) {
+            return redirect()->back()->withErrors([
+                'error' => 'Tagihan semester sudah ada untuk semua santri di semester ' . $currentSemester['semester'] . ' tahun ajaran ' . $currentYear
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Tagihan Semester berhasil dibuat untuk santri yang belum memiliki tagihan di semester ini.');
+    }
+
 }

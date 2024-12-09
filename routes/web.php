@@ -105,6 +105,9 @@ Route::middleware(['auth:web'])->group(function () {
   Route::put('/admin/master_admin/edit_pembayaran', [AdminMasterController::class, 'edit_pembayaran']);
   Route::post('/admin/master_admin/create_iuran', [AdminMasterController::class, 'create_iuran']);
   Route::delete('/admin/master_admin/delete_iuran', [AdminMasterController::class, 'delete_iuran']);
+  Route::post('/admin/master_admin/buat_tagihan_daftar_ulang', [AdminMasterController::class, 'createTagihanDaftarUlang'])->name('buat_tagihan_daftar_ulang');
+  Route::post('/admin/master_admin/buat_tagihan_iuran_bulanan', [AdminMasterController::class, 'createTagihanIuranBulanan'])->name('buat_tagihan_iuran_bulanan');
+  Route::post('/admin/master_admin/buat_tagihan_semester', [AdminMasterController::class, 'createTagihanSemester'])->name('buat_tagihan_semester');
   Route::post('/admin/master_admin/create', [AdminMasterController::class, 'create_admin']);
   Route::put('/admin/master_admin/edit/{id}', [AdminMasterController::class, 'edit_admin']);
   Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete_admin`']);

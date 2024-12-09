@@ -12,6 +12,9 @@ use App\Mail\TagihanNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -25,42 +28,69 @@ class Kernel extends ConsoleKernel
     {
         // Daftar Ulang: Setiap tahun di bulan Januari
         $schedule->call(function () {
-            $this->createPembayaranDaftarUlangAndSendEmails();
+            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'daftar_ulang')
+                ->whereYear('created_at', now()->year)
+                ->exists();
+
+            if (!$tagihanExists) {
+                $this->createPembayaranDaftarUlangAndSendEmails();
+                //Log::info('Pembayaran Daftar Ulang berhasil dibuat.');
+            } else {
+                //Log::info('Pembayaran Daftar Ulang sudah ada untuk tahun ini.');
+            }
         })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
 
-        // Iuran: Setiap tahun pada bulan Januari
+        // Tamrin: Setiap tahun pada bulan Januari
         $schedule->call(function () {
-            $this->createPembayaranIuranAndSendEmails();
+            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'tamrin')
+                ->whereYear('created_at', now()->year)
+                ->where('semester_ajaran', 'Genap')
+                ->exists();
+
+            if (!$tagihanExists) {
+                $this->createPembayaranTamrinAndSendEmails();
+                //Log::info('Pembayaran Tamrin untuk semester Genap berhasil dibuat.');
+            } else {
+                //Log::info('Pembayaran Tamrin untuk semester Genap sudah ada.');
+            }
         })->yearlyOn(1, 1); // Setiap tahun pada 1 Januari
 
-        // Iuran: Setiap tahun pada bulan Juni
+        // Tamrin: Setiap tahun pada bulan Juni
         $schedule->call(function () {
-            $this->createPembayaranIuranAndSendEmails();
+            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'tamrin')
+                ->whereYear('created_at', now()->year)
+                ->where('semester_ajaran', 'Ganjil')
+                ->exists();
+
+            if (!$tagihanExists) {
+                $this->createPembayaranTamrinAndSendEmails();
+                //Log::info('Pembayaran Tamrin untuk semester Ganjil berhasil dibuat.');
+            } else {
+                //Log::info('Pembayaran Tamrin untuk semester Ganjil sudah ada.');
+            }
         })->yearlyOn(6, 1); // Setiap tahun pada 1 Juni
 
-        // Tamrin: Setiap bulan
+        // Iuran: Setiap bulan
         $schedule->call(function () {
-            $this->createPembayaranTamrinAndSendEmails();
+            $currentMonth = now()->format('Y-m');
+            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
+                ->whereYear('created_at', now()->year)
+                ->whereMonth('created_at', now()->month)
+                ->exists();
+
+            if (!$tagihanExists) {
+                $this->createPembayaranIuranAndSendEmails();
+                //Log::info('Pembayaran Iuran untuk bulan ' . $currentMonth . ' berhasil dibuat.');
+            } else {
+                //Log::info('Pembayaran Iuran untuk bulan ' . $currentMonth . ' sudah ada.');
+            }
         })->monthly(); // Setiap bulan
-
-
-        // Test mengirim email
-        // $schedule->call(function () {
-        //     $this->createPembayaranDaftarUlangAndSendEmails();
-        // })->everyMinute();
-        // $schedule->call(function () {
-        //     $this->createPembayaranIuranAndSendEmails();
-        // })->everyMinute();
-        // $schedule->call(function () {
-        //     $this->createPembayaranTamrinAndSendEmails();
-        // })->everyMinute();
     }
+
 
     public function createPembayaranDaftarUlangAndSendEmails()
     {
-        $currentMonth = Carbon::now()->month;
         $santriIds = Santri::pluck('id_santri')->toArray();
-
         $master = MasterAdmin::get();
         $jenisPembayaran = [
             'daftar_ulang' => $master->where('jenis_pembayaran', 'pendaftaran')
@@ -71,9 +101,19 @@ class Kernel extends ConsoleKernel
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         foreach ($santriIds as $santriId) {
-            $tagihans = [];
             foreach ($jenisPembayaran as $jenis => $jumlah) {
-                $pembayaran = Pembayaran::create([
+                $existingTagihan = Pembayaran::where('id_santri', $santriId)
+                    ->where('jenis_pembayaran', $jenis)
+                    ->where('tahun_ajaran', $currentSemester['tahun'])
+                    ->where('semester_ajaran', $currentSemester['semester'])
+                    ->exists();
+
+                if ($existingTagihan) {
+                    //Log::info("Tagihan $jenis untuk santri ID $santriId sudah ada.");
+                    continue;
+                }
+
+                Pembayaran::create([
                     'id_santri' => $santriId,
                     'jenis_pembayaran' => $jenis,
                     'jumlah_pembayaran' => $jumlah,
@@ -81,22 +121,15 @@ class Kernel extends ConsoleKernel
                     'tahun_ajaran' => $currentSemester['tahun'],
                     'semester_ajaran' => $currentSemester['semester'],
                 ]);
-
-                $tagihans[] = $pembayaran;
             }
-
-            // Kirim email ke wali santri
-            // $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
-            // if ($waliSantri) {
-            //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
-            // }
         }
+
+        //Log::info('Executing Create Daftar Ulang');
     }
+
     public function createPembayaranTamrinAndSendEmails()
     {
-        $currentMonth = Carbon::now()->month;
         $santriIds = Santri::pluck('id_santri')->toArray();
-
         $master = MasterAdmin::get();
         $jenisPembayaran = [
             'tamrin' => $master->where('jenis_pembayaran', 'semester')
@@ -107,9 +140,19 @@ class Kernel extends ConsoleKernel
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         foreach ($santriIds as $santriId) {
-            $tagihans = [];
             foreach ($jenisPembayaran as $jenis => $jumlah) {
-                $pembayaran = Pembayaran::create([
+                $existingTagihan = Pembayaran::where('id_santri', $santriId)
+                    ->where('jenis_pembayaran', $jenis)
+                    ->where('tahun_ajaran', $currentSemester['tahun'])
+                    ->where('semester_ajaran', $currentSemester['semester'])
+                    ->exists();
+
+                if ($existingTagihan) {
+                    //Log::info("Tagihan $jenis untuk santri ID $santriId sudah ada.");
+                    continue;
+                }
+
+                Pembayaran::create([
                     'id_santri' => $santriId,
                     'jenis_pembayaran' => $jenis,
                     'jumlah_pembayaran' => $jumlah,
@@ -117,36 +160,38 @@ class Kernel extends ConsoleKernel
                     'tahun_ajaran' => $currentSemester['tahun'],
                     'semester_ajaran' => $currentSemester['semester'],
                 ]);
-
-                $tagihans[] = $pembayaran;
             }
-
-            // Kirim email ke wali santri
-            // $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
-            // if ($waliSantri) {
-            //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
-            // }
         }
+
+        //Log::info('Executing Create Tamrin');
     }
+
     public function createPembayaranIuranAndSendEmails()
     {
-        $currentMonth = Carbon::now()->month;
         $santriIds = Santri::pluck('id_santri')->toArray();
-
         $master = MasterAdmin::get();
-
         $total_iuran = $master->where('jenis_pembayaran', 'iuran')
             ->sum('jumlah_pembayaran');
-
         $jenisPembayaran = [
             'iuran_bulanan' => $total_iuran,
         ];
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         foreach ($santriIds as $santriId) {
-            $tagihans = [];
             foreach ($jenisPembayaran as $jenis => $jumlah) {
-                $pembayaran = Pembayaran::create([
+                $existingTagihan = Pembayaran::where('id_santri', $santriId)
+                    ->where('jenis_pembayaran', $jenis)
+                    ->where('tahun_ajaran', $currentSemester['tahun'])
+                    ->where('semester_ajaran', $currentSemester['semester'])
+                    ->whereMonth('created_at', Carbon::now()->month)
+                    ->exists();
+
+                if ($existingTagihan) {
+                    //Log::info("Tagihan $jenis untuk santri ID $santriId sudah ada bulan ini.");
+                    continue;
+                }
+
+                Pembayaran::create([
                     'id_santri' => $santriId,
                     'jenis_pembayaran' => $jenis,
                     'jumlah_pembayaran' => $jumlah,
@@ -154,17 +199,13 @@ class Kernel extends ConsoleKernel
                     'tahun_ajaran' => $currentSemester['tahun'],
                     'semester_ajaran' => $currentSemester['semester'],
                 ]);
-
-                $tagihans[] = $pembayaran;
             }
-
-            // Kirim email ke wali santri
-            // $waliSantri = WaliSantri::where('id_santri', $santriId)->first();
-            // if ($waliSantri) {
-            //     Mail::to($waliSantri->email)->send(new TagihanNotification($tagihans));
-            // }
         }
+
+        //Log::info('Executing Create Iuran');
     }
+
+
 
     /**
      * Register the commands for the application.

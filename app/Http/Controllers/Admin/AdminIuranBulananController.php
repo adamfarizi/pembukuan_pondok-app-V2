@@ -6,6 +6,7 @@ use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use App\Helpers\SemesterHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -16,6 +17,10 @@ class AdminIuranBulananController extends Controller
         $data['title'] = 'Iuran Bulanan';
 
         $currentSemester = SemesterHelper::getCurrentSemester();
+        $currentMonth = Carbon::now()->locale('id')->translatedFormat('F');
+        
+        $startOfMonth = Carbon::now()->startOfMonth()->startOfDay()->toDateTimeString(); // Awal bulan, pukul 00:00:00
+        $endOfMonth = Carbon::now()->endOfMonth()->endOfDay()->toDateTimeString();       // Akhir bulan, pukul 23:59:59
 
         if ($request->ajax()) {
             $data = Pembayaran::orderBy('created_at', 'desc')
@@ -23,6 +28,7 @@ class AdminIuranBulananController extends Controller
                 ->where('tahun_ajaran', $currentSemester['tahun'])
                 ->where('jenis_pembayaran', 'iuran_bulanan')
                 ->where('status_pembayaran', 'lunas')
+                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
                 ->with(['santri', 'user'])
                 ->get();
             return DataTables::of($data)
@@ -34,11 +40,13 @@ class AdminIuranBulananController extends Controller
             ->where('tahun_ajaran', $currentSemester['tahun'])
             ->where('jenis_pembayaran', 'iuran_bulanan')
             ->where('status_pembayaran', 'belum_lunas')
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->with(['santri', 'user'])
             ->get();
 
         return view('admin.pembayaran.iuran_bulanan', [
             'currentSemester' => $currentSemester,
+            'currentMonth' => $currentMonth,
             'pembayarans' => $pembayarans,
         ], $data);
     }
@@ -47,14 +55,20 @@ class AdminIuranBulananController extends Controller
     {
         $currentSemester = SemesterHelper::getCurrentSemester();
 
+        $startOfMonth = Carbon::now()->startOfMonth()->startOfDay()->toDateTimeString(); // Awal bulan, pukul 00:00:00
+        $endOfMonth = Carbon::now()->endOfMonth()->endOfDay()->toDateTimeString();       // Akhir bulan, pukul 23:59:59
+
         $data = Pembayaran::orderBy('created_at', 'desc')
             ->where('semester_ajaran', $currentSemester['semester'])
             ->where('tahun_ajaran', $currentSemester['tahun'])
             ->where('jenis_pembayaran', 'iuran_bulanan')
             ->where('status_pembayaran', 'belum_lunas')
             ->where('jumlah_bayar', 0)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->whereHas('santri', function ($query) use ($request) {
-                $query->where('nama_santri', 'like', '%' . $request->q . '%');
+                if ($request->has('q') && !empty($request->q)) {
+                    $query->where('nama_santri', 'like', '%' . $request->q . '%');
+                }
             })
             ->with(['santri', 'user'])
             ->get();

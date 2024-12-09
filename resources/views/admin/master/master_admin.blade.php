@@ -48,7 +48,7 @@
                             <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                        <h5 class="mb-0 text-white line-height">{{Auth::user()->nama_admin}}</h5>
+                                        <h5 class="mb-0 text-white line-height">{{ Auth::user()->nama_admin }}</h5>
                                         <span class="text-white font-size-12">Online</span>
                                     </div>
                                     <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
@@ -142,7 +142,7 @@
             @endif
         </div>
         <div class="d-flex">
-            {{-- Daftar Ulang --}}
+            {{-- Daftar Ulang Baru --}}
             <div class="container-fluid col">
                 <div class="row">
                     <div class="col-sm-12">
@@ -288,9 +288,10 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <div class="flex align-items-center list-user-action">
-                                                            <a data-placement="top" title="Delete" href="#" data-target="#delete_jenis_iuran{{ $iuran->id_master_admin }}"
-                                                                data-original-title="Delete" data-toggle="modal"
-                                                                ><i class="ri-delete-bin-line"></i></a>
+                                                            <a data-placement="top" title="Delete" href="#"
+                                                                data-target="#delete_jenis_iuran{{ $iuran->id_master_admin }}"
+                                                                data-original-title="Delete" data-toggle="modal"><i
+                                                                    class="ri-delete-bin-line"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -301,6 +302,112 @@
                                             @endforelse
                                         </tbody>
                                     </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            {{-- Tagihan Daftar Ulang --}}
+            <div class="container-fluid col">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Tagihan Daftar Ulang Tahun {{ $year }}</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <form action="{{ route('buat_tagihan_daftar_ulang') }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
+                                        <div class="text-center mt-3">
+                                            <h2 class="mb-3"><span>{{ $tagihan_total_daftar_ulang . ' santri' }}</span></h2>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
+                                        <div class="text-center mt-3">
+                                            <h2 class="mb-5"><span>{{ $tagihan_daftar_ulang . ' santri' }}</span></h2>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Buat Tagihan</button>
+                                </form>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Tagihan Semester --}}
+            <div class="container-fluid col">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Tagihan Semester {{ ucfirst($smt) }}</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <form action="{{ route('buat_tagihan_semester') }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
+                                        <div class="text-center mt-3">
+                                            <h2 class="mb-3"><span
+                                                    class="">{{ $tagihan_total_semester . ' santri' }}</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
+                                        <div class="text-center mt-3">
+                                            <h2 class="mb-5"><span
+                                                    class="">{{ $tagihan_semester . ' santri' }}</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Buat Tagihan</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Tagihan Bulanan --}}
+            <div class="container-fluid col">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Tagihan Bulanan Bulan {{ $month }}</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <form action="{{ route('buat_tagihan_iuran_bulanan') }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
+                                        <div class="text-center mt-3">
+                                            <h2 class="mb-3"><span
+                                                    class="">{{ $tagihan_total_bulanan . ' santri' }}</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
+                                        <div class="text-center mt-3">
+                                            <h2 class="mb-5"><span
+                                                    class="">{{ $tagihan_bulanan . ' santri' }}</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Buat Tagihan</button>
                                 </form>
                             </div>
                         </div>
