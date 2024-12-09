@@ -282,7 +282,7 @@ class AdminMasterController extends Controller
         Carbon::setLocale('id');
         $currentMonth = Carbon::now()->translatedFormat('F');
         $currentSemester = SemesterHelper::getCurrentSemester();
-
+        $month = carbon::now()->month;
         // Get the MasterAdmin data and determine the amount for iuran bulanan
         $master = MasterAdmin::get();
         $total_iuran = $master->where('jenis_pembayaran', 'iuran')
@@ -304,7 +304,7 @@ class AdminMasterController extends Controller
             $existingPembayaranCurrentMonth = Pembayaran::where('id_santri', $santriId)
                 ->where('jenis_pembayaran', 'iuran_bulanan')
                 ->whereYear('created_at', $currentYear)
-                ->whereMonth('created_at', $currentMonth)
+                ->whereMonth('created_at', $month)
                 ->exists();
 
             // If the pembayaran for the current month does not exist, create a new one
