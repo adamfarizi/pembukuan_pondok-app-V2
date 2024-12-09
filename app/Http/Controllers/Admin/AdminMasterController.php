@@ -27,23 +27,35 @@ class AdminMasterController extends Controller
         }
 
         $currentYear = Carbon::now()->year;
+        $month = carbon::now()->month;
+
         Carbon::setLocale('id');
         $currentMonth = Carbon::now()->translatedFormat('F');
         $currentSemester = SemesterHelper::getCurrentSemester();
         $total_daftar_ulang = Pembayaran::where('jenis_pembayaran', 'daftar_ulang')
+                                ->where('tahun_ajaran', $currentYear)
                                 ->count('id_santri');
         $total_tamrin = Pembayaran::where('jenis_pembayaran', 'tamrin')
+                                ->where('tahun_ajaran', $currentYear)
+                                ->where('semester_ajaran', $currentSemester['semester'])
                                 ->count('id_santri');
         $total_iuran_bulanan = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
+                                ->whereYear('created_at', $currentYear)
+                                ->whereMonth('created_at', $month)
                                 ->count('id_santri');
         $tag_daftar_ulang = Pembayaran::where('jenis_pembayaran', 'daftar_ulang')
                                 ->where('status_pembayaran', 'belum_lunas')
+                                ->where('tahun_ajaran', $currentYear)
                                 ->count('id_santri');
         $tag_tamrin = Pembayaran::where('jenis_pembayaran', 'tamrin')
                                 ->where('status_pembayaran', 'belum_lunas')
+                                ->where('tahun_ajaran', $currentYear)
+                                ->where('semester_ajaran', $currentSemester['semester'])
                                 ->count('id_santri');
         $tag_iuran_bulanan = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
                                 ->where('status_pembayaran', 'belum_lunas')
+                                ->whereYear('created_at', $currentYear)
+                                ->whereMonth('created_at', $month)
                                 ->count('id_santri');
         $daftar_ulang_baru = MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Baru')->first();
         $daftar_ulang = MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Ulang')->first();
