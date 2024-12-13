@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             MasterGuestFotoSeeder::class,
             MasterGuestMisiSeeder::class,
             MasterGuestRekeningSeeder::class,
-            PembayaranSeeder::class,
+            // PembayaranSeeder::class,
         ]);
     }
 }
