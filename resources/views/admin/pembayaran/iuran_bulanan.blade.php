@@ -226,7 +226,7 @@
             $('#tableIuranBulanan').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('iuran_bulanan') }}",
+                ajax: "{{ secure_url('admin/iuran_bulanan') }}",
                 columns: [
                     // Kolom nomor urut
                     {
@@ -311,7 +311,7 @@
     {{-- Select2 --}}
     <script>
         $(document).ready(function(){
-            var select2Url = "{{ secure_url('iuran_bulanan.select2') }}";
+            var select2Url = "{{ secure_url('admin/iuran_bulanan/select2') }}";
             
             $('#nama_santri').select2({
                 dropdownParent: $('#exampleModalCenter'),

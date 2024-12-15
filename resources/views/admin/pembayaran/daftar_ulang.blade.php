@@ -225,7 +225,7 @@
             $('#tableDaftarUlang').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('daftar_ulang') }}",
+                ajax: "{{ secure_url('admin/daftar_ulang') }}",
                 columns: [
                     // Kolom nomor urut
                     {
@@ -310,7 +310,7 @@
     {{-- Select2 --}}
     <script>
         $(document).ready(function(){
-            var select2Url = "{{ secure_url('daftar_ulang.select2') }}";
+            var select2Url = "{{ secure_url('admin/daftar_ulang/select2') }}";
             
             $('#nama_santri').select2({
                 dropdownParent: $('#exampleModalCenter'),

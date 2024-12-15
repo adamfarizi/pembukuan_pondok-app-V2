@@ -350,7 +350,7 @@
             $('#tablePengeluaran').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('pengeluaran') }}",
+                ajax: "{{ secure_url('admin/pengeluaran') }}",
                 columns: [
                     // Kolom nomor urut
                     {

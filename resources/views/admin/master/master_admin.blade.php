@@ -707,7 +707,7 @@
             $('#tableAdmin').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('master_admin') }}",
+                ajax: "{{ secure_url('admin/master_admin') }}",
                 columns: [
                     // Kolom nomor urut
                     {

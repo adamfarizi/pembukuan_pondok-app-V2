@@ -362,7 +362,7 @@
             $('#tablePemasukan').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('getPemasukan') }}",
+                ajax: "{{ secure_url('admin/laporan_keuangan/pemasukan_data') }}",
                 columns: [{
                         data: null,
                         searchable: false,
@@ -445,7 +445,7 @@
             $('#tablePengeluaran').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('pengeluaran') }}",
+                ajax: "{{ secure_url('admin/laporan_keuangan/pengeluaran_data') }}",
                 columns: [
                     // Kolom nomor urut
                     {

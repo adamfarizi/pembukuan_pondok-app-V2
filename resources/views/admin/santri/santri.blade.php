@@ -332,7 +332,7 @@
             $('#tableSantri').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('santri') }}",
+                ajax: "{{ secure_url('admin/santri') }}",
                 columns: [
                     // Kolom nomor urut
                     {

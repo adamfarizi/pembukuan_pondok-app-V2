@@ -251,7 +251,7 @@
             $('#tableTamrin').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('tamrin') }}",
+                ajax: "{{ secure_url('admin/tamrin') }}",
                 columns: [
                     // Kolom nomor urut
                     {
@@ -343,7 +343,7 @@
     {{-- Select2 --}}
     <script>
         $(document).ready(function(){
-            var select2Url = "{{ secure_url('tamrin.select2') }}";
+            var select2Url = "{{ secure_url('admin/tamrin/seletc2') }}";
             
             $('#nama_santri').select2({
                 dropdownParent: $('#exampleModalCenter'),
