@@ -326,7 +326,7 @@
             $('#tablePemasukan').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('pemasukan') }}",
+                ajax: "{{ secure_url('pemasukan') }}",
                 columns: [
                     // Kolom nomor urut
                     {

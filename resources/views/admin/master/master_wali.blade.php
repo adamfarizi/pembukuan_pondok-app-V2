@@ -679,7 +679,7 @@
             $('#tableAdmin').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('master_admin') }}",
+                ajax: "{{ secure_url('master_admin') }}",
                 columns: [
                     // Kolom nomor urut
                     {
@@ -751,7 +751,7 @@
             $('#tablePengajar').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('master_admin') }}",
+                ajax: "{{ secure_url('master_admin') }}",
                 columns: [
                     // Kolom nomor urut
                     {
@@ -821,7 +821,7 @@
             $('#tableMapel').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('master_admin') }}",
+                ajax: "{{ secure_url('master_admin') }}",
                 columns: [
                     // Kolom nomor urut
                     {
