@@ -161,7 +161,7 @@
             $('#tableSantri').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('mata_pelajaran') }}",
+                ajax: "{{ secure_url('mata_pelajaran') }}",
                 columns: [
                     // Kolom nomor urut
                     {
