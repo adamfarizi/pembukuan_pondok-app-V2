@@ -333,7 +333,7 @@
             $('#nama_santri').on('change', function() {
                 var selectedId = this.value;
                 var form = document.getElementById('updateForm');
-                var actionUrl = "{{ url('/admin/daftar_ulang/edit') }}/" + selectedId + "/action";
+                var actionUrl = "{{ secure_url('/admin/daftar_ulang/edit') }}/" + selectedId + "/action";
                 form.setAttribute('action', actionUrl);
             });
         });

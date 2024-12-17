@@ -161,7 +161,7 @@
             $('#tablePendaftaran').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ secure_url('pendaftaran') }}",
+                ajax: "{{ secure_url('admin/pendaftaran') }}",
                 columns: [
                     // Kolom nomor urut
                     {

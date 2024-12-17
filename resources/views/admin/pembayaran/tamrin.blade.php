@@ -366,7 +366,7 @@
             $('#nama_santri').on('change', function() {
                 var selectedId = this.value;
                 var form = document.getElementById('updateForm');
-                var actionUrl = "{{ url('/admin/tamrin/edit') }}/" + selectedId + "/action";
+                var actionUrl = "{{ secure_url('/admin/tamrin/edit') }}/" + selectedId + "/action";
                 form.setAttribute('action', actionUrl);
             });
         });

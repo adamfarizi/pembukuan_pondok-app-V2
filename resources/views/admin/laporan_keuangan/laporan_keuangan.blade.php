@@ -243,6 +243,8 @@
                                             <th>Jumlah Pengeluaran</th>
                                             <th>Deskripsi Pengeluaran</th>
                                             <th>Nama Pengeluar</th>
+                                            <th>Jenis</th>
+                                            <th>Bukti Pengeluaran</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -255,6 +257,44 @@
             </div>
         </div>
     </div>
+
+        <!-- Modal Bukti -->
+        @foreach ($pengeluarans as $pengeluaran)
+        <div class="modal fade" id="infoModal{{ $pengeluaran->id_pengeluaran }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Bukti Pengeluaran</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="px-3 py-2">
+                            <div class="mt-2 text-center">
+                                @if ($pengeluaran->bukti_pengeluaran === null)
+                                    <div class="bg-light" style="height: 300px; border-radius: 20px;">
+                                        <p class="text-center text-secondary" style="padding-top: 130px;">Gambar tidak ada.
+                                        </p>
+                                    </div>
+                                @else
+                                    <img src="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
+                                        alt="Bukti Pengeluaran" class="img-fluid" style="max-width: 440px; border-radius: 20px;">
+                                    <p class="mt-2"><a
+                                            href="{{ asset('bukti_pengeluaran/' . $pengeluaran->bukti_pengeluaran) }}"
+                                            download>Download Bukti</a></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 @section('js')
     {{-- Chart keuangan --}}
@@ -489,10 +529,30 @@
                         data: 'deskripsi_pengeluaran',
                         name: 'deskripsi_pengeluaran',
                     },
-                    // Kolom status pembayaran
+                    // Kolom nama pengeluar
                     {
                         data: 'nama_pengeluar',
                         name: 'nama_pengeluar',
+                    },
+                    // Kolom status
+                    {
+                        data: 'jenis_pengeluaran',
+                        name: 'jenis_pengeluaran',
+                    },
+                    {
+                        data: 'id_pengeluaran',
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            return '<div class="d-flex align-items-center">' +
+                                '<a data-placement="top" title="Bukti" href="#"' +
+                                'data-target="#infoModal' + full.id_pengeluaran +
+                                '" data-toggle="modal" ' +
+                                'data-id="' + full.id_pengeluaran + '">' +
+                                '<i class="ri-information-line"></i> Bukti' +
+                                '</a>' +
+                                '</div>';
+                        }
                     }
                 ],
                 lengthMenu: [

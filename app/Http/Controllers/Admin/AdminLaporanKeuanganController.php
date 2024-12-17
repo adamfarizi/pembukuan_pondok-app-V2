@@ -106,11 +106,14 @@ class AdminLaporanKeuanganController extends Controller
             return $a['tahun'] == $b['tahun'] ? $a['bulan'] - $b['bulan'] : $a['tahun'] - $b['tahun'];
         })->values()->all();
 
+        $pengeluarans = Pengeluaran::all();
+
         return view('admin.laporan_keuangan.laporan_keuangan', [
             'totalpemasukan' => $totalpemasukan,
             'totalpengeluaran' => $totalpengeluaran,
             'totalkeuangan' => $totalkeuangan,
             'chartDataKeuangan' => $mergedData,
+            'pengeluarans' => $pengeluarans,
         ], $data);
     }
 
@@ -180,6 +183,14 @@ class AdminLaporanKeuanganController extends Controller
                 return $item['jenis_pemasukan'];
             })
             ->make(true);
+    }
+
+    public function getPengeluaran()
+    {
+        $data = Pengeluaran::orderBy('tanggal_pengeluaran', 'desc')->get();
+
+        return DataTables::of($data)
+                ->make(true);
     }
 
 }
