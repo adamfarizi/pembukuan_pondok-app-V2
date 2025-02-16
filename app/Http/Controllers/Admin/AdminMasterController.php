@@ -91,14 +91,17 @@ class AdminMasterController extends Controller
         $jumlah_iuran = $request->input('jumlah_iuran');
 
         try {
+
             if ($daftar_ulang !== null) {
-                MasterAdmin::where('jenis_pembayaran', 'pendaftaran_ulang')->first()->update([
+               
+                MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Ulang')->first()->update([
                     'jumlah_pembayaran' => $daftar_ulang,
                 ]);
             }
 
             if ($daftar_ulang_baru !== null) {
-                MasterAdmin::where('jenis_pembayaran', 'pendaftaran_baru')->first()->update([
+               
+                MasterAdmin::where('jenis_pembayaran', 'pendaftaran')->where('keterangan_pembayaran', 'Pendaftaran Baru')->first()->update([
                     'jumlah_pembayaran' => $daftar_ulang_baru,
                 ]);
             }

@@ -40,15 +40,19 @@ class Handler extends ExceptionHandler
         });
     }
 
-    // Function custom error page
     public function render($request, Throwable $exception)
     {
-        Log::error('Exception rendered: ' . $exception->getMessage());
-
-        if ($this->isHttpException($exception)) {
-            return response()->view('error.404');
+        if (config('app.debug')) {
+            // Saat debug true, gunakan tampilan error bawaan Laravel
+            return parent::render($request, $exception);
         } else {
-            return response()->view('error.500');
+            Log::error('Exception rendered: ' . $exception->getMessage());
+    
+            if ($this->isHttpException($exception)) {
+                return response()->view('error.404');
+            } else {
+                return response()->view('error.500');
+            }
         }
     }
 }
