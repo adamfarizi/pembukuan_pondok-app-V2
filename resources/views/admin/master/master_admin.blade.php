@@ -12,7 +12,7 @@
             </div>
             {{-- Halaman --}}
             <div class="navbar-breadcrumb">
-                <h5 class="mb-0">Pendaftaran</h5>
+                <h5 class="mb-0">Master Admin</h5>
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('/beranda') }}">Main</a></li>
@@ -99,13 +99,11 @@
                             <h4 class="card-title text-white">Informasi</h4>
                             <blockquote class="blockquote mb-0">
                                 <p class="font-size-14">
-                                    Data master adalah informasi penting yang mengelola nominal daftar ulang, nominal
-                                    semester, dan berbagai jenis pembayaran iuran bulanan. Ini mencakup biaya pendaftaran
-                                    atau
-                                    perpanjangan keanggotaan (daftar ulang), kontribusi reguler (semester), dan jenis-jenis
-                                    pembayaran iuran bulanan. Pengelolaan data master yang efisien dan akurat penting untuk
-                                    menjaga
-                                    konsistensi dan keberlangsungan sistem atau organisasi.
+                                    "Data master berisi informasi penting yang mengatur nominal untuk empat jenis tagihan:
+                                    daftar baru, daftar ulang, semester, dan iuran bulanan. Admin dapat mengubah rincian
+                                    setiap tagihan sesuai kebutuhan. Jika proses pembuatan tagihan otomatis gagal, admin
+                                    juga dapat membuat tagihan daftar ulang, semester, dan iuran bulanan secara manual untuk
+                                    memastikan kelancaran sistem pembayaran."
                                 </p>
                                 <footer class="blockquote-footer text-white font-size-12">Developer</footer>
                             </blockquote>
@@ -142,40 +140,114 @@
             @endif
         </div>
         <div class="d-flex">
-            {{-- Daftar Ulang Baru --}}
-            <div class="container-fluid col">
+            @php
+                // Daftar Baru
+                $daftar_baru_mukim_l = $daftar_baru
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $daftar_baru_mukim_p = $daftar_baru
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+                $daftar_baru_non_mukim_l = $daftar_baru
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $daftar_baru_non_mukim_p = $daftar_baru
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+
+                // Daftar Ulang
+                $daftar_ulang_mukim_l = $daftar_ulang
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $daftar_ulang_mukim_p = $daftar_ulang
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+                $daftar_ulang_non_mukim_l = $daftar_ulang
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $daftar_ulang_non_mukim_p = $daftar_ulang
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+
+                // Semester
+                $semester_mukim_l = $semester
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $semester_mukim_p = $semester
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+                $semester_non_mukim_l = $semester
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $semester_non_mukim_p = $semester
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+                // Iuran
+                $iuran_mukim_l = $iuran
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $iuran_mukim_p = $iuran
+                    ->where('jenis_mukim', 'mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+                $iuran_non_mukim_l = $iuran
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'l')
+                    ->sum('total_pembayaran');
+                $iuran_non_mukim_p = $iuran
+                    ->where('jenis_mukim', 'tdk_mukim')
+                    ->where('jenis_santri', 'p')
+                    ->sum('total_pembayaran');
+            @endphp
+            {{-- Daftar Baru --}}
+            <div class="container-fluid col-sm-3">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Daftar Ulang Baru</h4>
+                                    <h4 class="card-title">Daftar Baru</h4>
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <form action="{{ url('/admin/master_admin/edit_pembayaran') }}" method="POST">
-                                    @method('PUT')
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Nominal</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="daftar_ulang">Rp.</span>
-                                            </div>
-                                            <input type="number" class="form-control" id="daftar_ulang_baru"
-                                                name="daftar_ulang_baru"
-                                                value="{{ $daftar_ulang_baru->jumlah_pembayaran }}" required>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                                </form>
+                                <div class="row">
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($daftar_baru_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($daftar_baru_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Non Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($daftar_baru_non_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($daftar_baru_non_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                </div>
+                                <a type="button" href="{{ url('/admin/master_admin/rincian/daftar_baru') }}"
+                                    class="btn btn-primary btn-block">Ubah</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {{-- Daftar Ulang --}}
-            <div class="container-fluid col">
+            <div class="container-fluid col-sm-3">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="iq-card">
@@ -185,29 +257,31 @@
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <form action="{{ url('/admin/master_admin/edit_pembayaran') }}" method="POST">
-                                    @method('PUT')
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="daftar_ulang">Nominal</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="daftar_ulang">Rp.</span>
-                                            </div>
-                                            <input type="number" class="form-control" id="daftar_ulang"
-                                                name="daftar_ulang" value="{{ $daftar_ulang->jumlah_pembayaran }}"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                                </form>
+                                <div class="row">
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($daftar_ulang_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($daftar_ulang_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Non Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($daftar_ulang_non_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($daftar_ulang_non_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                </div>
+                                <a type="button" href="{{ url('/admin/master_admin/rincian/daftar_ulang') }}"
+                                    class="btn btn-primary btn-block">Ubah</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {{-- Semester --}}
-            <div class="container-fluid col">
+            <div class="container-fluid col-sm-3">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="iq-card">
@@ -217,92 +291,58 @@
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <form action="{{ url('/admin/master_admin/edit_pembayaran') }}" method="POST">
-                                    @method('PUT')
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="daftar_ulang">Nominal</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="semester">Rp.</span>
-                                            </div>
-                                            <input type="number" class="form-control" id="semester" name="semester"
-                                                value="{{ $semester->jumlah_pembayaran }}" required>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                                </form>
+                                <div class="row">
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($semester_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($semester_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Non Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($semester_non_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($semester_non_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                </div>
+                                <a type="button" href="{{ url('/admin/master_admin/rincian/semester') }}"
+                                    class="btn btn-primary btn-block">Ubah</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {{-- Iuran Bulanan --}}
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="iq-card">
-                        <div class="iq-card-header d-flex justify-content-between">
-                            <div class="iq-header-title">
-                                <h4 class="card-title">Iuran Bulanan</h4>
+            {{-- Iuran --}}
+            <div class="container-fluid col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Iuran</h4>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <button type="button" class="btn btn-primary mt-1" data-toggle="modal"
-                                    data-target="#create_jenis_iuran">
-                                    Tambah Jenis Iuran
-                                </button>
-                            </div>
-                        </div>
-                        <div class="iq-card-body">
-                            <div class="table-responsive">
-                                <form action="{{ url('/admin/master_admin/edit_pembayaran') }}" method="POST">
-                                    @method('PUT')
-                                    @csrf
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Jenis Iuran</th>
-                                                <th class="text-center">Nominal</th>
-                                                <th class="text-center"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($iurans as $iuran)
-                                                <tr>
-                                                    <td class="text-center">
-                                                        {{ $iuran->keterangan_pembayaran }}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text" id="nominal">Rp.</span>
-                                                            </div>
-                                                            <input type="hidden" name="jenis_iuran" class="form-control"
-                                                                value="{{ $iuran->keterangan_pembayaran }}">
-                                                            <input type="number" class="form-control"
-                                                                name="jumlah_iuran"
-                                                                value="{{ $iuran->jumlah_pembayaran }}" required
-                                                                onchange="this.form.submit();">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="flex align-items-center list-user-action">
-                                                            <a data-placement="top" title="Delete" href="#"
-                                                                data-target="#delete_jenis_iuran{{ $iuran->id_master_admin }}"
-                                                                data-original-title="Delete" data-toggle="modal"><i
-                                                                    class="ri-delete-bin-line"></i></a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr class="text-center">
-                                                    <td colspan="3">Tidak ada data</td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </form>
+                            <div class="iq-card-body">
+                                <div class="row">
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($iuran_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($iuran_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                    <ul class="col" style="list-style-type:circle; padding-left: 10%;">
+                                        <h5>Non Mukim</h5>
+                                        <li>Laki-laki : </li>
+                                        <h6>Rp. {{ number_format($iuran_non_mukim_l, 0, ',', '.') }}</h6>
+                                        <li>Perempuan : </li>
+                                        <h6>Rp. {{ number_format($iuran_non_mukim_p, 0, ',', '.') }}</h6>
+                                    </ul>
+                                </div>
+                                <a type="button" href="{{ url('/admin/master_admin/rincian/iuran') }}"
+                                    class="btn btn-primary btn-block">Ubah</a>
                             </div>
                         </div>
                     </div>
@@ -321,22 +361,24 @@
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <form action="{{ route('buat_tagihan_daftar_ulang') }}" method="POST">
+                                <div class="form-group">
+                                    <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
+                                    <div class="text-center mt-3">
+                                        <h2 class="mb-3"><span>{{ $tagihan_total_daftar_ulang . ' santri' }}</span>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
+                                    <div class="text-center mt-3">
+                                        <h2 class="mb-5"><span>{{ $tagihan_daftar_ulang . ' santri' }}</span></h2>
+                                    </div>
+                                </div>
+                                <form action="{{ route('create_tagihan') }}" method="POST">
                                     @csrf
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
-                                        <div class="text-center mt-3">
-                                            <h2 class="mb-3"><span>{{ $tagihan_total_daftar_ulang . ' santri' }}</span></h2>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
-                                        <div class="text-center mt-3">
-                                            <h2 class="mb-5"><span>{{ $tagihan_daftar_ulang . ' santri' }}</span></h2>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="jenis_pembayaran" value="daftar_ulang">
                                     <button type="submit" class="btn btn-primary btn-block">Buat Tagihan</button>
-                                </form>                                
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -353,24 +395,25 @@
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <form action="{{ route('buat_tagihan_semester') }}" method="POST">
+                                <div class="form-group">
+                                    <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
+                                    <div class="text-center mt-3">
+                                        <h2 class="mb-3"><span
+                                                class="">{{ $tagihan_total_semester . ' santri' }}</span>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
+                                    <div class="text-center mt-3">
+                                        <h2 class="mb-5"><span
+                                                class="">{{ $tagihan_semester . ' santri' }}</span>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <form action="{{ route('create_tagihan') }}" method="POST">
                                     @csrf
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
-                                        <div class="text-center mt-3">
-                                            <h2 class="mb-3"><span
-                                                    class="">{{ $tagihan_total_semester . ' santri' }}</span>
-                                            </h2>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
-                                        <div class="text-center mt-3">
-                                            <h2 class="mb-5"><span
-                                                    class="">{{ $tagihan_semester . ' santri' }}</span>
-                                            </h2>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="jenis_pembayaran" value="tamrin">
                                     <button type="submit" class="btn btn-primary btn-block">Buat Tagihan</button>
                                 </form>
                             </div>
@@ -389,24 +432,24 @@
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <form action="{{ route('buat_tagihan_iuran_bulanan') }}" method="POST">
+                                <div class="form-group">
+                                    <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
+                                    <div class="text-center mt-3">
+                                        <h2 class="mb-3"><span
+                                                class="">{{ $tagihan_total_bulanan . ' santri' }}</span>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
+                                    <div class="text-center mt-3">
+                                        <h2 class="mb-5"><span class="">{{ $tagihan_bulanan . ' santri' }}</span>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <form action="{{ route('create_tagihan') }}" method="POST">
                                     @csrf
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Jumlah tagihan santri :</label>
-                                        <div class="text-center mt-3">
-                                            <h2 class="mb-3"><span
-                                                    class="">{{ $tagihan_total_bulanan . ' santri' }}</span>
-                                            </h2>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="daftar_ulang_baru">Jumlah santri yang <b>belum lunas</b> :</label>
-                                        <div class="text-center mt-3">
-                                            <h2 class="mb-5"><span
-                                                    class="">{{ $tagihan_bulanan . ' santri' }}</span>
-                                            </h2>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="jenis_pembayaran" value="iuran_bulanan">
                                     <button type="submit" class="btn btn-primary btn-block">Buat Tagihan</button>
                                 </form>
                             </div>
@@ -435,7 +478,7 @@
                             <div class="iq-card-body">
                                 <div class="table-responsive pb-3 pt-3 px-3">
                                     <table id="tableAdmin" class="table" role="grid"
-                                        aria-describedby="user-list-page-info" style="width: 100%; min-height: 500px;">
+                                        aria-describedby="user-list-page-info" style="width: 100%; min-height: 200px;">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -457,75 +500,8 @@
         @endif
     </div>
 
-    <!-- Modal Iuran Bulanan -->
-    <div class="modal fade" id="create_jenis_iuran" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Jenis Iuran</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ url('/admin/master_admin/create_iuran') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="jenis_iuran">Jenis Iuran <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="jenis_iuran" name="jenis_iuran"
-                                value="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pembayaran_jenis_iuran">Nominal Jenis Iuran <span
-                                    class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="pembayaran_jenis_iuran"
-                                name="pembayaran_jenis_iuran" value="" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Delete Iuran-->
-    @foreach ($iurans as $iuran)
-        <div class="modal fade" id="delete_jenis_iuran{{ $iuran->id_master_admin }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <form action="{{ url('/admin/master_admin/delete_iuran') }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal-body px-4">
-                            <input type="hidden" name="jenis_iuran" class="form-control"
-                                value="{{ $iuran->keterangan_pembayaran }}">
-                            <div class="text-center">
-                                <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
-                                <h3 class="mt-4">Anda yakin ingin hapus iuran {{ $iuran->keterangan_pembayaran }}?</h3>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Hapus</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endforeach
-
     @if (auth()->user()->role == 'super_admin')
-        <!-- Modal Create-->
+        <!-- Modal Create Admin-->
         <div class="modal fade" id="createModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -583,7 +559,7 @@
             </div>
         </div>
 
-        <!-- Modal Edit-->
+        <!-- Modal Edit Admin-->
         @foreach ($admins as $admin)
             <div class="modal fade" id="editModal{{ $admin->id_admin }}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -658,7 +634,7 @@
             </div>
         @endforeach
 
-        <!-- Modal Delete-->
+        <!-- Modal Delete Admin-->
         @foreach ($admins as $admin)
             <div class="modal fade" id="deleteModal{{ $admin->id_admin }}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -691,17 +667,7 @@
 
 @endsection
 @section('js')
-    <script>
-        // Script untuk mengisi input jumlah_iuran berdasarkan pilihan jenis_iuran
-        document.getElementById('jenis_iuran').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            var nominal = selectedOption.getAttribute('data-nominal');
-            document.getElementById('jumlah_iuran').value = nominal;
-        });
-
-        // Memicu perubahan saat halaman dimuat agar nilai default terisi
-        document.getElementById('jenis_iuran').dispatchEvent(new Event('change'));
-    </script>
+    {{-- Table Admin --}}
     <script>
         $(document).ready(function() {
             $('#tableAdmin').DataTable({
@@ -767,7 +733,6 @@
                     ['10', '25', '50', '100', 'Semua']
                 ]
             });
-
         });
     </script>
 @endsection

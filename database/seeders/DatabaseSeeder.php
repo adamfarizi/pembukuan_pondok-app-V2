@@ -34,21 +34,21 @@ class DatabaseSeeder extends Seeder
             // PendaftaranSeeder::class,
         ]);
 
-        // Santri::factory(2)->create();
-        // WaliSantri::factory(2)->create();
+        // Santri::factory(5)->create();
+        // WaliSantri::factory(5)->create();
         // Pemasukan::factory(10)->create();
         // Pengeluaran::factory(10)->create();
         
         $this->call([
             // NilaiSantriSeeder::class,
-            HafalanSeeder::class,
+            // HafalanSeeder::class,
             // PengajarSeeder::class,
             MasterAdminSeeder::class,
+            MasterAdminRincianSeeder::class,
             MasterGuestSeeder::class,
             MasterGuestFotoSeeder::class,
             MasterGuestMisiSeeder::class,
             MasterGuestRekeningSeeder::class,
-            // PembayaranSeeder::class,
         ]);
     }
 }

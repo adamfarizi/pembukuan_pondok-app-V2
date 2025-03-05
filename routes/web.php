@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminIuranBulananController;
 use App\Http\Controllers\Wali\WaliDaftarPengajarController;
 use App\Http\Controllers\Admin\AdminMataPelajaranController;
 use App\Http\Controllers\Admin\AdminLaporanKeuanganController;
+use App\Http\Controllers\Admin\AdminMasterRincianController;
 use App\Http\Controllers\Wali\WaliDaftarMataPelajaranController;
 use App\Http\Controllers\Admin\AdminPointPelanggaranController;
 use App\Http\Controllers\Admin\AdminWaliMasterController;
@@ -102,15 +103,22 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/pendaftaran/{id}', [AdminPendaftaranController::class, 'index_info']);
   Route::post('/admin/pendaftaran/verifikasi/{id}', [AdminPendaftaranController::class, 'create']);
   Route::get('/admin/master_admin', [AdminMasterController::class, 'index'])->name('master_admin');
-  Route::put('/admin/master_admin/edit_pembayaran', [AdminMasterController::class, 'edit_pembayaran']);
-  Route::post('/admin/master_admin/create_iuran', [AdminMasterController::class, 'create_iuran']);
-  Route::delete('/admin/master_admin/delete_iuran', [AdminMasterController::class, 'delete_iuran']);
-  Route::post('/admin/master_admin/buat_tagihan_daftar_ulang', [AdminMasterController::class, 'createTagihanDaftarUlang'])->name('buat_tagihan_daftar_ulang');
-  Route::post('/admin/master_admin/buat_tagihan_iuran_bulanan', [AdminMasterController::class, 'createTagihanIuranBulanan'])->name('buat_tagihan_iuran_bulanan');
-  Route::post('/admin/master_admin/buat_tagihan_semester', [AdminMasterController::class, 'createTagihanSemester'])->name('buat_tagihan_semester');
+  // Route::post('/admin/master_admin/buat_tagihan_daftar_ulang', [AdminMasterController::class, 'createTagihanDaftarUlang'])->name('buat_tagihan_daftar_ulang');
+  // Route::post('/admin/master_admin/buat_tagihan_iuran_bulanan', [AdminMasterController::class, 'createTagihanIuranBulanan'])->name('buat_tagihan_iuran_bulanan');
+  // Route::post('/admin/master_admin/buat_tagihan_semester', [AdminMasterController::class, 'createTagihanSemester'])->name('buat_tagihan_semester');
   Route::post('/admin/master_admin/create', [AdminMasterController::class, 'create_admin']);
   Route::put('/admin/master_admin/edit/{id}', [AdminMasterController::class, 'edit_admin']);
   Route::delete('/admin/master_admin/delete/{id}', [AdminMasterController::class, 'delete_admin`']);
+  //! Route Rincian
+  Route::get('/admin/master_admin/rincian/daftar_baru', [AdminMasterRincianController::class, 'indexRincianDaftarBaru' ]);
+  Route::get('/admin/master_admin/rincian/daftar_ulang', [AdminMasterRincianController::class, 'indexRincianDaftarUlang' ]);
+  Route::get('/admin/master_admin/rincian/semester', [AdminMasterRincianController::class, 'indexRincianSemester' ]);
+  Route::get('/admin/master_admin/rincian/iuran', [AdminMasterRincianController::class, 'indexRincianIuran' ]);
+  Route::post('/admin/master_admin/rincian/create', [AdminMasterRincianController::class, 'createRincian' ]);
+  Route::put('/admin/master_admin/rincian/edit/{id}', [AdminMasterRincianController::class, 'editRincian' ]);
+  Route::delete('/admin/master_admin/rincian/delete/{id}', [AdminMasterRincianController::class, 'deleteRincian' ]);
+  Route::post('/admin/master_admin/tagihan/create', [AdminMasterController::class, 'createTagihan'])->name('create_tagihan');
+  //! End Route Rincian
   Route::get('/admin/master_guest', [AdminGuestMasterController::class, 'index'])->name('master_guest');
   Route::put('/admin/master_guest/simpan/{id}', [AdminGuestMasterController::class, 'update'])->name('master_guest_save');
   Route::delete('/admin/master_guest/delete_misi/{id}', [AdminGuestMasterController::class, 'delete_misi'])->name('master_guest_delete_misi');

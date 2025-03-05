@@ -10,6 +10,7 @@ use App\Models\WaliSantri;
 use App\Models\MasterAdmin;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
+use App\Helpers\TagihanHelper;
 use App\Helpers\SemesterHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -284,65 +285,16 @@ class AdminPendaftaranController extends Controller
             ]);
 
             //* Pembayaran
-            $currentSemester = SemesterHelper::getCurrentSemester();
-            $master = MasterAdmin::get();
+            $id_santri = $santri->id_santri;
+            $jenis_mukim = ($santri->status_santri === 'mukim') ? 'mukim' : 'tdk_mukim';
+            $jenis_santri = ($santri->jenis_kelamin_santri === 'laki-laki') ? 'l' : 'p';
 
-            $daftar_ulang_baru = $master->where('jenis_pembayaran', 'pendaftaran')
-                ->where('keterangan_pembayaran', 'Pendaftaran Baru')
-                ->pluck('jumlah_pembayaran')
-                ->first();
-            $bayar_semester = $master->where('jenis_pembayaran', 'semester')
-                ->where('keterangan_pembayaran', 'Semester')
-                ->pluck('jumlah_pembayaran')
-                ->first();
-            $total_iuran = $master->where('jenis_pembayaran', 'iuran')
-                ->sum('jumlah_pembayaran');
+            TagihanHelper::createPembayaranPendaftaranBaru($id_santri, $jenis_mukim, $jenis_santri);
+            TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri);
+            TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri);
 
-            // Daftar Ulang
-            Pembayaran::create([
-                'id_santri' => $santri->id_santri,
-                'id_admin' => null,
-                'tanggal_pembayaran' => null,
-                'jumlah_pembayaran' => $daftar_ulang_baru,
-                'jumlah_bayar' => 0,
-                'jenis_pembayaran' => 'daftar_ulang',
-                'status_pembayaran' => 'belum_lunas',
-                'tahun_ajaran' => $currentSemester['tahun'],
-                'semester_ajaran' => $currentSemester['semester'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            // Iuran Bulanan
-            Pembayaran::create([
-                'id_santri' => $santri->id_santri,
-                'id_admin' => null,
-                'tanggal_pembayaran' => null,
-                'jumlah_pembayaran' => $total_iuran,
-                'jumlah_bayar' => 0,
-                'jenis_pembayaran' => 'iuran_bulanan',
-                'status_pembayaran' => 'belum_lunas',
-                'tahun_ajaran' => $currentSemester['tahun'],
-                'semester_ajaran' => $currentSemester['semester'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            // Tamrin
-            Pembayaran::create([
-                'id_santri' => $santri->id_santri,
-                'id_admin' => null,
-                'tanggal_pembayaran' => null,
-                'jumlah_pembayaran' => $bayar_semester,
-                'jumlah_bayar' => 0,
-                'jenis_pembayaran' => 'tamrin',
-                'status_pembayaran' => 'belum_lunas',
-                'tahun_ajaran' => $currentSemester['tahun'],
-                'semester_ajaran' => $currentSemester['semester'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
+            //* Hafalan
             $surahs = Surah::getValues();
-
             foreach ($surahs as $surah) {
                 $totalAyat = Surah::$totalAyat[$surah];
 
@@ -362,6 +314,5 @@ class AdminPendaftaranController extends Controller
             return redirect()->route('pendaftaran')->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
             // return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
         }
-
     }
 }
