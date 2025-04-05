@@ -20,14 +20,27 @@ class AdminTamrinController extends Controller
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         if ($request->ajax()) {
-            $data = Pembayaran::orderBy('created_at', 'desc')
-                ->where('semester_ajaran', $currentSemester['semester'])
+            $data = Pembayaran::where('semester_ajaran', $currentSemester['semester'])
                 ->where('tahun_ajaran', $currentSemester['tahun'])
                 ->where('jenis_pembayaran', 'tamrin')
                 // ->where('status_pembayaran', 'lunas')
                 ->where('jumlah_bayar', '!=', 0)
-                ->with(['santri', 'user'])
-                ->get();
+                ->with(['santri', 'user']);
+
+                // Akses Santri
+                $akses = Auth::user()->akses_santri;
+                if ($akses == "putra") {
+                    $data->whereHas('santri', function ($query) {
+                        $query->where('jenis_kelamin_santri', 'laki-laki');
+                    });
+                } elseif ($akses == "putri") {
+                    $data->whereHas('santri', function ($query) {
+                        $query->where('jenis_kelamin_santri', 'perempuan');
+                    });
+                }
+                
+                $data->orderBy('tanggal_pembayaran', 'desc')->get();
+                
             return DataTables::of($data)
                 ->make(true);
         }
@@ -40,9 +53,18 @@ class AdminTamrinController extends Controller
             ->with(['santri', 'user'])
             ->get();
 
+        $pembayarans_lunas = Pembayaran::orderBy('created_at', 'desc')
+            ->where('semester_ajaran', $currentSemester['semester'])
+            ->where('tahun_ajaran', $currentSemester['tahun'])
+            ->where('jenis_pembayaran', 'tamrin')
+            ->whereNotNull('id_admin')
+            ->with(['santri', 'user'])
+            ->get();
+
         return view('admin.pembayaran.tamrin', [
             'currentSemester' => $currentSemester,
             'pembayarans' => $pembayarans,
+            'pembayarans_lunas' => $pembayarans_lunas,
         ], $data);
     }
 
@@ -59,8 +81,21 @@ class AdminTamrinController extends Controller
             ->whereHas('santri', function ($query) use ($request) {
                 $query->where('nama_santri', 'like', '%' . $request->q . '%');
             })
-            ->with(['santri', 'user'])
-            ->get();
+            ->with(['santri', 'user']);
+
+        // Akses Santri
+        $akses = Auth::user()->akses_santri;
+        if ($akses == "putra") {
+            $data->whereHas('santri', function ($query) {
+                $query->where('jenis_kelamin_santri', 'laki-laki');
+            });
+        } elseif ($akses == "putri") {
+            $data->whereHas('santri', function ($query) {
+                $query->where('jenis_kelamin_santri', 'perempuan');
+            });
+        }
+        
+        $data = $data->get();
 
         return response()->json($data);
     }
@@ -87,18 +122,50 @@ class AdminTamrinController extends Controller
             ->where('status_pembayaran', 'belum_lunas')
             ->first();
 
-        if ($pembayaran) {
+        $statusPotonganHarga = $request->input('status_potongan_harga');
+        $potonganHarga = $request->input('potongan_harga');
+
+        if ($statusPotonganHarga == "true" && $pembayaran) {
+            // Jika status potongan harga true, maka update harga beserta potongan harga
+            $pembayaran->jumlah_pembayaran_sebelum_potongan = $pembayaran->jumlah_pembayaran;
+            $pembayaran->jumlah_potongan = $potonganHarga;
+            $pembayaran->jumlah_pembayaran = $pembayaran->jumlah_pembayaran_sebelum_potongan - $potonganHarga;
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
+
+            // Mengubah status pembayaran menjadi lunas
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->id_admin = Auth::user()->id_admin;
+            
+            switch ($request->jenis_bayar) {
+                case 'lunas':
+                    $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
+                    $pembayaran->status_pembayaran = 'lunas';
+                    break;
 
-            // if ($request->jenis_bayar == "lunas") {
-            //     $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
-            //     $pembayaran->status_pembayaran = 'lunas';
-            // } else {
-            //     $pembayaran->jumlah_bayar = $request->jumlah_bayar;
-            //     $pembayaran->status_pembayaran = 'belum_lunas';
-            // }
+                default:
+                    $pembayaran->jumlah_bayar = $request->jumlah_bayar;
+                    $pembayaran->status_pembayaran = 'belum_lunas';
 
+                    cicilanPembayaran::create([
+                        'id_admin' => Auth::user()->id_admin,
+                        'id_pembayaran' => $pembayaran->id_pembayaran,
+                        'sub_bayar_cicilan' => $request->jumlah_bayar,
+                        'tanggal_bayar' => now(),
+                    ]);
+                    break;
+            }
+
+            $pembayaran->save();
+
+            return redirect()->route('tamrin')->with('success', 'Data pembayaran berhasil ditambahkan dengan potongan.');
+        } elseif ($pembayaran) {
+            // Jika tidak ada potongan harga atau potongan tidak diterapkan, proses normal
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
+
+            // Mengubah status pembayaran menjadi lunas
+            $pembayaran->tanggal_pembayaran = now();
+            $pembayaran->id_admin = Auth::user()->id_admin;
+            
             switch ($request->jenis_bayar) {
                 case 'lunas':
                     $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
@@ -123,6 +190,51 @@ class AdminTamrinController extends Controller
             return redirect()->route('tamrin')->with('success', 'Data pembayaran berhasil ditambahkan.');
         } else {
             return redirect()->back()->withErrors(['error' => 'Error: Data tidak ditemukan']);
+        }
+    }
+
+    public function cancelPayment($id_pembayaran)
+    {
+        $currentSemester = SemesterHelper::getCurrentSemester();
+        $pembayaran = Pembayaran::where('id_pembayaran', $id_pembayaran)
+            ->where('semester_ajaran', $currentSemester['semester'])
+            ->where('tahun_ajaran', $currentSemester['tahun'])
+            ->where('jenis_pembayaran', 'tamrin')
+            ->whereNotNull('id_admin')
+            ->with('santri')
+            ->first();
+
+        if ($pembayaran) {
+            // Mengembalikan data ke kondisi sebelum dibayar
+            $pembayaran->tanggal_pembayaran = null;
+            $pembayaran->id_admin = null;
+            $pembayaran->jumlah_bayar = 0;
+            $pembayaran->status_pembayaran = 'belum_lunas';
+
+            if ($pembayaran->jumlah_pembayaran_sebelum_potongan && $pembayaran->jumlah_pembayaran_sebelum_potongan > 0) {
+                // Menghapus potongan harga dan mengembalikan harga menjadi semula
+                $pembayaran->jumlah_pembayaran = $pembayaran->jumlah_pembayaran_sebelum_potongan;
+                $pembayaran->jumlah_pembayaran_sebelum_potongan = 0;
+                $pembayaran->jumlah_potongan = 0;
+            }
+
+            // Simpan perubahan ke database
+            $pembayaran->save();
+
+            $data_cicilan = cicilanPembayaran::orderBy('created_at', 'desc')
+                ->where('id_pembayaran', $id_pembayaran)
+                ->with(['user'])
+                ->get();
+
+            if ($data_cicilan->isNotEmpty()) {
+                $data_cicilan->each(function ($cicilan) {
+                    $cicilan->delete();
+                });
+            }
+
+            return redirect()->route('tamrin')->with('success', 'Pembayaran berhasil dibatalkan.');
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Error: Data pembayaran tidak ditemukan atau sudah dibatalkan.']);
         }
     }
 

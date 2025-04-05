@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('remember_token')->nullable();
             $table->enum('role',['super_admin', 'admin_pembayaran', 'admin_penilaian'])->default('super_admin');
+            $table->enum('akses_santri',['semua', 'putra', 'putri'])->default('semua');
             $table->string('no_hp_admin');
             $table->timestamps();
         });

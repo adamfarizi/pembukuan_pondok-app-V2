@@ -13,6 +13,10 @@ class Pembayaran extends Model
     protected $primaryKey = 'id_pembayaran';
     protected $fillable = [
         'tanggal_pembayaran',
+        // Potongan harga
+        'jumlah_pembayaran_sebelum_potongan',
+        'jumlah_potongan',
+        // Potongan harga
         'jumlah_pembayaran',
         'jumlah_bayar',
         'jenis_pembayaran',

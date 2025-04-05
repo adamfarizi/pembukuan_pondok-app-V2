@@ -119,19 +119,24 @@
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="profile-img pr-4">
                                                         @php
-                                                            $fotoPath = 'berkas_santri/pas_foto_santri/' . $santri->pas_foto_santri;
+                                                            $fotoPath =
+                                                                'berkas_santri/pas_foto_santri/' .
+                                                                $santri->pas_foto_santri;
                                                         @endphp
 
                                                         @if ($santri->pas_foto_santri && file_exists(public_path($fotoPath)))
-                                                            <img src="{{ asset($fotoPath) }}" alt="profile-img" class="avatar-130 img-fluid" style="object-fit:cover;" />
+                                                            <img src="{{ asset($fotoPath) }}" alt="profile-img"
+                                                                class="avatar-130 img-fluid" style="object-fit:cover;" />
                                                         @else
-                                                            <img src="{{ asset('images/page-img/15.jpg') }}" alt="profile-img" class="avatar-130 img-fluid" style="object-fit:cover;" />
+                                                            <img src="{{ asset('images/page-img/15.jpg') }}"
+                                                                alt="profile-img" class="avatar-130 img-fluid"
+                                                                style="object-fit:cover;" />
                                                         @endif
                                                     </div>
                                                     <div class="profile-detail align-items-center">
                                                         <h3>{{ $santri->nama_santri }}</h3>
                                                         <p>
-                                                            No. Induk {{ $santri->no_induk }} / 
+                                                            No. Induk {{ $santri->no_induk }} /
                                                             @if (in_array($santri->tingkatan, ['1', '2', '3', '4', '5', '6']))
                                                                 Kelas {{ $santri->tingkatan }}
                                                             @elseif (in_array($santri->tingkatan, ['1_TSA', '2_TSA', '3_TSA']))
@@ -140,11 +145,12 @@
                                                                 Pengurus
                                                             @endif /
                                                             @if ($santri->status_santri == 'tidak_mukim')
-                                                                <span class="badge badge-pill badge-primary">Tidak Mukim</span>
+                                                                <span class="badge badge-pill badge-primary">Tidak
+                                                                    Mukim</span>
                                                             @else
                                                                 <span class="badge badge-pill badge-success">Mukim</span>
                                                             @endif
-                                                        </p>                                                        
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -269,15 +275,19 @@
                                             <div class="col-4">Pekerjaan Ibu</div>
                                             <div class="col-8">: {{ $santri->pekerjaan_ibu }}</div>
                                             <div class="col-4">Pendapatan Perbulan Ayah</div>
-                                            <div class="col-8">: {{ 'RP ' . number_format($santri->pendapatan_ayah_perbulan, 0, ',', '.') }}</div>
+                                            <div class="col-8">:
+                                                {{ 'RP ' . number_format($santri->pendapatan_ayah_perbulan, 0, ',', '.') }}
+                                            </div>
                                             <div class="col-4">Pendapatan Perbulan Ibu</div>
-                                            <div class="col-8">: {{ 'RP ' . number_format($santri->pendapatan_ibu_perbulan, 0, ',', '.') }}</div>
+                                            <div class="col-8">:
+                                                {{ 'RP ' . number_format($santri->pendapatan_ibu_perbulan, 0, ',', '.') }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
+
                         {{-- Kolom Kanan --}}
                         <div class="col-lg-7 profile-right">
                             {{-- Tagihan --}}
@@ -303,8 +313,8 @@
                                                             @else
                                                                 <span class="text-success">Semester</span>
                                                             @endif
-                                                            
-                                                            untuk 
+
+                                                            untuk
                                                             @if ($pembayaran->jenis_pembayaran == 'iuran_bulanan')
                                                                 {{ $currentMonth }}
                                                             @endif
@@ -381,12 +391,14 @@
                                             @foreach ($RiwayatPembayaran as $pembayaran)
                                                 @php
                                                     // Format tanggal pembayaran
-                                                    $tanggal_pembayaran = \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)
-                                                        ->translatedFormat('d F Y'); // Format tanggal dengan hari dan bulan dalam bahasa Indonesia
+                                                    $tanggal_pembayaran = \Carbon\Carbon::parse(
+                                                        $pembayaran->tanggal_pembayaran,
+                                                    )->translatedFormat('d F Y'); // Format tanggal dengan hari dan bulan dalam bahasa Indonesia
 
                                                     // Format waktu pembayaran
-                                                    $variabel_jam = \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)
-                                                        ->format('H:i'); // Format waktu
+                                                    $variabel_jam = \Carbon\Carbon::parse(
+                                                        $pembayaran->tanggal_pembayaran,
+                                                    )->format('H:i'); // Format waktu
                                                 @endphp
 
                                                 {{-- Cek apakah tanggal pembayaran berbeda dengan tanggal sebelumnya --}}
@@ -397,12 +409,15 @@
 
                                                     {{-- Tampilkan tanggal sebagai header kelompok --}}
                                                     <h5 class="mt-2 mb-1 d-flex align-items-center">
-                                                        <span class="badge badge-light text-secondary">{{ $tanggal_pembayaran }}</span>
-                                                        <hr class="flex-grow-1 ml-2" style="border: 0; border-bottom: 1px solid #ccc;">
-                                                        <a href="{{ route('cetak.riwayat', ['id_santri' => $pembayaran->id_santri,'tanggal' => $pembayaran->tanggal_pembayaran]) }}" target="_blank" class="ml-2 btn btn-sm text-primary">
+                                                        <span
+                                                            class="badge badge-light text-secondary">{{ $tanggal_pembayaran }}</span>
+                                                        <hr class="flex-grow-1 ml-2"
+                                                            style="border: 0; border-bottom: 1px solid #ccc;">
+                                                        <a href="{{ route('cetak.riwayat', ['id_santri' => $pembayaran->id_santri, 'tanggal' => $pembayaran->tanggal_pembayaran]) }}"
+                                                            target="_blank" class="ml-2 btn btn-sm text-primary">
                                                             <i class="ri-bill-fill"></i> Cetak
                                                         </a>
-                                                    </h5>                                                                                                       
+                                                    </h5>
                                                 @endif
 
                                                 {{-- Tampilkan detail pembayaran --}}
@@ -418,14 +433,15 @@
                                                             @else
                                                                 <span class="text-success">Semester</span>
                                                             @endif
-                                                            
-                                                            untuk 
+                                                            untuk
                                                             @if ($pembayaran->jenis_pembayaran == 'iuran_bulanan')
                                                                 {{ $currentMonth }}
-                                                            @endif 
-                                                            semester {{ $pembayaran->semester_ajaran }} tahun {{ $pembayaran->tahun_ajaran }} sejumlah
+                                                            @endif
+                                                            semester {{ $pembayaran->semester_ajaran }} tahun
+                                                            {{ $pembayaran->tahun_ajaran }} sejumlah
                                                             {{ 'RP ' . number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }},
-                                                            dibayar pada {{ $tanggal_pembayaran }} jam {{ $variabel_jam }} dan diterima oleh
+                                                            dibayar pada {{ $tanggal_pembayaran }} jam {{ $variabel_jam }}
+                                                            dan diterima oleh
                                                             {{ $pembayaran->user->nama_admin }}
                                                         </p>
                                                     </div>
@@ -468,7 +484,9 @@
                                             <div class="col-4">Pekerjaan</div>
                                             <div class="col-8">: {{ $wali->pekerjaan_wali }}</div>
                                             <div class="col-4">Pendapatan Perbulan</div>
-                                            <div class="col-8">: {{ 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') }}</div>
+                                            <div class="col-8">:
+                                                {{ 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -624,41 +642,114 @@
         </div>
     </div>
 
-    {{-- Modal Bayar --}}
+    <!-- Modal Bayar -->
     @foreach ($TagihanPembayaran as $pembayaran)
         <div class="modal fade" id="bayarModal{{ $pembayaran->id_pembayaran }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Bayar Tagihan {{ ucwords(str_replace('_', ' ', $pembayaran->jenis_pembayaran)) }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <form id="deleteForm" method="post"
+                    <form id="updateForm" method="post"
                         action="{{ url('/admin/santri/pembayaran/' . $pembayaran->jenis_pembayaran . '/' . $pembayaran->id_pembayaran . '/update') }}">
-                        @csrf
                         @method('PUT')
-                        <div class="modal-body text-center">
-                            <img src="{{ asset('images/local/payment.png') }}" width="80px" alt="">
-                            <p class="mt-4" style="font-size: 17px">Benarkah {{ $pembayaran->santri->nama_santri }}
-                                ingin membayar tagihan
-                                <strong
-                                    class="@if ($pembayaran->jenis_pembayaran == 'daftar_ulang') text-danger @elseif($pembayaran->jenis_pembayaran == 'iuran_bulanan') text-warning @else text-success @endif">
-                                    {{ ucwords(str_replace('_', ' ', $pembayaran->jenis_pembayaran)) }}
-                                </strong> semester
-                                <strong>
-                                    {{ ucfirst($pembayaran->semester_ajaran) }}
-                                </strong> tahun
-                                <strong>
-                                    {{ $pembayaran->tahun_ajaran }}
-                                </strong> ?
-                            </p>
+                        @csrf
+                        <div class="modal-body">
+                            <!-- Nama Santri -->
+                            <div class="form-group">
+                                <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="nama_santri" id="nama_santri" value="{{ $pembayaran->santri->nama_santri }}" readonly>
+                            </div>
+
+                            <!-- Jumlah Tagihan -->
+                            <div class="form-group mt-3">
+                                <label>Tagihan Awal</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="number" class="form-control" id="jumlah_tagihan" name="jumlah_tagihan"
+                                        placeholder="0" value="{{ $pembayaran->jumlah_pembayaran }}" readonly>
+                                </div>
+                            </div>
+
+                            <!-- Konten Potongan Harga -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="showPotonganHarga"
+                                    name="status_potongan_harga">
+                                <label class="form-check-label" for="showPotonganHarga">
+                                    Potongan Harga
+                                </label>
+                            </div>
+                            <div class="form-group" id="potonganGroup" style="display: none;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="number" class="form-control" id="potongan_harga" name="potongan_harga"
+                                        placeholder="0" min="0">
+                                </div>
+                            </div>
+
+                            <!-- Garis Pemisah -->
+                            <hr class="mt-3 mb-3" style="border-top: 1px dashed #000; display: none;" id="dashedHr">
+
+                            <!-- Total Setelah Potongan -->
+                            <div class="form-group" id="akhirGroup" style="display: none">
+                                <label>Tagihan Akhir</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="number" class="form-control font-weight-bold" id="jumlah_akhir"
+                                        name="jumlah_akhir" placeholder="0" readonly>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Bayar</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     @endforeach
+@endsection
+@section('js')
+    {{-- Input Potongan Harga --}}
+    <script>
+        document.getElementById('showPotonganHarga').addEventListener('change', function() {
+            var potonganGroup = document.getElementById('potonganGroup');
+            var dashedHr = document.getElementById('dashedHr');
+            var akhirGroup = document.getElementById('akhirGroup');
+
+            if (this.checked) {
+                potonganGroup.style.display = 'block';
+                akhirGroup.style.display = 'block';
+                dashedHr.style.display = 'block';
+            } else {
+                potonganGroup.style.display = 'none';
+                akhirGroup.style.display = 'none';
+                dashedHr.style.display = 'none';
+                document.getElementById('potongan_harga').value = 0;
+            }
+            hitungTotal();
+        });
+
+        document.getElementById('potongan_harga').addEventListener('input', hitungTotal);
+        document.getElementById('jumlah_tagihan').addEventListener('input', hitungTotal);
+
+        function hitungTotal() {
+            var jumlahTagihan = parseFloat(document.getElementById('jumlah_tagihan').value) || 0;
+            var potonganHarga = parseFloat(document.getElementById('potongan_harga').value) || 0;
+
+            var totalAkhir = jumlahTagihan - potonganHarga;
+            document.getElementById('jumlah_akhir').value = totalAkhir;
+        }
+    </script>
 @endsection

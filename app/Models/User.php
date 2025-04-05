@@ -20,6 +20,7 @@ class User extends Authenticatable
         'password', 
         'remember_token',
         'role',  
+        'akses_santri',  
         'no_hp_admin',
     ];
 

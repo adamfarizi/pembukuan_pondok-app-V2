@@ -49,7 +49,7 @@
                             <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                        <h5 class="mb-0 text-white line-height">{{Auth::user()->nama_admin}}</h5>
+                                        <h5 class="mb-0 text-white line-height">{{ Auth::user()->nama_admin }}</h5>
                                         <span class="text-white font-size-12">Online</span>
                                     </div>
                                     <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
@@ -128,7 +128,8 @@
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
                                 <h4 class="card-title mt-3">Pembayaran Iuran Bulanan</h4>
-                                <p class="text-dark">Bulan {{ $currentMonth }}, Semester {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
+                                <p class="text-dark">Bulan {{ $currentMonth }}, Semester
+                                    {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
                                     {{ $currentSemester['tahun'] }}</p>
                             </div>
                             <div class="text-right">
@@ -150,6 +151,7 @@
                                             <th>Jumlah Pembayaran</th>
                                             <th>Diterima Oleh</th>
                                             <th>Status</th>
+                                            <th></th>
                                             {{-- <th></th> --}}
                                         </tr>
                                     </thead>
@@ -179,14 +181,61 @@
                     @method('PUT')
                     @csrf
                     <div class="modal-body">
+                        <!-- Nama Santri -->
                         <div class="form-group">
                             <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                            <select class="form-control" name="nama_santri" id="nama_santri" style="width: 100%"></select>
+                            <select class="form-control" name="nama_santri" id="nama_santri"
+                                style="width: 100%"></select>
+                        </div>
+
+                        <!-- Jumlah Tagihan -->
+                        <div class="form-group mt-3">
+                            <label>Tagihan Awal</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" id="jumlah_tagihan" name="jumlah_tagihan"
+                                    placeholder="0" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Konten Potongan Harga -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="true" id="showPotonganHarga"
+                                name="status_potongan_harga">
+                            <label class="form-check-label" for="showPotonganHarga">
+                                Potongan Harga
+                            </label>
+                        </div>
+                        <div class="form-group" id="potonganGroup" style="display: none;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" id="potongan_harga" name="potongan_harga"
+                                    placeholder="0" min="0">
+                            </div>
+                        </div>
+
+                        <!-- Garis Pemisah -->
+                        <hr class="mt-3 mb-3" style="border-top: 1px dashed #000; display: none;" id="dashedHr">
+
+                        <!-- Total Setelah Potongan -->
+                        <div class="form-group" id="akhirGroup" style="display: none">
+                            <label>Tagihan Akhir</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control font-weight-bold" id="jumlah_akhir"
+                                    name="jumlah_akhir" placeholder="0" readonly>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Simpan</button>
                     </div>
                 </form>
             </div>
@@ -194,30 +243,68 @@
     </div>
 
     <!-- Modal Delete -->
-    {{-- @foreach ($iuran_bulanans as $iuran_bulanan)
-        <div class="modal fade" id="deleteModal{{ $iuran_bulanan->id_pembayaran }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle{{ $iuran_bulanan->id_pembayaran }}" aria-hidden="true">
+    @foreach ($pembayarans_lunas as $iuran)
+        <div class="modal fade" id="deleteModal{{ $iuran->id_pembayaran }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle{{ $iuran->id_pembayaran }}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                     </div>
-                    <form action="{{ url('/pembayaran/iuran_bulanan/delete/' . $iuran_bulanan->id_pembayaran) }}"
+                    <form action="{{ url('/admin/iuran_bulanan/delete/' . $iuran->id_pembayaran . '/action') }}"
                         id="deleteForm" method="post">
                         @csrf
                         @method('DELETE')
                         <div class="modal-body text-center">
-                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
-                            <h3 class="mt-4">Anda yakin ingin hapus data ini?</h3>
+                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="Warning Icon"
+                                class="mb-3">
+
+                            <h4 class="font-weight-bold text-danger">Konfirmasi Pembatalan Pembayaran</h4>
+                            <p class="text-muted">Anda yakin ingin membatalkan pembayaran ini? Tindakan ini tidak dapat
+                                dikembalikan.</p>
+
+                            <div class="text-left border rounded p-1 bg-light d-inline-block" style="width: 90%">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless mb-0">
+                                        <tbody class="text-secondary">
+                                            <tr>
+                                                <td><strong>Nama Santri</strong></td>
+                                                <td>: {{ $iuran->santri->nama_santri }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Tanggal Pembayaran</strong></td>
+                                                <td>:
+                                                    {{ \Carbon\Carbon::parse($iuran->tanggal_pembayaran)->format('d-m-Y') }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Jam Pembayaran</strong></td>
+                                                <td>:
+                                                    {{ \Carbon\Carbon::parse($iuran->tanggal_pembayaran)->format('H:i:s') }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Jumlah Pembayaran</strong></td>
+                                                <td>: Rp. {{ number_format($iuran->jumlah_pembayaran, 0, ',', ',') }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>Diterima Oleh</strong></td>
+                                                <td>: {{ $iuran->user->nama_admin }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-danger">Hapus</button>
+                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger px-4e">Batalkan Pembayaran</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    @endforeach --}}
+    @endforeach
 @endsection
 @section('js')
     {{-- Datatable --}}
@@ -246,12 +333,12 @@
                             } else {
                                 var tanggal_pembayaran = data.split(' ');
                                 var tanggal = tanggal_pembayaran[0].split(
-                                '-'); // Memisahkan tanggal berdasarkan "-"
+                                    '-'); // Memisahkan tanggal berdasarkan "-"
                                 var jam = tanggal_pembayaran[1];
 
                                 // Mengubah format tanggal dari Y-m-d ke d-m-Y
                                 var formattedDate = tanggal[2] + '-' + tanggal[1] + '-' + tanggal[
-                                0];
+                                    0];
 
                                 return '<p class="mb-0">' +
                                     formattedDate +
@@ -271,7 +358,53 @@
                     {
                         data: 'jumlah_pembayaran',
                         render: function(data, type, full, meta) {
-                            return 'Rp. ' + data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            var jumlahPembayaran = full
+                                .jumlah_pembayaran_sebelum_potongan; // Jumlah awal (total harga)
+                            var jumlahPotongan = full.jumlah_potongan ||
+                                0; // Potongan harga, jika ada
+                            var totalSetelahPotongan = data;
+
+                            // Format harga dalam format Rupiah
+                            var formattedJumlahPembayaran = 'Rp. ' + jumlahPembayaran.toString()
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            var formattedJumlahPotongan = 'Rp. ' + jumlahPotongan.toString()
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            var formattedTotalSetelahPotongan = 'Rp. ' + totalSetelahPotongan
+                                .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                            // Membuat tampilan dalam format tabel
+                            var tableContent = `
+                                <table class="table table-borderless m-0">
+                                    <tr>
+                                        <td class="pb-0 pt-1">Tagihan Awal</td>
+                                        <td class="pb-0 pt-1 text-right">${formattedJumlahPembayaran}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pb-0 pt-1">Potongan</td>
+                                        <td class="pb-0 pt-1 text-right">${formattedJumlahPotongan}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><hr style="border: 1px solid #e6e6e6; margin: 0;"></td>
+                                        <td><hr style="border: 1px solid #8a8a8a; margin: 0;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pb-0 pt-1">Tagihan Akhir</td>
+                                        <td class="pb-0 pt-1 text-right"><strong>${formattedTotalSetelahPotongan}</strong></td>
+                                    </tr>
+                                </table>
+                            `;
+
+                            if (jumlahPotongan <= 0) {
+                                return `
+                                <table class="table table-borderless m-0" style="width: 90%;">
+                                    <tr>
+                                        <td class="pb-0 pt-1">Tagihan Akhir</td>
+                                        <td class="pb-0 pt-1 text-right"><strong>${formattedTotalSetelahPotongan}</strong></td>
+                                    </tr>
+                                </table>`;
+                            } else {
+                                return tableContent;
+                            }
                         }
                     },
                     // Kolom diterima oleh
@@ -292,10 +425,27 @@
                         name: 'status_pembayaran',
                         render: function(data, type, full, meta) {
                             if (full.status_pembayaran == 'belum_lunas') {
-                                return '<div class="d-flex flex-column">' + '<span class="badge badge-pill badge-danger p-2">Belum Lunas</span>' + '</div>';
+                                return '<div class="d-flex flex-column">' +
+                                    '<span class="badge badge-pill badge-danger p-2">Belum Lunas</span>' +
+                                    '</div>';
                             } else {
-                                return '<div class="d-flex flex-column">' + '<span class="badge badge-pill badge-primary p-2">Lunas</span>' + '</div>';
+                                return '<div class="d-flex flex-column">' +
+                                    '<span class="badge badge-pill badge-primary p-2">Lunas</span>' +
+                                    '</div>';
                             }
+                        }
+                    },
+                    // Kolom cancel Payment
+                    {
+                        data: 'id_pembayaran',
+                        name: 'id_pembayaran',
+                        render: function(data, type, full, meta) {
+                            return '<div class="d-flex align-items-center list-user-action">' +
+                                '<a data-placement="top" title="Delete" href="#" data-target="#deleteModal' +
+                                data + '" data-toggle="modal" data-id="' + data + '">' +
+                                '<i class="ri-delete-bin-line"></i>' +
+                                '</a>' +
+                                '</div>';
                         }
                     },
                 ],
@@ -310,33 +460,115 @@
 
     {{-- Select2 --}}
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             var select2Url = "{{ secure_url('admin/iuran_bulanan/select2') }}";
-            
+
             $('#nama_santri').select2({
                 dropdownParent: $('#exampleModalCenter'),
                 minimumInputLength: 2,
                 placeholder: 'Pilih Nama Santri',
+                width: '100%',
+                dropdownAutoWidth: true,
+                dropdownCssClass: 'select2-dropdown-custom',
+                templateResult: function(data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+                    return $('<span>').text(data.text).addClass('select2-result-item');
+                },
+                templateSelection: function(data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+                    return $('<span>').text(data.text).addClass('select2-selection-item');
+                },
                 ajax: {
                     url: select2Url,
                     dataType: 'json',
-                    processResults: function (data) {
+                    processResults: function(data) {
                         return {
-                            results: data.map(function (res) {
-                                return { text: res.santri.nama_santri, id: res.santri.id_santri };
+                            results: data.map(function(res) {
+                                return {
+                                    text: res.santri.nama_santri,
+                                    id: res.santri.id_santri,
+                                    jumlah_pembayaran: res.jumlah_pembayaran
+                                };
                             })
                         };
                     }
                 }
             });
 
+            // Add custom styling after initialization
+            $('.select2-container--default .select2-selection--single').css({
+                'height': '38px',
+                'border-radius': '4px',
+                'border': '1px solid #ced4da'
+            });
+
+            $('.select2-container--default .select2-selection--single .select2-selection__rendered').css({
+                'line-height': '36px',
+                'padding-left': '12px'
+            });
+
+            $('.select2-container--default .select2-selection--single .select2-selection__arrow').css({
+                'height': '36px'
+            });
+
             // Mengatur URL aksi formulir berdasarkan id_santri yang dipilih
             $('#nama_santri').on('change', function() {
+                var selectedData = $('#nama_santri').select2('data')[0];
+                if (selectedData && selectedData.jumlah_pembayaran) {
+                    $('#jumlah_tagihan').val(selectedData.jumlah_pembayaran);
+                } else {
+                    $('#jumlah_tagihan').val(0);
+                }
+
                 var selectedId = this.value;
                 var form = document.getElementById('updateForm');
                 var actionUrl = "{{ secure_url('/admin/iuran_bulanan/edit') }}/" + selectedId + "/action";
                 form.setAttribute('action', actionUrl);
+
+                var submitButton = document.getElementById('submitBtn');
+                // Cek apakah ada nilai yang dipilih
+                if (this.value) {
+                    submitButton.disabled = false; // Mengaktifkan tombol jika ada pilihan
+                } else {
+                    submitButton.disabled = true; // Menonaktifkan tombol jika tidak ada pilihan
+                }
             });
         });
+    </script>
+
+    {{-- Input Potongan Harga --}}
+    <script>
+        document.getElementById('showPotonganHarga').addEventListener('change', function() {
+            var potonganGroup = document.getElementById('potonganGroup');
+            var dashedHr = document.getElementById('dashedHr');
+            var akhirGroup = document.getElementById('akhirGroup');
+
+            if (this.checked) {
+                potonganGroup.style.display = 'block';
+                akhirGroup.style.display = 'block';
+                dashedHr.style.display = 'block';
+            } else {
+                potonganGroup.style.display = 'none';
+                akhirGroup.style.display = 'none';
+                dashedHr.style.display = 'none';
+                document.getElementById('potongan_harga').value = 0;
+            }
+            hitungTotal();
+        });
+
+        document.getElementById('potongan_harga').addEventListener('input', hitungTotal);
+        document.getElementById('jumlah_tagihan').addEventListener('input', hitungTotal);
+
+        function hitungTotal() {
+            var jumlahTagihan = parseFloat(document.getElementById('jumlah_tagihan').value) || 0;
+            var potonganHarga = parseFloat(document.getElementById('potongan_harga').value) || 0;
+
+            var totalAkhir = jumlahTagihan - potonganHarga;
+            document.getElementById('jumlah_akhir').value = totalAkhir;
+        }
     </script>
 @endsection

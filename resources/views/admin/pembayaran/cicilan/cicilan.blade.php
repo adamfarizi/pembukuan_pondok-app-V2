@@ -12,7 +12,7 @@
             </div>
             {{-- Halaman --}}
             <div class="navbar-breadcrumb">
-                <h5 class="mb-0">{{$title}}</h5>
+                <h5 class="mb-0">{{ $title }}</h5>
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin-beranda') }}">Main</a></li>
@@ -74,8 +74,8 @@
                                         <a href="#" class="iq-sub-card">
                                             <div class="media align-items-center">
                                                 <div class="">
-                                                    <img class="avatar-40 rounded"
-                                                        src="{{ asset('images/user/02.jpg') }}" alt="">
+                                                    <img class="avatar-40 rounded" src="{{ asset('images/user/02.jpg') }}"
+                                                        alt="">
                                                 </div>
                                                 <div class="media-body ml-3">
                                                     <h6 class="mb-0 ">New customer is join</h6>
@@ -102,20 +102,19 @@
                             </div>
                         </li>
                         {{-- FullScreen --}}
-                        <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect"
-                                id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
+                        <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect" id="btnFullscreen"><i
+                                    class="ri-fullscreen-line"></i></a></li>
                     </ul>
                 </div>
                 <ul class="navbar-list">
                     <li>
                         <a href="#" class="search-toggle iq-waves-effect bg-white text-white"><img
-                                src="{{ asset('images/local/user-1.png') }}" class="img-fluid rounded"
-                                alt="user"></a>
+                                src="{{ asset('images/local/user-1.png') }}" class="img-fluid rounded" alt="user"></a>
                         <div class="iq-sub-dropdown iq-user-dropdown">
                             <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                        <h5 class="mb-0 text-white line-height">{{Auth::user()->nama_admin}}</h5>
+                                        <h5 class="mb-0 text-white line-height">{{ Auth::user()->nama_admin }}</h5>
                                         <span class="text-white font-size-12">Online</span>
                                     </div>
                                     <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
@@ -193,17 +192,44 @@
                     <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
-                                <h4 class="card-title mt-3">Rincian Cicilan a.n {{$pembayarans->santri->nama_santri}}</h4>
+                                <h4 class="card-title mt-3">Rincian Cicilan {{ $pembayarans->santri->nama_santri }}</h4>
                                 <p class="text-dark">Semester {{ ucfirst($currentSemester['semester']) }}, Tahun Ajaran
                                     {{ $currentSemester['tahun'] }}</p>
-                                <h5 class="card-title mt-3">Biaya Bayar Semester : Rp{{$pembayarans->jumlah_pembayaran}}</h5>
-                                <h5 class="card-title mt-1 mb-3">Total Cicilan Sementara : Rp{{$pembayarans->jumlah_bayar}}</h5>
                             </div>
                             <div class="text-right">
                                 <button type="button" class="btn btn-primary mt-1" data-toggle="modal"
                                     data-target="#exampleModalCenter">
                                     Tambah Cicilan
                                 </button>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="col-lg-4">
+                                <table class="table table-borderless mt-3">
+                                    <tbody>
+                                        <tr>
+                                            <th class="pb-0 pt-1">Biaya Bayar Semester</th>
+                                            <td class="pb-0 pt-1 text-right">Rp.
+                                                {{ number_format($pembayarans->jumlah_pembayaran, 0, ',', '.') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="pb-0 pt-1">Total Cicilan Sementara</th>
+                                            <td class="pb-0 pt-1 text-right">Rp.
+                                                {{ number_format($pembayarans->jumlah_bayar, 0, ',', '.') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><hr style="border: 1px solid #8a8a8a; margin: 0;"></td>
+                                            <td><hr style="border: 1px solid #8a8a8a; margin: 0; width: 2px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="pb-0 pt-1 text-danger">Total Kekurangan</th>
+                                            <td class="pb-0 pt-1 text-right text-danger font-weight-bold">
+                                                Rp.
+                                                {{ number_format($pembayarans->jumlah_pembayaran - $pembayarans->jumlah_bayar, 0, ',', '.') }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="iq-card-body">
@@ -222,8 +248,15 @@
                                         @forelse ($data_cicilan as $group => $cicilanSantri)
                                             <tr>
                                                 <th scope="row">{{ $loop->iteration }}</th>
-                                                <td class="text-center">{{ $cicilanSantri->tanggal_bayar }}</td>
-                                                <td class="text-center">{{ 'RP ' . number_format($cicilanSantri->sub_bayar_cicilan, 0, ',', '.') }}</td>
+                                                <td class="text-center">
+                                                    {{ \Carbon\Carbon::parse($cicilanSantri->tanggal_bayar)->format('d-m-Y') }}
+                                                    <br>
+                                                    Jam:
+                                                    {{ \Carbon\Carbon::parse($cicilanSantri->created_at)->format('H:i:s') }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ 'Rp. ' . number_format($cicilanSantri->sub_bayar_cicilan, 0, ',', ',') }}
+                                                </td>
                                                 <td class="text-center">{{ $cicilanSantri->user->nama_admin }}</td>
                                                 <td class="text-center">
                                                     <div class="flex align-items-center list-user-action">
@@ -250,56 +283,63 @@
         </div>
     </div>
 
-<!-- Modal Create -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Cicilan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ url('/admin/pembayaran/cicilan/add') }}" id="updateForm" method="post">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group" id="jumlahBayarGroup">
-                        <label for="jumlah_bayar">Nominal Bayar Cicilan <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar" required>
+    <!-- Modal Create -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Cicilan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('/admin/pembayaran/cicilan/add') }}" id="updateForm" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group" id="jumlahBayarGroup">
+                            <label for="jumlah_bayar">Nominal Bayar Cicilan <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" id="jumlah_bayar" name="jumlah_bayar" placeholder="0" min="0" required>
+                            </div>
+                        </div>
+                        <input type="number" name="id_pembayaran" value="{{ $pembayarans->id_pembayaran }}" required
+                            style="display: none">
                     </div>
-                    <input type="number" name="id_pembayaran" value="{{ $pembayarans->id_pembayaran }}" required style="display: none">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Modal Delete -->
-@foreach ($data_cicilan as $data)
-<div class="modal fade" id="deleteModal{{ $data->id_cicilan_pembayarans }}" tabindex="-1" role="dialog"
-aria-labelledby="exampleModalCenterTitle{{ $data->id_cicilan_pembayarans }}" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            </div>
-            <form action="{{ url('/admin/pembayaran/cicilan/delete/'.$data->id_cicilan_pembayarans) }}" id="deleteForm"
-            method="post">
-            @csrf
-            @method('DELETE')
-            <div class="modal-body text-center">
-                <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
-                <h3 class="mt-4">Anda yakin ingin membatalkan cicilan ini?</h3>
-            </div>
-            <input type="number" name="id_pembayaran" value="{{ $pembayarans->id_pembayaran }}" required style="display: none">
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-danger">Hapus</button>
-            </div>
+    <!-- Modal Delete -->
+    @foreach ($data_cicilan as $data)
+        <div class="modal fade" id="deleteModal{{ $data->id_cicilan_pembayarans }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle{{ $data->id_cicilan_pembayarans }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <form action="{{ url('/admin/pembayaran/cicilan/delete/' . $data->id_cicilan_pembayarans) }}"
+                        id="deleteForm" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('images/local/danger.png') }}" width="80px" alt="">
+                            <h3 class="mt-4">Anda yakin ingin membatalkan cicilan ini?</h3>
+                        </div>
+                        <input type="number" name="id_pembayaran" value="{{ $pembayarans->id_pembayaran }}" required
+                            style="display: none">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -308,4 +348,3 @@ aria-labelledby="exampleModalCenterTitle{{ $data->id_cicilan_pembayarans }}" ari
 @endsection
 @section('js')
 @endsection
-

@@ -41,16 +41,16 @@ class GuestBerandaController extends Controller
             'password' => 'required',
         ]);
 
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember'); // hanya true jika checkbox ditekan
 
         // Authenticate admin
-        if (Auth::guard('web')->attempt(['email' => $email, 'password' => $password], $request->filled('remember'))) {
+        if (Auth::guard('web')->attempt($credentials, $remember)) {
             return redirect()->route('admin-beranda');
         }
 
         // Authenticate wali
-        if (Auth::guard('wali_santri')->attempt(['email' => $email, 'password' => $password], $request->filled('remember'))) {
+        if (Auth::guard('wali_santri')->attempt($credentials, $remember)) {
             return redirect()->route('wali-beranda');
         }
 

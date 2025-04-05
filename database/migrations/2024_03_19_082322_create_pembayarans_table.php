@@ -18,6 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('id_santri')->nullable();
             $table->unsignedBigInteger('id_admin')->nullable();
             $table->dateTime('tanggal_pembayaran')->nullable();
+            // Potongan harga
+            $table->integer('jumlah_pembayaran_sebelum_potongan')->nullable()->default(0);
+            $table->integer('jumlah_potongan')->nullable()->default(0);
+            // Potongan harga
             $table->integer('jumlah_pembayaran');
             $table->integer('jumlah_bayar');
             $table->enum('jenis_pembayaran', ['daftar_ulang', 'iuran_bulanan', 'tamrin']);

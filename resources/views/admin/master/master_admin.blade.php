@@ -485,6 +485,7 @@
                                                 <th>Nama Admin</th>
                                                 <th>Email</th>
                                                 <th>Role</th>
+                                                <th>Akses Santri</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -519,16 +520,18 @@
                                 <label for="nama_admin">Nama Admin <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nama_admin" name="nama_admin" required>
                             </div>
-                            <div class="form-group">
-                                <label for="email">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
                             <div class="row">
+                                <div class="col form-group">
+                                    <label for="email">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
                                 <div class="col form-group">
                                     <label for="no_hp_admin">No Hp <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="no_hp_admin" name="no_hp_admin"
                                         required>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col form-group">
                                     <label for="role">Role <span class="text-danger">*</span></label>
                                     <select class="form-control" id="role" name="role" required>
@@ -536,6 +539,15 @@
                                         <option value="super_admin">Super Admin</option>
                                         <option value="admin_pembayaran">Admin Pembayaran</option>
                                         <option value="admin_penilaian">Admin Penilaian</option>
+                                    </select>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="akses_santri">Akses Santri <span class="text-danger">*</span></label>
+                                    <select class="form-control" id="akses_santri" name="akses_santri" required>
+                                        <option selected="" disabled="">Pilih Jenis Akses</option>
+                                        <option value="semua">Semua</option>
+                                        <option value="putra">Putra</option>
+                                        <option value="putri">Putri</option>
                                     </select>
                                 </div>
                             </div>
@@ -563,7 +575,7 @@
         @foreach ($admins as $admin)
             <div class="modal fade" id="editModal{{ $admin->id_admin }}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalCenterTitle">Edit Admin</h5>
@@ -580,20 +592,22 @@
                                     <input type="text" class="form-control" id="nama_admin" name="nama_admin"
                                         value="{{ $admin->nama_admin }}">
                                 </div>
-                                <div class="form-group">
-                                    <label for="email">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        value="{{ $admin->email }}">
-                                </div>
                                 <div class="row">
+                                    <div class="col form-group">
+                                        <label for="email">Email <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            value="{{ $admin->email }}">
+                                    </div>
                                     <div class="col form-group">
                                         <label for="no_hp_admin">No Hp <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="no_hp_admin" name="no_hp_admin"
                                             value="{{ $admin->no_hp_admin }}">
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col form-group">
                                         <label for="role">Role <span class="text-danger">*</span></label>
-                                        <select class="form-control" id="role" name="role">
+                                        <select class="form-control role-edit" name="role">
                                             <option selected="" disabled="">Pilih Jenis Role</option>
                                             <option value="super_admin"
                                                 {{ $admin->role == 'super_admin' ? 'selected' : '' }}>
@@ -603,6 +617,18 @@
                                             </option>
                                             <option value="admin_penilaian"
                                                 {{ $admin->role == 'admin_penilaian' ? 'selected' : '' }}>Admin Penilaian
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col form-group">
+                                        <label for="akses_santri">Akses Santri <span class="text-danger">*</span></label>
+                                        <select class="form-control akses-edit" name="akses_santri">
+                                            <option selected="" disabled="">Pilih Jenis Akses</option>
+                                            <option value="semua" {{ $admin->akses_santri == 'semua' ? 'selected' : '' }}>Semua
+                                            </option>
+                                            <option value="putra" {{ $admin->akses_santri == 'putra' ? 'selected' : '' }}>Putra
+                                            </option>
+                                            <option value="putri" {{ $admin->akses_santri == 'putri' ? 'selected' : '' }}>Putri
                                             </option>
                                         </select>
                                     </div>
@@ -655,8 +681,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger">Hapus</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-danger">Hapus</button>
                             </div>
                         </form>
                     </div>
@@ -705,6 +731,19 @@
                             }
                         }
                     },
+                    {
+                        data: 'akses_santri',
+                        name: 'akses_santri',
+                        render: function(data, type, full, meta) {
+                            if (data === 'semua') {
+                                return '<span class="badge badge-pill border border-dark text-dark">Semua</span>';
+                            } else if (data === 'putra') {
+                                return '<span class="badge badge-pill border border-primary text-primary">Putra</span>';
+                            } else {
+                                return '<span class="badge badge-pill border border-danger text-danger">Putri</span>';
+                            }
+                        }
+                    },
                     // Kolom aksi (tombol Info, Edit, Delete)
                     {
                         data: null,
@@ -735,4 +774,58 @@
             });
         });
     </script>
+
+    {{-- Akses Santri --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function addOption(select, value, text) {
+                const option = document.createElement("option");
+                option.value = value;
+                option.text = text;
+                select.appendChild(option);
+            }
+    
+            function setupRoleChange(roleSelect, aksesSantriSelect) {
+                roleSelect.addEventListener("change", function () {
+                    const selectedRole = this.value;
+    
+                    // Reset opsi
+                    aksesSantriSelect.innerHTML = '';
+    
+                    // Tambahkan default option
+                    const defaultOption = document.createElement("option");
+                    defaultOption.text = "Pilih Jenis Akses";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    aksesSantriSelect.appendChild(defaultOption);
+    
+                    if (selectedRole === "super_admin") {
+                        addOption(aksesSantriSelect, "semua", "Semua");
+                        addOption(aksesSantriSelect, "putra", "Putra");
+                        addOption(aksesSantriSelect, "putri", "Putri");
+                    } else {
+                        addOption(aksesSantriSelect, "putra", "Putra");
+                        addOption(aksesSantriSelect, "putri", "Putri");
+                    }
+                });
+            }
+    
+            // Untuk modal create
+            const createRole = document.getElementById("role");
+            const createAkses = document.getElementById("akses_santri");
+            if (createRole && createAkses) {
+                setupRoleChange(createRole, createAkses);
+            }
+    
+            // Untuk semua modal edit
+            const allRoleSelects = document.querySelectorAll(".role-edit");
+            allRoleSelects.forEach(function (roleSelect) {
+                const aksesSantriSelect = roleSelect.closest(".modal-body").querySelector(".akses-edit");
+                if (aksesSantriSelect) {
+                    setupRoleChange(roleSelect, aksesSantriSelect);
+                }
+            });
+        });
+    </script>
+      
 @endsection

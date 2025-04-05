@@ -22,13 +22,23 @@ use Yajra\DataTables\Facades\DataTables;
 class AdminSantriController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         $data['title'] = 'Santri';
 
+        
         $santris = Santri::with('waliSantri')->get();
-
+        
         if ($request->ajax()) {
-            $data = Santri::orderBy('created_at', 'desc')->get();
+            // Akses Santri
+            $akses = Auth::user()->akses_santri;
+            $data = Santri::orderBy('created_at', 'desc');
+            if ($akses === "putra") {
+                $data->where('jenis_kelamin_santri', 'laki-laki');
+            } elseif ($akses === "putri") {
+                $data->where('jenis_kelamin_santri', 'perempuan');
+            }
+            $data = $data->get();
+
             return DataTables::of($data)
                 ->addColumn('tempat_tanggal_lahir_santri', function ($row) {
                     return $row->tempat_tanggal_lahir_santri; // Menggunakan accessor dari model
@@ -37,7 +47,7 @@ class AdminSantriController extends Controller
                     return $row->alamat_santri; // Menggunakan accessor dari model
                 })
                 ->make(true);
-        }        
+        }
 
         $wali_santris = WaliSantri::get();
 
@@ -78,7 +88,7 @@ class AdminSantriController extends Controller
                 'nama_ayah' => 'required',
                 //Identitas Ibu
                 'nama_ibu' => 'required',
-                
+
                 //? Identitas Wali
                 'nama_wali' => 'required',
                 'no_identitas_wali' => 'required',
@@ -219,7 +229,7 @@ class AdminSantriController extends Controller
             // return redirect()->back()->withErrors($e->errors())->withInput();
             return redirect()->route('santri')->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            return redirect()->route('santri')->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
+            return redirect()->route(route: 'santri')->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
             // return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
         }
 
@@ -230,6 +240,15 @@ class AdminSantriController extends Controller
         $data['title'] = 'Santri';
 
         $santri = Santri::where('id_santri', $id_santri)->first();
+
+        // Akses Santri
+        $akses = Auth::user()->akses_santri;
+        if (
+            ($akses == 'putra' && $santri->jenis_kelamin_santri != 'laki-laki') ||
+            ($akses == 'putri' && $santri->jenis_kelamin_santri != 'perempuan')
+        ) {
+            return redirect()->route('santri')->withErrors(['error' => 'Akses dibatasi!']);
+        }
 
         $wali = WaliSantri::where('id_santri', $id_santri)->first();
 
@@ -262,21 +281,45 @@ class AdminSantriController extends Controller
             ->where('id_pembayaran', $id_pembayaran)
             ->first();
 
-        if ($pembayaran) {
+        $statusPotonganHarga = $request->input('status_potongan_harga');
+        $potonganHarga = $request->input('potongan_harga');
+
+        if ($statusPotonganHarga == "true" && $pembayaran) {
+            // Jika status potongan harga true, maka update harga beserta potongan harga
+            $pembayaran->jumlah_pembayaran_sebelum_potongan = $pembayaran->jumlah_pembayaran;
+            $pembayaran->jumlah_potongan = $potonganHarga;
+            $pembayaran->jumlah_pembayaran = $pembayaran->jumlah_pembayaran_sebelum_potongan - $potonganHarga;
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
+
+            // Mengubah status pembayaran menjadi lunas
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->id_admin = Auth::user()->id_admin;
-            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
             $pembayaran->status_pembayaran = 'lunas';
+
+            // Simpan perubahan ke database
             $pembayaran->save();
 
-            return redirect()->back()->with('success', 'Pembayaran berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Data pembayaran berhasil ditambahkan dengan potongan.');
+        } elseif ($pembayaran) {
+            // Jika tidak ada potongan harga atau potongan tidak diterapkan, proses normal
+            $pembayaran->jumlah_bayar = $pembayaran->jumlah_pembayaran;
+
+            // Mengubah status pembayaran menjadi lunas
+            $pembayaran->tanggal_pembayaran = now();
+            $pembayaran->id_admin = Auth::user()->id_admin;
+            $pembayaran->status_pembayaran = 'lunas';
+
+            // Simpan perubahan ke database
+            $pembayaran->save();
+
+            return redirect()->back()->with('success', 'Data pembayaran berhasil ditambahkan.');
         } else {
-            return redirect()->back()->with('error', 'Pembayaran tidak ditemukan.');
+            return redirect()->back()->withErrors(['error' => 'Error: Data tidak ditemukan']);
         }
     }
 
     public function cetakRiwayat($id_santri, $tanggal)
-    {   
+    {
         $formattedDate = \Carbon\Carbon::parse($tanggal)->format('Y-m-d');
 
         // Ambil riwayat pembayaran pada tanggal tersebut
@@ -285,7 +328,7 @@ class AdminSantriController extends Controller
             ->with('santri', 'user')
             ->get();
         // dd($formattedDate);
-            // Kirim data ke view cetak
+        // Kirim data ke view cetak
         return view('admin.santri.info.cetak.riwayat_pembayaran', [
             'riwayatPembayaran' => $riwayatPembayaran,
             'tanggal' => $tanggal,
@@ -331,7 +374,7 @@ class AdminSantriController extends Controller
                 'nama_ayah' => 'required',
                 //Identitas Ibu
                 'nama_ibu' => 'required',
-                
+
                 //? Identitas Wali
                 'nama_wali' => 'required',
                 'no_identitas_wali' => 'required',

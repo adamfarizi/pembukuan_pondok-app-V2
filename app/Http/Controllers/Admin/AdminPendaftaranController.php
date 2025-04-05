@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Helpers\TagihanHelper;
 use App\Helpers\SemesterHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,7 +25,16 @@ class AdminPendaftaranController extends Controller
         $data['title'] = 'Pendaftaran';
 
         if ($request->ajax()) {
-            $data = Pendaftaran::where('status', 'belum_verifikasi')->get();
+            // Akses Santri
+            $akses = Auth::user()->akses_santri;
+            $data = Pendaftaran::where('status', 'belum_verifikasi');
+            if ($akses === "putra") {
+                $data->where('jenis_kelamin_pendaftar', 'laki-laki');
+            } elseif ($akses === "putri") {
+                $data->where('jenis_kelamin_pendaftar', 'perempuan');
+            }
+            $data = $data->get();
+            
             return DataTables::of($data)
                 ->addColumn('tempat_tanggal_lahir_pendaftar', function ($row) {
                     return $row->tempat_tanggal_lahir_pendaftar; // Menggunakan accessor dari model
@@ -44,6 +54,15 @@ class AdminPendaftaranController extends Controller
         $data['title'] = 'Pendaftaran';
 
         $pendaftar = Pendaftaran::where('id_pendaftar', $id_pendaftar)->first();
+
+        // Akses Santri
+        $akses = Auth::user()->akses_santri;
+        if (
+            ($akses == 'putra' && $pendaftar->jenis_kelamin_pendaftar != 'laki-laki') ||
+            ($akses == 'putri' && $pendaftar->jenis_kelamin_pendaftar != 'perempuan')
+        ) {
+            return redirect()->route('pendaftaran')->withErrors(['error' => 'Akses dibatasi!']);
+        }
 
         return view('admin.pendaftaran.info.info', [
             'pendaftar' => $pendaftar,

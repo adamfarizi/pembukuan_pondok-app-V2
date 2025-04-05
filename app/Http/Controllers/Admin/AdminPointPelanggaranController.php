@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\PointSantri;
 use App\Models\Santri;
+use App\Models\PointSantri;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
 use App\Helpers\SemesterHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminPointPelanggaranController extends Controller
 {
@@ -16,7 +17,16 @@ class AdminPointPelanggaranController extends Controller
         $data['title'] = 'Point Pelanggaran';
 
         if ($request->ajax()) {
-            $data = Santri::orderBy('created_at', 'desc')->get();
+            // Akses Santri
+            $akses = Auth::user()->akses_santri;
+            $data = Santri::orderBy('created_at', 'desc');
+            if ($akses === "putra") {
+                $data->where('jenis_kelamin_santri', 'laki-laki');
+            } elseif ($akses === "putri") {
+                $data->where('jenis_kelamin_santri', 'perempuan');
+            }
+            $data = $data->get();
+            
             return DataTables::of($data)
                 ->make(true);
         }
@@ -30,6 +40,15 @@ class AdminPointPelanggaranController extends Controller
         $data['title'] = 'Point Pelanggaran';
 
         $santri = Santri::where('id_santri', $id_santri)->first();
+
+        // Akses Santri
+        $akses = Auth::user()->akses_santri;
+        if (
+            ($akses == 'putra' && $santri->jenis_kelamin_santri != 'laki-laki') ||
+            ($akses == 'putri' && $santri->jenis_kelamin_santri != 'perempuan')
+        ) {
+            return redirect()->back()->withErrors(['error' => 'Akses dibatasi!']);
+        }
 
         $currentSemester = SemesterHelper::getCurrentSemester();
 

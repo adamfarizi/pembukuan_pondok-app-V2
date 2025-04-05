@@ -111,6 +111,7 @@ class AdminMasterController extends Controller
             'nama_admin' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins',
             'role' => 'required|in:super_admin,admin_pembayaran,admin_penilaian',
+            'akses_santri' => 'required|in:semua,putra,putri',
             'password' => 'required|string|min:8|confirmed',
             'no_hp_admin' => 'required|max:13',
         ]);
@@ -126,6 +127,7 @@ class AdminMasterController extends Controller
             'nama_admin' => $request->nama_admin,
             'email' => $request->email,
             'role' => $request->role,
+            'akses_santri' => $request->akses_santri,
             'password' => Hash::make($request->password),
             'no_hp_admin' => $request->no_hp_admin,
         ]);
@@ -143,6 +145,7 @@ class AdminMasterController extends Controller
             'nama_admin' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins,email,' . $admin->id_admin . ',id_admin',
             'role' => 'required|in:super_admin,admin_pembayaran,admin_penilaian',
+            'akses_santri' => 'required|in:semua,putra,putri',
             'password_lama' => 'nullable|string',
             'password' => 'nullable|string|min:8|confirmed',
             'no_hp_admin' => 'required|max:13',
@@ -158,6 +161,8 @@ class AdminMasterController extends Controller
         $admin->nama_admin = $request->nama_admin;
         $admin->email = $request->email;
         $admin->role = $request->role;
+        $admin->akses_santri = $request->akses_santri;
+
         $admin->no_hp_admin = $request->no_hp_admin;
 
         // Jika password lama dan password baru diisi, update password

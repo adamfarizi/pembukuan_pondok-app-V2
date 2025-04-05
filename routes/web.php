@@ -54,16 +54,22 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/beranda', [AdminBerandaController::class, 'index'])->name('admin-beranda');
   Route::get('/admin/daftar_ulang', [AdminDaftarUlangController::class, 'index'])->name('daftar_ulang');
   Route::get('/admin/daftar_ulang/select2', [AdminDaftarUlangController::class, 'select2'])->name('daftar_ulang.select2');
+  // Payment
   Route::put('/admin/daftar_ulang/edit/{id}/action', [AdminDaftarUlangController::class, 'edit']);
+  Route::delete('/admin/daftar_ulang/delete/{id}/action', [AdminDaftarUlangController::class, 'cancelPayment']);
   Route::get('/admin/iuran_bulanan', [AdminIuranBulananController::class, 'index'])->name('iuran_bulanan');
   Route::get('/admin/iuran_bulanan/select2', [AdminIuranBulananController::class, 'select2'])->name('iuran_bulanan.select2');
+  // Payment
   Route::put('/admin/iuran_bulanan/edit/{id}/action', [AdminIuranBulananController::class, 'edit']);
+  Route::delete('/admin/iuran_bulanan/delete/{id}/action', [AdminIuranBulananController::class, 'cancelPayment']);
   Route::get('/admin/tamrin', [AdminTamrinController::class, 'index'])->name('tamrin');
   Route::get('/admin/tamrin/seletc2', [AdminTamrinController::class, 'select2'])->name('tamrin.select2');
   Route::get('/admin/tamrin/cicilan/{id}/bayar', [AdminTamrinController::class, 'show'])->name('cicilan_detail');
   Route::post('/admin/pembayaran/cicilan/add', [AdminTamrinController::class, 'add_cicilan'])->name('add_cicilan');
   Route::delete('/admin/pembayaran/cicilan/delete/{id}', [AdminTamrinController::class, 'delete_cicilan'])->name('delete_cicilan');
+  // Payment
   Route::put('/admin/tamrin/edit/{id}/action', [AdminTamrinController::class, 'edit']);
+  Route::delete('/admin/tamrin/delete/{id}/action', [AdminTamrinController::class, 'cancelPayment']);
   Route::get('/admin/pemasukan', [AdminPemasukanController::class, 'index'])->name('pemasukan');
   Route::post('/admin/pemasukan/create/action', [AdminPemasukanController::class, 'create']);
   Route::put('/admin/pemasukan/edit/{id}/action', [AdminPemasukanController::class, 'edit']);
