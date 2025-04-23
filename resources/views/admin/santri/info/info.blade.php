@@ -463,30 +463,55 @@
                                 <div class="iq-card-body">
                                     <div class="about-info m-0 p-0">
                                         <div class="row">
-                                            <div class="col-4">Nama</div>
-                                            <div class="col-8">: {{ $wali->nama_wali }}</div>
-                                            <div class="col-4">No Identitas (KTP/SIM)</div>
-                                            <div class="col-8">: {{ $wali->no_identitas_wali }}</div>
-                                            <div class="col-4">TTL</div>
-                                            <div class="col-8">: {{ $wali->tempat_tanggal_lahir_wali }}</div>
-                                            <div class="col-4">Email</div>
-                                            <div class="col-8"><a href="mailto:{{ $wali->email }}">: <span
-                                                        class="text-primary">{{ $wali->email }}</span></a></div>
-                                            <div class="col-4">No Telepon</div>
-                                            <div class="col-8"><a href="tel:{{ $wali->no_hp }}">: <span
-                                                        class="text-primary">{{ $wali->no_hp }}</span></a></div>
-                                            <div class="col-4">Alamat</div>
-                                            <div class="col-8">: {{ $wali->alamat_wali }}</div>
-                                            <div class="col-4">Status</div>
-                                            <div class="col-8">: {{ $wali->status_wali }}</div>
-                                            <div class="col-4">Pendidikan</div>
-                                            <div class="col-8">: {{ $wali->pendidikan_wali }}</div>
-                                            <div class="col-4">Pekerjaan</div>
-                                            <div class="col-8">: {{ $wali->pekerjaan_wali }}</div>
-                                            <div class="col-4">Pendapatan Perbulan</div>
-                                            <div class="col-8">:
-                                                {{ 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') }}
-                                            </div>
+                                            @if ($wali)
+                                                <div class="col-4">Nama</div>
+                                                <div class="col-8">: {{ $wali->nama_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">No Identitas (KTP/SIM)</div>
+                                                <div class="col-8">: {{ $wali->no_identitas_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">TTL</div>
+                                                <div class="col-8">: {{ $wali->tempat_tanggal_lahir_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">Email</div>
+                                                <div class="col-8">
+                                                    : {{ $wali->email ? '<a href="mailto:' . $wali->email . '"><span class="text-primary">' . $wali->email . '</span></a>' : 'Tidak diketahui' }}
+                                                </div>
+                                                <div class="col-4">No Telepon</div>
+                                                <div class="col-8">
+                                                    : {{ $wali->no_hp ? '<a href="tel:' . $wali->no_hp . '"><span class="text-primary">' . $wali->no_hp . '</span></a>' : 'Tidak diketahui' }}
+                                                </div>
+                                                <div class="col-4">Alamat</div>
+                                                <div class="col-8">: {{ $wali->alamat_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">Status</div>
+                                                <div class="col-8">: {{ $wali->status_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">Pendidikan</div>
+                                                <div class="col-8">: {{ $wali->pendidikan_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">Pekerjaan</div>
+                                                <div class="col-8">: {{ $wali->pekerjaan_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-4">Pendapatan Perbulan</div>
+                                                <div class="col-8">
+                                                    : {{ $wali->pendapatan_wali_perbulan ? 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') : 'Tidak diketahui' }}
+                                                </div>
+                                            @else
+                                                <div class="col-4">Nama</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">No Identitas (KTP/SIM)</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">TTL</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">Email</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">No Telepon</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">Alamat</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">Status</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">Pendidikan</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">Pekerjaan</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                                <div class="col-4">Pendapatan Perbulan</div>
+                                                <div class="col-8">: Tidak diketahui</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
