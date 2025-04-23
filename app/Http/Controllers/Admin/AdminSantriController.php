@@ -22,12 +22,12 @@ use Yajra\DataTables\Facades\DataTables;
 class AdminSantriController extends Controller
 {
     public function index(Request $request)
-    {   
+    {
         $data['title'] = 'Santri';
 
-        
+
         $santris = Santri::with('waliSantri')->get();
-        
+
         if ($request->ajax()) {
             // Akses Santri
             $akses = Auth::user()->akses_santri;
@@ -232,7 +232,6 @@ class AdminSantriController extends Controller
             return redirect()->route(route: 'santri')->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
             // return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
         }
-
     }
 
     public function index_info($id_santri)
@@ -489,28 +488,57 @@ class AdminSantriController extends Controller
 
             ]);
 
-            // Tambah wali santri
-            $wali_santri = WaliSantri::where('id_santri', $id_santri)->update([
-                'id_santri' => $id_santri,
-                'nama_wali' => $request->input('nama_wali'),
-                'no_identitas_wali' => $request->input('no_identitas_wali'),
-                'tempat_lahir_wali' => $request->input('tempat_lahir_wali'),
-                'tanggal_lahir_wali' => $request->input('tanggal_lahir_wali'),
-                'rt_wali' => $request->input('rt_wali'),
-                'rw_wali' => $request->input('rw_wali'),
-                'dusun_wali' => $request->input('dusun_wali'),
-                'desa_wali' => $request->input('desa_wali'),
-                'kecamatan_wali' => $request->input('kecamatan_wali'),
-                'kab_kota_wali' => $request->input('kab_kota_wali'),
-                'provinsi_wali' => $request->input('provinsi_wali'),
-                'kode_pos_wali' => $request->input('kode_pos_wali'),
-                'status_wali' => $request->input('status_wali'),
-                'no_hp' => $request->input('no_hp_wali'),
-                'email' => $request->input('email_wali'),
-                'pendidikan_wali' => $request->input('pendidikan_wali'),
-                'pekerjaan_wali' => $request->input('pekerjaan_wali'),
-                'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
-            ]);
+            // Cek apakah wali sudah ada berdasarkan id_santri
+            $wali_santri = WaliSantri::where('id_santri', $id_santri)->first();
+
+            if ($wali_santri) {
+                // Jika wali sudah ada, lakukan update
+                $wali_santri->update([
+                    'id_santri' => $id_santri,
+                    'nama_wali' => $request->input('nama_wali'),
+                    'no_identitas_wali' => $request->input('no_identitas_wali'),
+                    'tempat_lahir_wali' => $request->input('tempat_lahir_wali'),
+                    'tanggal_lahir_wali' => $request->input('tanggal_lahir_wali'),
+                    'rt_wali' => $request->input('rt_wali'),
+                    'rw_wali' => $request->input('rw_wali'),
+                    'dusun_wali' => $request->input('dusun_wali'),
+                    'desa_wali' => $request->input('desa_wali'),
+                    'kecamatan_wali' => $request->input('kecamatan_wali'),
+                    'kab_kota_wali' => $request->input('kab_kota_wali'),
+                    'provinsi_wali' => $request->input('provinsi_wali'),
+                    'kode_pos_wali' => $request->input('kode_pos_wali'),
+                    'status_wali' => $request->input('status_wali'),
+                    'no_hp' => $request->input('no_hp_wali'),
+                    'email' => $request->input('email_wali'),
+                    'pendidikan_wali' => $request->input('pendidikan_wali'),
+                    'pekerjaan_wali' => $request->input('pekerjaan_wali'),
+                    'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
+                ]);
+            } else {
+                // Jika wali belum ada, buat record baru
+                $wali_santri = WaliSantri::create([
+                    'id_santri' => $id_santri,
+                    'nama_wali' => $request->input('nama_wali'),
+                    'no_identitas_wali' => $request->input('no_identitas_wali'),
+                    'tempat_lahir_wali' => $request->input('tempat_lahir_wali'),
+                    'tanggal_lahir_wali' => $request->input('tanggal_lahir_wali'),
+                    'rt_wali' => $request->input('rt_wali'),
+                    'rw_wali' => $request->input('rw_wali'),
+                    'dusun_wali' => $request->input('dusun_wali'),
+                    'desa_wali' => $request->input('desa_wali'),
+                    'kecamatan_wali' => $request->input('kecamatan_wali'),
+                    'kab_kota_wali' => $request->input('kab_kota_wali'),
+                    'provinsi_wali' => $request->input('provinsi_wali'),
+                    'kode_pos_wali' => $request->input('kode_pos_wali'),
+                    'status_wali' => $request->input('status_wali'),
+                    'no_hp' => $request->input('no_hp_wali'),
+                    'email' => $request->input('email_wali'),
+                    'password' => bcrypt($request->input('password') ?? 'wali123'), // Default: wali123
+                    'pendidikan_wali' => $request->input('pendidikan_wali'),
+                    'pekerjaan_wali' => $request->input('pekerjaan_wali'),
+                    'pendapatan_wali_perbulan' => $request->input('pendapatan_wali_perbulan'),
+                ]);
+            }
 
             return redirect()->route('santri')->with('success', 'Data santri berhasil diubah.');
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -518,7 +546,6 @@ class AdminSantriController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
         }
-
     }
 
     public function delete($id_santri)

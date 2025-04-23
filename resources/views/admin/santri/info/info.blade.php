@@ -467,28 +467,43 @@
                                                 <div class="col-4">Nama</div>
                                                 <div class="col-8">: {{ $wali->nama_wali ?? 'Tidak diketahui' }}</div>
                                                 <div class="col-4">No Identitas (KTP/SIM)</div>
-                                                <div class="col-8">: {{ $wali->no_identitas_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-8">: {{ $wali->no_identitas_wali ?? 'Tidak diketahui' }}
+                                                </div>
                                                 <div class="col-4">TTL</div>
-                                                <div class="col-8">: {{ $wali->tempat_tanggal_lahir_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-8">:
+                                                    {{ $wali->tempat_tanggal_lahir_wali ?? 'Tidak diketahui' }}</div>
                                                 <div class="col-4">Email</div>
                                                 <div class="col-8">
-                                                    : {{ $wali->email ? '<a href="mailto:' . $wali->email . '"><span class="text-primary">' . $wali->email . '</span></a>' : 'Tidak diketahui' }}
+                                                    : @if ($wali && $wali->email)
+                                                        <a href="mailto:{{ $wali->email }}"
+                                                            class="text-primary">{{ $wali->email }}</a>
+                                                    @else
+                                                        Tidak diketahui
+                                                    @endif
                                                 </div>
                                                 <div class="col-4">No Telepon</div>
                                                 <div class="col-8">
-                                                    : {{ $wali->no_hp ? '<a href="tel:' . $wali->no_hp . '"><span class="text-primary">' . $wali->no_hp . '</span></a>' : 'Tidak diketahui' }}
+                                                    : @if ($wali && $wali->no_hp)
+                                                        <a href="tel:{{ $wali->no_hp }}"
+                                                            class="text-primary">{{ $wali->no_hp }}</a>
+                                                    @else
+                                                        Tidak diketahui
+                                                    @endif
                                                 </div>
                                                 <div class="col-4">Alamat</div>
                                                 <div class="col-8">: {{ $wali->alamat_wali ?? 'Tidak diketahui' }}</div>
                                                 <div class="col-4">Status</div>
                                                 <div class="col-8">: {{ $wali->status_wali ?? 'Tidak diketahui' }}</div>
                                                 <div class="col-4">Pendidikan</div>
-                                                <div class="col-8">: {{ $wali->pendidikan_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-8">: {{ $wali->pendidikan_wali ?? 'Tidak diketahui' }}
+                                                </div>
                                                 <div class="col-4">Pekerjaan</div>
-                                                <div class="col-8">: {{ $wali->pekerjaan_wali ?? 'Tidak diketahui' }}</div>
+                                                <div class="col-8">: {{ $wali->pekerjaan_wali ?? 'Tidak diketahui' }}
+                                                </div>
                                                 <div class="col-4">Pendapatan Perbulan</div>
                                                 <div class="col-8">
-                                                    : {{ $wali->pendapatan_wali_perbulan ? 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') : 'Tidak diketahui' }}
+                                                    :
+                                                    {{ $wali->pendapatan_wali_perbulan ? 'RP ' . number_format($wali->pendapatan_wali_perbulan, 0, ',', '.') : 'Tidak diketahui' }}
                                                 </div>
                                             @else
                                                 <div class="col-4">Nama</div>
@@ -674,7 +689,8 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Bayar Tagihan {{ ucwords(str_replace('_', ' ', $pembayaran->jenis_pembayaran)) }}</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Bayar Tagihan
+                            {{ ucwords(str_replace('_', ' ', $pembayaran->jenis_pembayaran)) }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -687,7 +703,8 @@
                             <!-- Nama Santri -->
                             <div class="form-group">
                                 <label for="nama_santri">Nama Santri <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama_santri" id="nama_santri" value="{{ $pembayaran->santri->nama_santri }}" readonly>
+                                <input type="text" class="form-control" name="nama_santri" id="nama_santri"
+                                    value="{{ $pembayaran->santri->nama_santri }}" readonly>
                             </div>
 
                             <!-- Jumlah Tagihan -->
