@@ -27,7 +27,7 @@ class AdminIuranBulananController extends Controller
         $tahunAwalSekarang = ($currentMonth <= 6) ? $tahunSekarang - 1 : $tahunSekarang; // misal sekarang: 2024
 
         // Ambil tahun dari created_at terbaru
-        $createdTerbaru = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
+        $createdTerbaru = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan') 
             ->orderByDesc('created_at')
             ->value('created_at');
 
