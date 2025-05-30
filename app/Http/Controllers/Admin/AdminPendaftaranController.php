@@ -309,8 +309,8 @@ class AdminPendaftaranController extends Controller
             $jenis_santri = ($santri->jenis_kelamin_santri === 'laki-laki') ? 'l' : 'p';
 
             TagihanHelper::createPembayaranPendaftaranBaru($id_santri, $jenis_mukim, $jenis_santri);
-            TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri);
-            TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri);
+            TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri, 'belum_lunas');
+            TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri, 'belum_lunas');
 
             //* Hafalan
             $surahs = Surah::getValues();

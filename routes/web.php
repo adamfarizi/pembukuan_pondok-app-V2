@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminRangkapPembayaranController;
 use App\Http\Controllers\Guest\GuestDonasiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wali\WaliBerandaController;
@@ -54,11 +55,17 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/beranda', [AdminBerandaController::class, 'index'])->name('admin-beranda');
   Route::get('/admin/daftar_ulang', [AdminDaftarUlangController::class, 'index'])->name('daftar_ulang');
   Route::get('/admin/daftar_ulang/select2', [AdminDaftarUlangController::class, 'select2'])->name('daftar_ulang.select2');
+  Route::get('/admin/daftar_ulang/cicilan/{id}/bayar', [AdminDaftarUlangController::class, 'show'])->name('cicilan_daftar_ulang_detail');
+  Route::post('/admin/pembayaran/daftar_ulang/cicilan/add', [AdminDaftarUlangController::class, 'add_cicilan'])->name('add_daftar_ulang_cicilan');
+  Route::delete('/admin/pembayaran/daftar_ulang/cicilan/delete/{id}', [AdminDaftarUlangController::class, 'delete_cicilan'])->name('delete_daftar_ulang_cicilan');
   // Payment
   Route::put('/admin/daftar_ulang/edit/{id}/action', [AdminDaftarUlangController::class, 'edit']);
   Route::delete('/admin/daftar_ulang/delete/{id}/action', [AdminDaftarUlangController::class, 'cancelPayment']);
   Route::get('/admin/iuran_bulanan', [AdminIuranBulananController::class, 'index'])->name('iuran_bulanan');
   Route::get('/admin/iuran_bulanan/select2', [AdminIuranBulananController::class, 'select2'])->name('iuran_bulanan.select2');
+  Route::get('/admin/iuran_bulanan/cicilan/{id}/bayar', [AdminIuranBulananController::class, 'show'])->name('cicilan_iuran_bulanan_detail');
+  Route::post('/admin/pembayaran/iuran_bulanan/cicilan/add', [AdminIuranBulananController::class, 'add_cicilan'])->name('add_iuran_bulanan_cicilan');
+  Route::delete('/admin/pembayaran/iuran_bulanan/cicilan/delete/{id}', [AdminIuranBulananController::class, 'delete_cicilan'])->name('delete_iuran_bulanan_cicilan');
   // Payment
   Route::put('/admin/iuran_bulanan/edit/{id}/action', [AdminIuranBulananController::class, 'edit']);
   Route::delete('/admin/iuran_bulanan/delete/{id}/action', [AdminIuranBulananController::class, 'cancelPayment']);
@@ -67,9 +74,13 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/tamrin/cicilan/{id}/bayar', [AdminTamrinController::class, 'show'])->name('cicilan_detail');
   Route::post('/admin/pembayaran/cicilan/add', [AdminTamrinController::class, 'add_cicilan'])->name('add_cicilan');
   Route::delete('/admin/pembayaran/cicilan/delete/{id}', [AdminTamrinController::class, 'delete_cicilan'])->name('delete_cicilan');
-  // Payment
   Route::put('/admin/tamrin/edit/{id}/action', [AdminTamrinController::class, 'edit']);
   Route::delete('/admin/tamrin/delete/{id}/action', [AdminTamrinController::class, 'cancelPayment']);
+  // Payment
+  Route::get('/admin/rangkap_pembayaran', [AdminRangkapPembayaranController::class, 'index'])->name('rangkap_pembayaran');
+  Route::get('/admin/rangkap_pembayaran/{id}', [AdminRangkapPembayaranController::class, 'show_detail_tagihan_santri'])->name('show_detail_tagihan_santri');
+  Route::post('/admin/rangkap_pembayaran/edit/{id}/action', [AdminRangkapPembayaranController::class, 'addRangkapPembayaranAction'])->name('addRangkapPembayaranAction');
+  // Payment
   Route::get('/admin/pemasukan', [AdminPemasukanController::class, 'index'])->name('pemasukan');
   Route::post('/admin/pemasukan/create/action', [AdminPemasukanController::class, 'create']);
   Route::put('/admin/pemasukan/edit/{id}/action', [AdminPemasukanController::class, 'edit']);
@@ -90,6 +101,9 @@ Route::middleware(['auth:web'])->group(function () {
   Route::get('/admin/santri/edit/{id}', [AdminSantriController::class, 'index_edit']);
   Route::put('/admin/santri/edit/{id}/action', [AdminSantriController::class, 'edit']);
   Route::delete('/admin/santri/delete/{id}', [AdminSantriController::class, 'delete']);
+  Route::post('/admin/santri/bebas-semester', [AdminSantriController::class, 'updateStatusBebasTagihanSemester'])->name('updateStatusBebasTagihanSemester');
+  Route::post('/admin/santri/bebas-iuran', [AdminSantriController::class, 'updateStatusBebasTagihanIuranBulanan'])->name('updateStatusBebasTagihanIuranBulanan');
+  Route::post('/admin/santri/bebas-daftar-ulang', [AdminSantriController::class, 'updateStatusBebasTagihanDaftarUlang'])->name('updateStatusBebasTagihanDaftarUlang');
   Route::get('/admin/mata_pelajaran', [AdminMataPelajaranController::class, 'index'])->name('mata_pelajaran');
   Route::get('/admin/mata_pelajaran/{id}', [AdminMataPelajaranController::class, 'index_nilai']);
   Route::post('/admin/mata_pelajaran/{id}/create', [AdminMataPelajaranController::class, 'create']);

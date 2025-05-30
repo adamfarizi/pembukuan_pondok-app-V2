@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Al-Huda Admin | @yield('title', $title)</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/pondok/logo.png') }}">
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
@@ -56,12 +57,14 @@
                             <li class="iq-menu-title">
                                 <i class="ri-separator"></i><span>Keuangan</span>
                             </li>
-                            <li class="@if (request()->routeIs('daftar_ulang') || request()->routeIs('iuran_bulanan') || request()->routeIs('tamrin')) active @endif">
+                            <li class="@if (request()->routeIs('daftar_ulang') || request()->routeIs('iuran_bulanan') || request()->routeIs('tamrin') || request()->routeIs('rangkap_pembayaran')) active @endif">
                                 <a href="#pembayaran" class="iq-waves-effect collapsed" data-toggle="collapse"
                                     aria-expanded="false"><i class="ri-chat-check-line"></i><span>Pembayaran</span>
                                     <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                                 </a>
                                 <ul id="pembayaran" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                    <li class="@if (request()->routeIs('rangkap_pembayaran')) active @endif">
+                                        <a href="{{ route('rangkap_pembayaran') }}">Rangkap Pembayaran</a></li>
                                     <li class="@if (request()->routeIs('daftar_ulang')) active @endif"><a
                                             href="{{ route('daftar_ulang') }}">Daftar Ulang</a></li>
                                     <li class="@if (request()->routeIs('tamrin')) active @endif"><a
@@ -207,6 +210,7 @@
     <script src="{{ asset('js/chart-custom.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
@@ -232,6 +236,11 @@
                 var successAlert = document.getElementById("success-alert");
                 if (successAlert) {
                     successAlert.style.display = "none";
+                }
+                // Get the warning alert element
+                var warningAlert = document.getElementById("warning-alert");
+                if (warningAlert) {
+                    warningAlert.style.display = "none";
                 }
 
                 // Get the error alert element(s)

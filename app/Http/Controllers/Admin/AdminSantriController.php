@@ -31,12 +31,22 @@ class AdminSantriController extends Controller
         if ($request->ajax()) {
             // Akses Santri
             $akses = Auth::user()->akses_santri;
-            $data = Santri::orderBy('created_at', 'desc');
+            $status = $request->query('status');
+
+            $data = Santri::orderBy('id_santri', 'desc');
             if ($akses === "putra") {
                 $data->where('jenis_kelamin_santri', 'laki-laki');
             } elseif ($akses === "putri") {
                 $data->where('jenis_kelamin_santri', 'perempuan');
             }
+
+            // Filter berdasarkan status aktif
+            if ($status === 'aktif') {
+                $data->where('status_aktif_santri', 'aktif');
+            } elseif ($status === 'tidak_aktif') {
+                $data->where('status_aktif_santri', 'tidak_aktif');
+            }
+            
             $data = $data->get();
 
             return DataTables::of($data)
@@ -208,8 +218,8 @@ class AdminSantriController extends Controller
             $jenis_santri = ($santri->jenis_kelamin_santri === 'laki-laki') ? 'l' : 'p';
 
             TagihanHelper::createPembayaranPendaftaranBaru($id_santri, $jenis_mukim, $jenis_santri);
-            TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri);
-            TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri);
+            TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri, 'belum_lunas');
+            TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri, 'belum_lunas');
 
             //* Hafalan
             $surahs = Surah::getValues();
@@ -356,6 +366,7 @@ class AdminSantriController extends Controller
                 //? Identitas Santri
                 'nama_santri' => 'required',
                 'status_santri' => 'required',
+                'status_aktif_santri' => 'required',
                 'tempat_lahir_santri' => 'required',
                 'tanggal_lahir_santri' => 'required',
                 'jenis_kelamin_santri' => 'required',
@@ -455,6 +466,7 @@ class AdminSantriController extends Controller
                 'nama_santri' => $request->input('nama_santri'),
                 'no_induk' => $request->input('no_induk'),
                 'status_santri' => $request->input('status_santri'),
+                'status_aktif_santri' => $request->input('status_aktif_santri'),
                 'no_identitas' => $request->input('no_identitas'),
                 'tempat_lahir_santri' => $request->input('tempat_lahir_santri'),
                 'tanggal_lahir_santri' => $request->input('tanggal_lahir_santri'),
@@ -612,4 +624,204 @@ class AdminSantriController extends Controller
             return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+    public function updateStatusBebasTagihanSemester(Request $request)
+    {
+        $currentSemester = SemesterHelper::getCurrentSemester();
+        $bebas = filter_var($request->input('bebas_semester_ini'), FILTER_VALIDATE_BOOLEAN);
+        $bayar = filter_var($request->input('bayar_semester_ini'), FILTER_VALIDATE_BOOLEAN);
+
+        $message_true = 'tidak dikenakaan tagihan semester depan dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+        $message_false = 'dikenakan tagihan semester depan dan seterusnya selama Anda tidak menonaktifkan tagihan';
+
+        try {
+            $santri = Santri::find($request->id);
+
+            if (!$santri) {
+                return response()->json(['message' => 'Santri tidak ditemukan.'], 404);
+            }
+            $existingPembayaran = Pembayaran::where('id_santri', $request->id)
+                ->where('jenis_pembayaran', 'tamrin')
+                ->whereYear('created_at', $currentSemester['tahun'])
+                ->where('tahun_ajaran', $currentSemester['tahun'])
+                ->where('semester_ajaran', $currentSemester['semester'])
+                ->first();
+
+            if ($existingPembayaran) {
+                if ($bebas) {
+                    if ($existingPembayaran->jumlah_pembayaran == $existingPembayaran->jumlah_bayar) {
+                        $message_true = 'sudah membayar lunas tagihan semester ini, santri akan tidak dikenakaan tagihan mulai semester depan dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+                    } else {
+                        $existingPembayaran->status_pembayaran = 'bebas_tagihan';
+                        $existingPembayaran->save();
+                        $message_true = 'tidak dikenakaan tagihan semester ini dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+                    }
+                }
+
+                if ($bayar) {
+                    if ($existingPembayaran->jumlah_pembayaran == $existingPembayaran->jumlah_bayar) {
+                        $message_false = 'sudah membayar lunas tagihan semester ini dan akan dikenakaan tagihan mulai semester depan dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                    } else {
+                        $existingPembayaran->status_pembayaran = 'belum_lunas';
+                        $existingPembayaran->save();
+                        $message_false = 'dikenakan tagihan semester ini dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                    }
+                }
+            } else {
+                if ($bayar) {
+                    $jenis_mukim = ($santri->status_santri === 'mukim') ? 'mukim' : 'tdk_mukim';
+                    $jenis_santri = ($santri->jenis_kelamin_santri === 'laki-laki') ? 'l' : 'p';
+                    TagihanHelper::createPembayaranSemester($request->id, $jenis_mukim, $jenis_santri, 'belum_lunas');
+                    $message_false = 'dikenakan tagihan semester ini dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                }
+            }
+
+            $santri->bebas_semester = $santri->bebas_semester === 'true' ? 'false' : 'true';
+            $santri->id_admin_author = Auth::user()->id_admin;
+            $santri->save();
+
+            if ($santri->bebas_semester == "true") {
+                return response()->json(['message' => $santri->nama_santri . ' ' . $message_true], 200);
+            } else {
+                return response()->json(['message' => $santri->nama_santri . ' ' . $message_false], 200);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateStatusBebasTagihanIuranBulanan(Request $request)
+    {
+        $currentSemester = SemesterHelper::getCurrentSemester();
+        $bebas = filter_var($request->input('bebas_bulan_ini'), FILTER_VALIDATE_BOOLEAN);
+        $bayar = filter_var($request->input('bayar_bulan_ini'), FILTER_VALIDATE_BOOLEAN);
+
+        $message_true = 'tidak dikenakaan tagihan iuran bulan depan dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+        $message_false = 'dikenakan tagihan iuran bulan depan dan seterusnya selama Anda tidak menonaktifkan tagihan';
+
+        try {
+            $santri = Santri::find($request->id);
+
+            if (!$santri) {
+                return response()->json(['message' => 'Santri tidak ditemukan.'], 404);
+            }
+
+            $currentMonth = now()->month;
+
+            $existingPembayaran = Pembayaran::where('id_santri', $request->id)
+                ->where('jenis_pembayaran', 'iuran_bulanan')
+                ->whereYear('created_at', $currentSemester['tahun'])
+                ->whereMonth('created_at', $currentMonth)
+                ->first();
+
+            if ($existingPembayaran) {
+                if ($bebas) {
+                    if ($existingPembayaran->jumlah_pembayaran == $existingPembayaran->jumlah_bayar) {
+                        $message_true = 'sudah membayar lunas iuran bulan ini dan tidak akan dikenakaan tagihan iuran mulai bulan depan dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+                    } else {
+                        $existingPembayaran->status_pembayaran = 'bebas_tagihan';
+                        $existingPembayaran->save();
+                        $message_true = 'tidak dikenakaan tagihan iuran bulan ini dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+                    }
+                }
+
+                if ($bayar) {
+                    if ($existingPembayaran->jumlah_pembayaran == $existingPembayaran->jumlah_bayar) {
+                        $message_false = 'sudah membayar lunas iuran bulan ini dan dikenakaan tagihan iuran bulan depan dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                    } else {
+                        $existingPembayaran->status_pembayaran = 'belum_lunas';
+                        $existingPembayaran->save();
+                        $message_false = 'dikenakan tagihan iuran bulan ini dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                    }
+                }
+            } else {
+                if ($bayar) {
+                    $jenis_mukim = ($santri->status_santri === 'mukim') ? 'mukim' : 'tdk_mukim';
+                    $jenis_santri = ($santri->jenis_kelamin_santri === 'laki-laki') ? 'l' : 'p';
+                    TagihanHelper::createPembayaranSemester($request->id, $jenis_mukim, $jenis_santri, 'belum_lunas');
+                    $message_false = 'dikenakan tagihan iuran bulan ini dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                }
+            }
+
+            $santri->bebas_iuran = $santri->bebas_iuran === 'true' ? 'false' : 'true';
+            $santri->id_admin_author = Auth::user()->id_admin;
+            $santri->save();
+
+            if ($santri->bebas_iuran == "true") {
+                return response()->json(['message' => 'Santri ' . $santri->nama_santri . ' ' . $message_true], 200);
+            } else {
+                return response()->json(['message' => 'Santri ' . $santri->nama_santri . ' ' . $message_false], 200);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateStatusBebasTagihanDaftarUlang(Request $request)
+    {
+        $currentSemester = SemesterHelper::getCurrentSemester();
+        $bebas = filter_var($request->input('bebas_tahun_ini'), FILTER_VALIDATE_BOOLEAN);
+        $bayar = filter_var($request->input('bayar_tahun_ini'), FILTER_VALIDATE_BOOLEAN);
+
+        $message_true = 'tidak dikenakaan tagihan daftar ulang tahun depan dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+        $message_false = 'dikenakan tagihan daftar ulang tahun depan dan seterusnya selama Anda tidak menonaktifkan tagihan';
+
+        try {
+            $santri = Santri::find($request->id);
+
+            if (!$santri) {
+                return response()->json(['message' => 'Santri tidak ditemukan.'], 404);
+            }
+
+            $existingPembayaran = Pembayaran::where('id_santri', $request->id)
+                ->where('jenis_pembayaran', 'daftar_ulang')
+                ->where('tahun_ajaran', $currentSemester['tahun'])
+                ->first();
+
+            if ($existingPembayaran) {
+                if ($bebas) {
+                    if ($existingPembayaran->jumlah_pembayaran == $existingPembayaran->jumlah_bayar) {
+                        $message_true = 'sudah membayar lunas tagihan daftar ulang tahun ini, santri akan tidak dikenakaan tagihan daftar ulang mulai tahun depan dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+                    } else {
+                        $existingPembayaran->status_pembayaran = 'bebas_tagihan';
+                        $existingPembayaran->save();
+                        $message_true = 'tidak dikenakaan tagihan daftar ulang tahun ini dan seterusnya selama Anda belum mengaktifkan tagihan kembali';
+                    }
+                }
+
+                if ($bayar) {
+                    if ($existingPembayaran->jumlah_pembayaran == $existingPembayaran->jumlah_bayar) {
+                        $message_false = 'sudah membayar lunas daftar ulang tahun ini dan dikenakaan daftar ulang tahun depan dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                    } else {
+                        $existingPembayaran->status_pembayaran = 'belum_lunas';
+                        $existingPembayaran->save();
+                        $message_false = 'dikenakans tagihan daftar ulang tahun ini dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                    }
+                }
+            } else {
+                if ($bayar) {
+                    $jenis_mukim = ($santri->status_santri === 'mukim') ? 'mukim' : 'tdk_mukim';
+                    $jenis_santri = ($santri->jenis_kelamin_santri === 'laki-laki') ? 'l' : 'p';
+                    TagihanHelper::createPembayaranPendaftaranUlang($request->id, $jenis_mukim, $jenis_santri, 'belum_lunas');
+                    $message_false = 'dikenakan tagihan daftar ulang tahun ini dan seterusnya selama Anda tidak menonaktifkan tagihan';
+                }
+            }
+
+            $santri->bebas_daftar_ulang = $santri->bebas_daftar_ulang === 'true' ? 'false' : 'true';
+            $santri->id_admin_author = Auth::user()->id_admin;
+            $santri->save();
+
+            if ($santri->bebas_daftar_ulang == "true") {
+                return response()->json(['message' => 'Santri ' . $santri->nama_santri . ' ' . $message_true], 200);
+            } else {
+                return response()->json(['message' => 'Santri ' . $santri->nama_santri . ' ' . $message_false], 200);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+
 }

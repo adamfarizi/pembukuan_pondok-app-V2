@@ -201,12 +201,15 @@ class AdminMasterController extends Controller
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         // Ambil hanya ID santri beserta status mukim dan jenis kelamin
-        $santriList = Santri::get(['id_santri', 'status_santri', 'jenis_kelamin_santri'])
+        $santriList = Santri::get(['id_santri', 'status_santri', 'jenis_kelamin_santri', 'bebas_daftar_ulang', 'bebas_semester', 'bebas_iuran'])
             ->mapWithKeys(function ($santri) {
                 return [
                     $santri->id_santri => [
                         'status_santri' => $santri->status_santri,
-                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri
+                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri,
+                        'bebas_daftar_ulang' => $santri->bebas_daftar_ulang,
+                        'bebas_semester' => $santri->bebas_semester,
+                        'bebas_iuran' => $santri->bebas_iuran
                     ]
                 ];
             })->toArray();
@@ -217,6 +220,11 @@ class AdminMasterController extends Controller
             // Konversi nilai status santri agar sesuai dengan MasterAdmin
             $jenis_mukim = ($santri['status_santri'] === 'mukim') ? 'mukim' : 'tdk_mukim';
             $jenis_santri = ($santri['jenis_kelamin_santri'] === 'laki-laki') ? 'l' : 'p';
+
+            //status pembayaran
+            $status_bebas_daftar_ulang = ($santri['bebas_daftar_ulang'] === 'true') ? 'bebas_tagihan' : 'belum_lunas';
+            $status_bebas_iuran = ($santri['bebas_iuran'] === 'true') ? 'bebas_tagihan' : 'belum_lunas';
+            $status_bebas_semester = ($santri['bebas_semester'] === 'true') ? 'bebas_tagihan' : 'belum_lunas';
 
             // Cek apakah tagihan sudah ada, sesuai dengan jenis pembayaran
             $existingPembayaran = match ($jenis_pembayaran) {
@@ -247,9 +255,9 @@ class AdminMasterController extends Controller
             // Jika belum ada tagihan, buat tagihan baru
             if (!$existingPembayaran) {
                 match ($jenis_pembayaran) {
-                    'daftar_ulang' => TagihanHelper::createPembayaranPendaftaranUlang($id_santri, $jenis_mukim, $jenis_santri),
-                    'iuran_bulanan' => TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri),
-                    'tamrin' => TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri),
+                    'daftar_ulang' => TagihanHelper::createPembayaranPendaftaranUlang($id_santri, $jenis_mukim, $jenis_santri, $status_bebas_daftar_ulang) ,
+                    'iuran_bulanan' => TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri, $status_bebas_iuran),
+                    'tamrin' => TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri, $status_bebas_semester),
                 };
                 $tagihanCreated = true;
             }

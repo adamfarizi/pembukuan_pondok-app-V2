@@ -2,17 +2,11 @@
 
 namespace App\Console;
 
-use Carbon\Carbon;
 use App\Models\Santri;
 use App\Models\Pembayaran;
-use App\Models\WaliSantri;
-use App\Models\MasterAdmin;
 use App\Helpers\TagihanHelper;
 use App\Helpers\SemesterHelper;
-use App\Mail\TagihanNotification;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -29,79 +23,42 @@ class Kernel extends ConsoleKernel
     {
         // Daftar Ulang: Setiap tahun di bulan Januari
         $schedule->call(function () {
-            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'daftar_ulang')
-                ->whereYear('created_at', now()->year)
-                ->exists();
-
-            if (!$tagihanExists) {
-                $this->createPembayaranDaftarUlangAndSendEmails();
-                //Log::info('Pembayaran Daftar Ulang berhasil dibuat.');
-            } else {
-                //Log::info('Pembayaran Daftar Ulang sudah ada untuk tahun ini.');
-            }
+            $this->createPembayaranDaftarUlangAndSendEmails();
         })->yearlyOn(1, 1)->name('pembayaran_daftar_ulang'); // Setiap tahun pada 1 Januari
+        // })->everyMinute()->name('pembayaran_daftar_ulang');
 
         // Tamrin: Setiap tahun pada bulan Januari
         $schedule->call(function () {
-            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'tamrin')
-                ->whereYear('created_at', now()->year)
-                ->where('semester_ajaran', 'genap')
-                ->exists();
-
-            if (!$tagihanExists) {
-                $this->createPembayaranTamrinAndSendEmails();
-                //Log::info('Pembayaran Tamrin untuk semester Genap berhasil dibuat.');
-            } else {
-                //Log::info('Pembayaran Tamrin untuk semester Genap sudah ada.');
-            }
+            $this->createPembayaranTamrinAndSendEmails();
         })->yearlyOn(1, 1)->name('pembayaran_semester_genap'); // Setiap tahun pada 1 Januari
+        // })->everyMinute()->name('pembayaran_semester_genap');
 
-        // Tamrin: Setiap tahun pada bulan Juni
+        // Tamrin: Setiap tahun pada bulan Juli
         $schedule->call(function () {
-            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'tamrin')
-                ->whereYear('created_at', now()->year)
-                ->where('semester_ajaran', 'ganjil')
-                ->exists();
-
-            if (!$tagihanExists) {
-                $this->createPembayaranTamrinAndSendEmails();
-                //Log::info('Pembayaran Tamrin untuk semester Ganjil berhasil dibuat.');
-            } else {
-                //Log::info('Pembayaran Tamrin untuk semester Ganjil sudah ada.');
-            }
-        })->yearlyOn(6, 1)->name('pembayaran_semester_ganjil'); // Setiap tahun pada 1 Juni
+            $this->createPembayaranTamrinAndSendEmails();
+        })->yearlyOn(7, 1)->name('pembayaran_semester_ganjil'); // Setiap tahun pada 1 Juli
 
         // Iuran: Setiap bulan
         $schedule->call(function () {
-            $currentMonth = now()->format('Y-m');
-            $tagihanExists = Pembayaran::where('jenis_pembayaran', 'iuran_bulanan')
-                ->whereYear('created_at', now()->year)
-                ->whereMonth('created_at', now()->month)
-                ->exists();
-
-            if (!$tagihanExists) {
-                $this->createPembayaranIuranAndSendEmails();
-                //Log::info('Pembayaran Iuran untuk bulan ' . $currentMonth . ' berhasil dibuat.');
-            } else {
-                //Log::info('Pembayaran Iuran untuk bulan ' . $currentMonth . ' sudah ada.');
-            }
+            $this->createPembayaranIuranAndSendEmails();
         })->monthly()->name('pembayaran_iuran_bulanan'); // Setiap bulan
+        // })->everyMinute()->name('pembayaran_iuran_bulanan');
     }
 
 
     public function createPembayaranDaftarUlangAndSendEmails()
     {
         $currentYear = now()->year;
-        $currentMonth = now()->month;
-        $currentSemester = SemesterHelper::getCurrentSemester();
 
         // Ambil hanya ID santri beserta status mukim dan jenis kelamin
-        $santriList = Santri::get(['id_santri', 'status_santri', 'jenis_kelamin_santri'])
+        $santriList = Santri::where('status_aktif_santri', 'aktif')
+            ->get(['id_santri', 'status_santri', 'jenis_kelamin_santri', 'bebas_daftar_ulang'])
             ->mapWithKeys(function ($santri) {
                 return [
                     $santri->id_santri => [
                         'status_santri' => $santri->status_santri,
-                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri
+                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri,
+                        'bebas_daftar_ulang' => $santri->bebas_daftar_ulang
                     ]
                 ];
             })->toArray();
@@ -111,9 +68,13 @@ class Kernel extends ConsoleKernel
             $jenis_mukim = ($santri['status_santri'] === 'mukim') ? 'mukim' : 'tdk_mukim';
             $jenis_santri = ($santri['jenis_kelamin_santri'] === 'laki-laki') ? 'l' : 'p';
 
+            //status pembayaran
+            $status_pembayaran = ($santri['bebas_daftar_ulang'] === 'true') ? 'bebas_tagihan' : 'belum_lunas';
+
             // Cek apakah tagihan sudah ada, sesuai dengan jenis pembayaran
             $existingPembayaran = Pembayaran::where('id_santri', $id_santri)
                 ->where('jenis_pembayaran', 'daftar_ulang')
+                ->whereYear('created_at', now()->year)
                 ->where('tahun_ajaran', $currentYear)
                 ->exists();
 
@@ -124,7 +85,7 @@ class Kernel extends ConsoleKernel
 
             // Jika belum ada tagihan, buat tagihan baru
             if (!$existingPembayaran) {
-                TagihanHelper::createPembayaranPendaftaranUlang($id_santri, $jenis_mukim, $jenis_santri);
+                TagihanHelper::createPembayaranPendaftaranUlang($id_santri, $jenis_mukim, $jenis_santri, $status_pembayaran);
             }
         }
 
@@ -134,16 +95,17 @@ class Kernel extends ConsoleKernel
     public function createPembayaranTamrinAndSendEmails()
     {
         $currentYear = now()->year;
-        $currentMonth = now()->month;
         $currentSemester = SemesterHelper::getCurrentSemester();
 
         // Ambil hanya ID santri beserta status mukim dan jenis kelamin
-        $santriList = Santri::get(['id_santri', 'status_santri', 'jenis_kelamin_santri'])
+        $santriList = Santri::where('status_aktif_santri', 'aktif')
+            ->get(['id_santri', 'status_santri', 'jenis_kelamin_santri', 'bebas_semester'])
             ->mapWithKeys(function ($santri) {
                 return [
                     $santri->id_santri => [
                         'status_santri' => $santri->status_santri,
-                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri
+                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri,
+                        'bebas_semester' => $santri->bebas_semester
                     ]
                 ];
             })->toArray();
@@ -153,9 +115,13 @@ class Kernel extends ConsoleKernel
             $jenis_mukim = ($santri['status_santri'] === 'mukim') ? 'mukim' : 'tdk_mukim';
             $jenis_santri = ($santri['jenis_kelamin_santri'] === 'laki-laki') ? 'l' : 'p';
 
+            //status pembayaran
+            $status_pembayaran = ($santri['bebas_semester'] === 'true') ? 'bebas_tagihan' : 'belum_lunas';
+
             // Cek apakah tagihan sudah ada, sesuai dengan jenis pembayaran
             $existingPembayaran = Pembayaran::where('id_santri', $id_santri)
                 ->where('jenis_pembayaran', 'tamrin')
+                ->whereYear('created_at', now()->year)
                 ->where('tahun_ajaran', $currentYear)
                 ->where('semester_ajaran', $currentSemester['semester'])
                 ->exists();
@@ -167,7 +133,7 @@ class Kernel extends ConsoleKernel
 
             // Jika belum ada tagihan, buat tagihan baru
             if (!$existingPembayaran) {
-                TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri);
+                TagihanHelper::createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri, $status_pembayaran);
             }
         }
 
@@ -178,15 +144,16 @@ class Kernel extends ConsoleKernel
     {
         $currentYear = now()->year;
         $currentMonth = now()->month;
-        $currentSemester = SemesterHelper::getCurrentSemester();
 
         // Ambil hanya ID santri beserta status mukim dan jenis kelamin
-        $santriList = Santri::get(['id_santri', 'status_santri', 'jenis_kelamin_santri'])
+        $santriList = Santri::where('status_aktif_santri', 'aktif')
+            ->get(['id_santri', 'status_santri', 'jenis_kelamin_santri', 'bebas_iuran'])
             ->mapWithKeys(function ($santri) {
                 return [
                     $santri->id_santri => [
                         'status_santri' => $santri->status_santri,
-                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri
+                        'jenis_kelamin_santri' => $santri->jenis_kelamin_santri,
+                        'bebas_iuran' => $santri->bebas_iuran
                     ]
                 ];
             })->toArray();
@@ -195,6 +162,9 @@ class Kernel extends ConsoleKernel
             // Konversi nilai status santri agar sesuai dengan MasterAdmin
             $jenis_mukim = ($santri['status_santri'] === 'mukim') ? 'mukim' : 'tdk_mukim';
             $jenis_santri = ($santri['jenis_kelamin_santri'] === 'laki-laki') ? 'l' : 'p';
+
+            //status pembayaran
+            $status_pembayaran = ($santri['bebas_iuran'] === 'true') ? 'bebas_tagihan' : 'belum_lunas';
 
             // Cek apakah tagihan sudah ada, sesuai dengan jenis pembayaran
             $existingPembayaran = Pembayaran::where('id_santri', $id_santri)
@@ -210,7 +180,7 @@ class Kernel extends ConsoleKernel
 
             // Jika belum ada tagihan, buat tagihan baru
             if (!$existingPembayaran) {
-                TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri);
+                TagihanHelper::createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri, $status_pembayaran);
             }
         }
 

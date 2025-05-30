@@ -25,6 +25,8 @@ class Pembayaran extends Model
         'status_pembayaran',
         'id_santri',
         'id_admin',
+        'created_at',
+        'updated_at',
     ];
 
     public function santri()

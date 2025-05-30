@@ -17,7 +17,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin-beranda') }}">Main</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Pembayaran</li>
-                        <li class="breadcrumb-item active" aria-current="page">Cicilan Semester</li>
+                        <li class="breadcrumb-item active" aria-current="page">Cicilan Iuran Bulanan</li>
                     </ul>
                 </nav>
             </div>
@@ -193,8 +193,8 @@
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
                                 <h4 class="card-title mt-3">Rincian Cicilan {{ $pembayarans->santri->nama_santri }}</h4>
-                                <p class="text-dark">Semester {{ $currentSemester }}, Tahun Ajaran
-                                    {{ $currentTahun }}</p>
+                                <p class="text-dark">Iuran Bulan {{ $bulan }}, Tahun Ajaran
+                                    {{ $currentSemester }}</p>
                             </div>
                             <div class="text-right">
                                 <button type="button" class="btn btn-primary mt-1" data-toggle="modal"
@@ -208,7 +208,7 @@
                                 <table class="table table-borderless mt-3">
                                     <tbody>
                                         <tr>
-                                            <th class="pb-0 pt-1">Biaya Bayar Semester</th>
+                                            <th class="pb-0 pt-1">Biaya Iuran Bulanan</th>
                                             <td class="pb-0 pt-1 text-right">Rp.
                                                 {{ number_format($pembayarans->jumlah_pembayaran, 0, ',', '.') }}</td>
                                         </tr>
@@ -294,7 +294,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ url('/admin/pembayaran/cicilan/add') }}" id="updateForm" method="post">
+                <form action="{{ url('/admin/pembayaran/iuran_bulanan/cicilan/add') }}" id="updateForm" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group" id="jumlahBayarGroup">
@@ -326,7 +326,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     </div>
-                    <form action="{{ url('/admin/pembayaran/cicilan/delete/' . $data->id_cicilan_pembayarans) }}"
+                    <form action="{{ url('/admin/pembayaran/iuran_bulanan/cicilan/delete/' . $data->id_cicilan_pembayarans) }}"
                         id="deleteForm" method="post">
                         @csrf
                         @method('DELETE')

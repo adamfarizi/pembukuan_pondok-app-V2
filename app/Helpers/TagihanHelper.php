@@ -38,7 +38,7 @@ class TagihanHelper
 
     }
 
-    public static function createPembayaranPendaftaranUlang($id_santri, $jenis_mukim, $jenis_santri)
+    public static function createPembayaranPendaftaranUlang($id_santri, $jenis_mukim, $jenis_santri, $status_pembayaran)
     {
         $currentSemester = SemesterHelper::getCurrentSemester();
 
@@ -58,7 +58,7 @@ class TagihanHelper
                 'jumlah_pembayaran' => $total_pembayaran,
                 'jumlah_bayar' => 0,
                 'jenis_pembayaran' => 'daftar_ulang',
-                'status_pembayaran' => 'belum_lunas',
+                'status_pembayaran' => $status_pembayaran,
                 'tahun_ajaran' => $currentSemester['tahun'],
                 'semester_ajaran' => $currentSemester['semester'],
                 'created_at' => now(),
@@ -68,7 +68,7 @@ class TagihanHelper
 
     }
 
-    public static function createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri)
+    public static function createPembayaranSemester($id_santri, $jenis_mukim, $jenis_santri, $status_pembayaran)
     {
         $currentSemester = SemesterHelper::getCurrentSemester();
 
@@ -88,7 +88,7 @@ class TagihanHelper
                 'jumlah_pembayaran' => $total_pembayaran_semester,
                 'jumlah_bayar' => 0,
                 'jenis_pembayaran' => 'tamrin',
-                'status_pembayaran' => 'belum_lunas',
+                'status_pembayaran' => $status_pembayaran,
                 'tahun_ajaran' => $currentSemester['tahun'],
                 'semester_ajaran' => $currentSemester['semester'],
                 'created_at' => now(),
@@ -97,7 +97,7 @@ class TagihanHelper
         }
     }
 
-    public static function createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri)
+    public static function createPembayaranIuran($id_santri, $jenis_mukim, $jenis_santri, $status_pembayaran)
     {
         $currentSemester = SemesterHelper::getCurrentSemester();
 
@@ -116,12 +116,41 @@ class TagihanHelper
                 'jumlah_pembayaran' => $total_pembayaran_iuran,
                 'jumlah_bayar' => 0,
                 'jenis_pembayaran' => 'iuran_bulanan',
-                'status_pembayaran' => 'belum_lunas',
+                'status_pembayaran' => $status_pembayaran,
                 'tahun_ajaran' => $currentSemester['tahun'],
                 'semester_ajaran' => $currentSemester['semester'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+    }
+
+    public static function createRangkapPembayaranBaru(
+        $id_santri,
+        $id_admin,
+        $jenis_pembayaran,
+        $total_pembayaran_sebelum_potongan,
+        $total_potongan,
+        $total_pembayaran,
+        $nominal_bayar,
+        $tahun_ajaran,
+        $semester_ajaran,
+        $tanggal_untuk_pembayaran
+    ) {
+        Pembayaran::create([
+            'id_santri' => $id_santri,
+            'id_admin' => $id_admin,
+            'tanggal_pembayaran' => now(),
+            'jumlah_pembayaran_sebelum_potongan' => $total_pembayaran_sebelum_potongan,
+            'jumlah_potongan' => $total_potongan,
+            'jumlah_pembayaran' => $total_pembayaran,
+            'jumlah_bayar' => $nominal_bayar,
+            'jenis_pembayaran' => $jenis_pembayaran,
+            'status_pembayaran' => 'lunas',
+            'tahun_ajaran' => $tahun_ajaran,
+            'semester_ajaran' => $semester_ajaran,
+            'created_at' => $tanggal_untuk_pembayaran,
+            'updated_at' => $tanggal_untuk_pembayaran,
+        ]);
     }
 }

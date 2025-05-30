@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Santri extends Model
 {
-    use HasFactory; 
+    use HasFactory;
     protected $table = 'santris';
     protected $primaryKey = 'id_santri';
+    protected $appends = ['tagihan_santri'];
     protected $fillable = [
         //Santri
         'nama_santri',
@@ -57,19 +58,46 @@ class Santri extends Model
         'kk_santri',
         'akta_santri',
         'pas_foto_santri',
-    ];
 
+        //tambahan
+        'bebas_daftar_ulang',
+        'bebas_semester',
+        'bebas_iuran',
+        'status_aktif_santri',
+        'id_admin_author'
+    ];
+    
+    public function getTagihanSantriAttribute()
+    {
+        $mapStatus = [
+            'mukim' => 'mukim',
+            'tidak_mukim' => 'tdk_mukim',
+        ];
+
+        $mapGender = [
+            'laki-laki' => 'l',
+            'perempuan' => 'p',
+        ];
+
+        return MasterAdmin::where('jenis_mukim', $mapStatus[$this->status_santri] ?? null)
+            ->where('jenis_santri', $mapGender[$this->jenis_kelamin_santri] ?? null)
+            ->get(['jenis_pembayaran', 'total_pembayaran'])
+            ->keyBy('jenis_pembayaran')
+            ->map(function ($item) {
+                return $item->total_pembayaran;
+            });
+    }
 
     public function WaliSantri()
     {
         return $this->hasOne(WaliSantri::class, 'id_santri', 'id_santri');
     }
-    
-    public function Pembayaran()
+
+    public function pembayaran()
     {
         return $this->hasMany(Pembayaran::class, 'id_santri', 'id_santri');
     }
-    
+
     public function NilaiSantri()
     {
         return $this->hasMany(NilaiSantri::class, 'id_santri', 'id_santri');
@@ -89,7 +117,7 @@ class Santri extends Model
     {
         $formattedDate = Carbon::parse($this->tanggal_lahir_santri)->format('d-M-Y');
         return "{$this->tempat_lahir_santri}, {$formattedDate}";
-        
+
     }
 
     public function getAlamatSantriAttribute()

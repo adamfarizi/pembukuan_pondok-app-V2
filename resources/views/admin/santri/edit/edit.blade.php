@@ -148,6 +148,13 @@
                                         value="{{ $santri->no_induk }}" placeholder="Masukkan No Induk" required>
                                 </div>
                                 <div class="col mb-3">
+                                    <label for="status_santri">Status Aktif <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="status_aktif_santri" id="status_aktif_santri" required>
+                                        <option value="aktif" @if ($santri->status_aktif_santri == 'aktif') selected @endif>Aktif</option>
+                                        <option value="tidak_aktif" @if ($santri->status_aktif_santri == 'tidak_aktif') selected @endif>Tidak Aktif</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-3">
                                     <label for="status_santri">Status Santri <span class="text-danger">*</span></label>
                                     <select class="form-control" name="status_santri" id="status_santri" required>
                                         <option value="mukim" @if ($santri->status_santri == 'mukim') selected @endif>Mukim
